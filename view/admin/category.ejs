@@ -1,0 +1,100 @@
+<%- include('../partials/header')%>
+<%- include('../partials/sidebar')%>
+
+
+            <!-- Container-fluid starts-->
+            <div class="page-body">
+                <!-- All User Table Start -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card card-table">
+                                <div class="card-body">
+                                    <div class="title-header option-title">
+                                        <h5>All Category</h5>
+                                        <form class="d-inline-flex">
+                                            <a href="/admin/addCategory"
+                                                class="align-items-center btn btn-theme d-flex">
+                                                <i data-feather="plus-square"></i>Add New
+                                            </a>
+                                        </form>
+                                    </div>
+
+                                    <div class="table-responsive category-table">
+                                        <div>
+                                            <table class="table all-package theme-table" id="table_id">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Category Name</th>
+                                                        <th>Product Image</th>
+                                                     
+                                                        
+                                                        <th>Status</th>
+                                                        <th>Option</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                   <% categories.forEach((value)=>{ %>
+
+                                                    <tr>
+                                                        
+                                                        <td> <%= value.category %> </td>
+
+                                                            <td>
+                                                                <div class="table-image">
+                                                                    <img src="/images/<%= value.image %>" class="img-fluid"
+                                                                        alt="">
+                                                                        
+                                                                </div>
+                                                            </td>
+
+                                                        
+                                                        
+
+                                                        <td> 
+                                                            <% if(value.listed){ %>
+                                                                <a href="/admin/listingCat?id=<%= value._id.toString()%>"> <p class="text-danger ms-4">unlist</p></a>
+                                                               
+
+                                                                <%} else {%>
+                                                                    <a href="/admin/listingCat?id=<%= value._id.toString()%>">
+                                                                        <p class="text-primary ms-4 "> List</p>
+                                                                    </a>
+                                                                    
+                                                                <%}%>
+                                                        </td>
+                                                       
+
+                                                        <td>
+                                                            <ul>
+                                                               
+
+                                                                <li>
+                                                                    <a href="/admin/editCategory?id=<%= value._id.toString()%>">
+                                                                        <i class="ri-pencil-line"></i>
+                                                                    </a>
+                                                                </li>
+
+                                                               
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+
+                                                    <% }) %>
+                                                   
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- All User Table Ends-->
+
+       
+  <%- include('../partials/footer')%>

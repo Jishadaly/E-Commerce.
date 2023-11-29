@@ -1,0 +1,88 @@
+<%- include('../layout/header') %>
+<head>
+  <style>
+      
+  .otp-field {
+  flex-direction: row;
+  column-gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 20px;
+}
+
+.otp-field input {
+  height: 45px;
+  width: 120px;
+  border-radius: 6px;
+  outline: none;
+  font-size: 1.125rem;
+  text-align: center;
+  border: 1px solid #ddd;
+  margin-top: 20px;
+}
+.otp-field input:focus {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.otp-field input::-webkit-inner-spin-button,
+.otp-field input::-webkit-outer-spin-button {
+  display: none;
+}
+
+.resend {
+  font-size: 12px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: black;
+  font-size: 12px;
+  text-align: right;
+  font-family: monospace;
+}
+
+.footer a {
+  color: black;
+  text-decoration: none;
+}
+  </style>
+
+</head>
+
+
+
+
+<section class="container-fluid bg-body-tertiary d-block">
+  <div class="row justify-content-center">
+      <div class="col-12 col-md-6 col-lg-4" style="min-width: 500px;">
+        <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
+
+          <form action="/verify" method="post">
+          <div class="card-body p-5 text-center">
+            <h4>Verify</h4>
+            <p>Your code was sent to you via email</p>
+
+            <div class="otp-field mb-4">
+              <input type="number" name="otp"/>
+            
+            </div>
+            <p style="color: red;"><%=message%></p>
+
+            <button class="btn btn-primary mb-3">
+              Verify
+            </button>
+        </form>
+        
+
+            <p class="resend text-muted mb-0">
+              Didn't receive code? <a href="/resendOtp">Request again</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+

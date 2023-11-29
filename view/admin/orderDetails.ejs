@@ -1,0 +1,282 @@
+<%- include('../partials/header')%>
+<%- include('../partials/sidebar')%>  
+
+        <!-- Page Body Start-->
+        <div class="page-body-wrapper">
+         
+            <!-- Page Sidebar Ends-->
+
+            <!-- tracking section start -->
+            <div class="page-body">
+                <!-- tracking table start -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="title-header title-header-block package-card">
+                                        <div>
+                                            <h5>Order #<%=orderDetails._id%></h5>
+                                        </div>
+                                        <div class="card-order-section">
+                                            <ul>
+                                                <li><%=orderDetails.createdAt%></li>
+                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="bg-inner cart-section order-details-table">
+                                        <div class="row g-4">
+                                            <div class="col-xl-8">
+                                                <div class="table-responsive table-details">
+                                                    <table class="table cart-table table-borderless">
+                                                        <thead>
+                                                            <tr>
+                                                                <th colspan="2">Items</th>
+                                                                <th class="text-end" colspan="2">
+                                                                   
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                          <% orderDetails.products.map((item)=>{ %>
+
+                                                       
+                                                            <tr class="table-order">
+                                                                <td>
+                                                                    <a href="javascript:void(0)">
+                                                                        <img src="/public/images/<%=item.product.productImages[0]%>"
+                                                                            class="img-fluid blur-up lazyload" alt="">
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <p><%= item.product.name%></p>
+                                                                    <h5></h5>
+                                                                </td>
+                                                                <td>
+                                                                    <p>Quantity</p>
+                                                                    <h5><%= item.quantity%></h5>
+                                                                </td>
+                                                                <td>
+                                                                    <p>Price</p>
+                                                                    <h5>₹<%= item.product.price%></h5>
+                                                                </td>
+                                                            </tr>
+
+                                                             <%  }) %> 
+
+                                                            
+                                                        </tbody>
+
+                                                        <tfoot>
+                                                            
+                                                            <tr class="table-order">
+                                                                <td colspan="3">
+                                                                    <h5>Shipping :</h5>
+                                                                </td>
+                                                                <td>
+                                                                    <h4>$50.00</h4>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr class="table-order">
+                                                                <td colspan="3">
+                                                                    <h5>Tax(GST) :</h5>
+                                                                </td>
+                                                                <td>
+                                                                    <h4>$30.00</h4>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr class="table-order">
+                                                                <td colspan="3">
+                                                                    <h4 class="theme-color fw-bold">Total Price :</h4>
+                                                                </td>
+                                                                <td>
+                                                                    <h4 class="theme-color fw-bold">₹<%=orderDetails.grandTotal%></h4>
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-4">
+                                                <div class="order-success">
+                                                    <div class="row g-4">
+
+                                                      
+                                                       
+
+                                                      
+
+
+                                                      <div class="dropdown" id="statusDropdown">
+                                                        <button  class="btn btn-secondary dropdown-toggle" id="statusDropdownBtn" type="button" data-bs-toggle="dropdown"  aria-expanded="false" >
+                                                          Select Status
+                                                        </button>
+                                                        <ul class="dropdown-menu" aria-labelledby="statusDropdown" id="statusId">
+                                                            <li>
+                                                                <a class="dropdown-item" href="#" data-status="Order confirmed">Order confirmed</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#" data-status="Cancel Order">Cancel order</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#" data-status="Pending">Pending</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#" data-status="Out of delivery">Out of delivery</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#" data-status="Shipped">Shipped</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#" data-status="Return confirmed">Return confirmed</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="#" data-status="Delivered">Delivered</a>
+                                                            </li>                              
+                                                        </ul>
+                                                      </div>
+                                                    
+                                                    
+
+                                                     
+                                                     
+    
+                                                      <ul class="order-details">
+                                                        <br>
+                                                            
+                                                            <li id="statusDetails"><%= orderDetails.status %></li>
+                                                            
+                                                        </ul>
+
+                                                        <h4>summery</h4>
+                                                        <ul class="order-details">
+                                                            <li>Order ID:<%= orderDetails._id %> </li>
+                                                            <li>Order ID:<%= orderDetails._id %> </li>
+                                                            <li>Order Date: <%= orderDetails.createdAt%></li>
+                                                            <li>Order Total: <%= orderDetails.grandTotal %></li>
+                                                        </ul>
+
+                                                        <h4>shipping address</h4>
+                                                        <ul class="order-details">
+                                                            <li><%= orderDetails.address.name %></li>
+                                                            <li><%= orderDetails.address.houseNo%>, <%= orderDetails.address.street %>.</li>
+                                                            <li><%= orderDetails.address.country %>, <%= orderDetails.address.pincode %> Contact No. <%= orderDetails.address.phone %></li>
+                                                        </ul>
+
+                                                        <div class="payment-mode">
+                                                            <h4>payment method</h4>
+                                                            <p><%=orderDetails.paymentMethod%></p>
+                                                        </div>
+
+                                                        <!-- <div class="delivery-sec">
+                                                            <h3>expected date of delivery: <span>october 22, 2018</span>
+                                                            </h3>
+                                                            <a href="order-tracking.html">track order</a>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- section end -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- tracking table end -->
+
+                <div class="container-fluid">
+                    <!-- footer start-->
+                    <footer class="footer">
+                        <div class="row">
+                            <div class="col-md-12 footer-copyright text-center">
+                                <p class="mb-0">Copyright 2022 © Fastkart theme by pixelstrap</p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+            <!-- tracking section End -->
+        </div>
+    </div>
+
+    <script>
+
+
+        const statusDropdwon = document.getElementById('statusDropdown');
+        const orderStatus = '<%=orderDetails.status%>';
+
+         if (orderStatus === 'Canceled') {
+              statusDropdwon.style.display = 'none'
+         }else{
+
+         }
+
+       
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
+        
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function(event) {
+                event.preventDefault(); 
+        
+               
+                const newStatus = this.getAttribute('data-status');
+                const orderId = '<%= orderDetails._id%>'
+                console.log(orderId);
+                console.log(newStatus)
+        
+                
+                updateOrderStatus(orderId,newStatus);
+            });
+        });
+        
+        function updateOrderStatus(orderId, status) {
+            
+            const url = `/admin/ChangeOrderStatus`;
+        
+            fetch(url, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json',
+                   
+                },
+                
+                body: JSON.stringify({ orderId, status }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                
+                const updatedStatus = status;
+                console.log(updatedStatus);
+                updateFrontendStatus(updatedStatus);
+        
+                console.log('Order status updated successfully:', updatedStatus);
+            })
+            .catch(error => {
+                console.error('Error updating order status:', error);
+            });
+        }
+        
+        function updateFrontendStatus(status) {
+            
+            const statusDetailsDiv = document.getElementById('statusDetails');
+            if (statusDetailsDiv) {
+                statusDetailsDiv.innerHTML = `<strong></strong><br>${status}`;
+            }
+           
+            console.log('Updating front-end with new status:', status);
+        }
+        
+        </script>
+
+
+
+    
+
+    <%- include('../partials/footer')%>  

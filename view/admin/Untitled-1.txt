@@ -1,0 +1,37 @@
+ const unblockUser= async (req, res) => {
+    try {
+        const admin = req.session.userData;
+        const id = req.query.id;
+
+        // Find the user by ID
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).send("User not found");
+        }
+
+        // Toggle the 'is_blocked' field
+        user.is_blocked = !user.is_blocked;
+
+        await user.save();
+
+        res.redirect('/admin/userDetails');
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+         <td>
+            <% if (user[i].is_blocked) { %>
+                <a href="/admin/unblockUser?id=<%= user[i]._id.toString() %>">
+                 
+                   <p class="text-danger ms-4">Block</p>
+                 
+                </a>
+              <% } else { %>
+                <a href="/admin/unblockUser?id=<%= user[i]._id.toString() %>">                  
+                    <p class="text-primary ms-4">Unblock</p>
+                 
+                </a>
+              <% } %>
+        </td>
