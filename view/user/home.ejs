@@ -350,11 +350,16 @@
                             </figure><!-- End .product-media -->
 
                             <div class="product-body">
+															<% if(data.quantity <= 0){ %>
+																<p style="color:red;">out of stock</p>
+														<%	} else { %>
+															<div class="product-action">
+																<a href="/cart?id=<%= data._id %>" class="btn-cart"><span>add to cart</span></a>
+																<a href="#" class="btn-product-icon btn-wishlist"><span>Add to Wishlist</span></a>
+														</div><!-- End .product-action -->
 
-                                <div class="product-action">
-                                    <a href="/cart?id=<%= data._id %>" class="btn-cart"><span>add to cart</span></a>
-                                    <a href="#" class="btn-product-icon btn-wishlist"><span>Add to Wishlist</span></a>
-                                </div><!-- End .product-action -->
+													<%	} %>
+                               
                             	<div class="product-intro">
                                     <h3 class="product-title">
                                     	<a href="product.html"><%= data.name %></a>

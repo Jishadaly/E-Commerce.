@@ -1,6 +1,8 @@
 <%- include('../partials/header')%>
 <%- include('../partials/sidebar')%>
 
+
+
             <!-- Container-fluid starts-->
             <div class="page-body">
                 <!-- All User Table Start -->
@@ -20,6 +22,8 @@
 
                                     <div class="table-responsive table-product">
                                         <table class="table all-package theme-table" id="table_id">
+
+
                                             <thead>
                                                 <tr>
                                                     <th>Users</th>
@@ -32,6 +36,7 @@
                                             </thead>
                                           
                                             <tbody>
+                                               
                                                 
                                                 <% datas.forEach((value)=>{ %> 
                                               
@@ -62,12 +67,12 @@
 
                                                     <td>
                                                       <% if(value.is_blocked) { %>
-                                                        <a href="/admin/blockUser?id=<%= value._id.toString()%>">
-                                                          <p class="text-danger ms-4">Unblock</p>
+                                                        <a href="#">
+                                                          <p class="text-danger ms-4"onclick="fetchingUserId('<%=value._id%>')">Unblock</p>
                                                         </a>
                                                         <% } else { %>
-                                                          <a href="/admin/blockUser?id=<%= value._id.toString() %>">                  
-                                                              <p class="text-primary ms-4">Block</p>
+                                                          <a href="#">                  
+                                                              <p class="text-primary ms-4" onclick="fetchingUserId('<%=value._id%>')"   >Block</p>
                                                            
                                                           </a>
                                                         <% } %>
@@ -110,8 +115,85 @@
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
+
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+
+                    // function fetchingUserId(id){
+
+
+                        
+                    //     const userId =  id;
+                    //     try {
+                    //         const response =  fetch(`/admin/blockUser?id=${id}`,{
+                    //             method:'GET',
+                    //             headers:{
+                    //                 'Content-Type' : 'application/json'
+                    //             },
+                                
+                    //         })
+                    //     } catch (error) {
+                    //         console.log(error);
+                    //     }
+                        
+                    // }
+
+                    async function fetchingUserId(id) {
+                        const result = await Swal.fire({
+                            title: "Are you sure?",
+                            text: "This action cannot be reversed!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Yes, proceed!"
+                        });
+
+                        if (result.isConfirmed) {
+                            try {
+                                const response = await fetch(`/admin/blockUser?id=${id}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+
+                                if (response.ok) {
+                                    // Display success message using SweetAlert
+                                    await Swal.fire({
+                                        title: "Success!",
+                                        text: "User blocked/unblocked successfully.",
+                                        icon: "success"
+                                    });
+
+                                    // Refresh the page after successful operation
+                                    window.location.reload();
+                                } else {
+                                    // Handle error if needed
+                                    await Swal.fire({
+                                        title: "Error!",
+                                        text: "Failed to block/unblock user.",
+                                        icon: "error"
+                                    });
+                                }
+                            } catch (error) {
+                                console.log(error);
+                                await Swal.fire({
+                                    title: "Error!",
+                                    text: "An error occurred.",
+                                    icon: "error"
+                                });
+                            }
+                        }
+                    }
+
+
+
+
+                </script>
                 <!-- All User Table Ends-->
 
        

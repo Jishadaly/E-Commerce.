@@ -34,6 +34,7 @@
                                                         <!-- <th>Category</th> -->
                                                         <th>Current Qty</th>
                                                         <th>Price</th>
+                                                        <th>orders</th>
                                                         <th>Status</th>
                                                         <th>Option</th>
                                                     </tr>
@@ -49,17 +50,10 @@
                                                             </div>
                                                         </td>
 
-                                                        <td><%= value.name%></td>
-
-                                                        <!-- <td><%= value.category%></td> -->
-
-
-                                                        
+                                                            <td><%= value.name%></td>
                                                             <td><%= value.quantity %></td>
-
-                                                     
-
-                                                        <td class="td-price"><%= value.price%></td>
+                                                            <td class="td-price"><%= value.price%></td>
+                                                            <td class="td-price"><%= value.orders%></td>
 
                                                         <% if(value.list){ %>
                                                             <td class="status-danger">

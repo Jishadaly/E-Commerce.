@@ -56,8 +56,8 @@ const loadUserlist= async(req,res)=>{
 
             try {
             if(req.session.admin){
-            const datas = await User.find({is_admin :false });
-            res.render('usersList.ejs',{datas});
+            const datas = await User.find().sort({date:-1});
+            res.render('usersList',{datas});
             }else{
             res.redirect('/admin');
             }
@@ -81,13 +81,15 @@ const blockUser = async (req,res)=>{
               }
               user.is_blocked = !user.is_blocked;
               await user.save();
-              res.redirect('/admin/users')
+              res.status(200).json({success : true});
+              // res.redirect('/admin/users')
             } catch (error) {
               console.log(error.message);
             }
   }
   
-  
+
+
 
 
 module.exports = {
@@ -96,6 +98,4 @@ module.exports = {
   loadDashboard,
   loadUserlist,
   blockUser,
-  
-
 }

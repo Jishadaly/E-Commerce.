@@ -1,3 +1,5 @@
+const userModal = require("../model/userModal");
+
 
 async function isLogin(req,res,next){
     
@@ -20,5 +22,20 @@ const isLogOut = (req, res, next)=>{
   }
 }
 
-module.exports = {isLogin , isLogOut}
+
+const isBlocked = async (req,res,next)=>{
+
+   const id = req.session.userId;
+   const user = await userModal.findById(id);
+    console.log(user);
+   if (user && user.is_blocked === true) {
+          res.redirect('/login')
+   } else {
+    next()
+   }
+}
+
+
+
+module.exports = {isLogin , isLogOut, isBlocked}
 

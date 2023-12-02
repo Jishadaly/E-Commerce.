@@ -23,21 +23,22 @@ adminRoute.post('/',adminController.verifyLogin);
 adminRoute.get('/dashboard',isLogin,adminController.loadDashboard);
 adminRoute.get('/users',isLogin,adminController.loadUserlist);
 adminRoute.get('/blockUser',adminController.blockUser);
-adminRoute.get('/category',category.loadCategory);
+adminRoute.get('/category',isLogin,category.loadCategory);
 adminRoute.get('/addCategory',category.loadAddCategory);
 adminRoute.post('/addCategory',upload.single('image'),category.addCategory);
-adminRoute.get('/listingCat',category.listingCategory);
+adminRoute.get('/listingCat',isLogin,category.listingCategory);
 adminRoute.get('/editCategory', category.loadEditCategory);
 adminRoute.post('/editCategory/:id',upload.single('image'),category.updateCategory);
 adminRoute.get('/addProduct',product.addProductLoad);
 adminRoute.post('/addProduct',upload.array('productImages',4),product.addProduct)
-adminRoute.get('/productList',product.loadProductList);
+adminRoute.get('/productList',isLogin,product.loadProductList);
 adminRoute.get('/productList/:id',product.listUnlist);
-adminRoute.get('/editProduct/:id',product.loadEditProduct);
+adminRoute.get('/editProduct/:id',isLogin,product.loadEditProduct);
 adminRoute.post('/editProduct/:id',upload.array('productImages',4),product.editProduct);
-adminRoute.get('/orderList',product.loadOrderList)
-adminRoute.get('/orderDetails',product.loadOrderDetails);
+adminRoute.get('/orderList',isLogin,product.loadOrderList)
+adminRoute.get('/orderDetails',isLogin,product.loadOrderDetails);
 adminRoute.post('/ChangeOrderStatus',product.orderStatus);
+adminRoute.delete('/deleteImage',product.deleteImage)
 
 
 module.exports = adminRoute;

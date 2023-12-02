@@ -12,7 +12,8 @@ const nodemailer = require('nodemailer');
 const { assign } = require('nodemailer/lib/shared');
 const randomstring = require("randomstring");
 const orderModel = require('../model/orderModel');
-
+const { json } = require('express');
+require('dotenv').config()
 
 
 
@@ -52,9 +53,9 @@ function sendOtp(email, otp) {
 
             const  Email=email;
             const mailOptions = {
-            from: 'jishadlm10@gmail.com',
+            from: process.env.emailAddress,
             to: Email,
-            subject: 'otp verification',
+            subject: 'Your otp for registering at LapBook',
             text: `your otp for verification is ${otp}`
 };
 
@@ -62,7 +63,7 @@ const transporter = nodemailer.createTransport({
 
             service: 'gmail',
             auth: {
-            user: 'jishadlm10@gmail.com',
+            user: process.env.emailAddress,
             pass: 'dffm iwlp gffg gwby'
             }
 });
@@ -178,11 +179,9 @@ const verifyOtp = async(req,res)=>{
             });
 
             await users.save();
-            
+
             res.redirect('/')
-            
-            
-            
+
             }else{
             res.render('otpVerification',{message:"enterd otp is icurrect"})
             console.log();
@@ -233,7 +232,7 @@ const loadLogin = async (req,res)=>{
                 console.log("User data: Password is incorrect");
                 }
             }else{
-              res.render('login', { message: "You are not verified can you please connect the admin team " });
+              res.render('login', { message: "Sorry, you are not allow to access with this account" });
             }
           
             } catch (error) {
@@ -245,7 +244,7 @@ const loadLogin = async (req,res)=>{
 
  const loadHome = async (req,res)=>{
               try{
-              const product = await productModel.find({list:true});
+              const product = await productModel.find({list:true}).sort({orders:-1}).limit(4)
               const cart =await cartSchema.findOne({user:req.session.userId});
               const category = await categories.find({listed:true})
               console.log(category);
@@ -283,13 +282,7 @@ async function loadDashboard(req,res){
       const userid =req.session.userId;
       const user = await userModel.findById(userid);
       const address = await addAddressModel.find({user:user})
-      const orderDetails = await orderModel.find({user:userid})
-    //  console.log(orderDetails);
-    //  console.log('1111111111111');
-    //  console.log(address);
-    //  console.log('22222222222');
-    //  console.log(user);
-      
+      const orderDetails = await orderModel.find({user:userid}).sort({orderDate:-1})
       res.render('dashboard',{user,address,orderDetails});
     } catch (error) {
       console.log(error);
@@ -333,7 +326,7 @@ async function addNewAddress(req,res){
   try {
 
     console.log(req.body);
-    const {name , phone , street , houseNum , city , country , pincode , landmark , email } = req.body;
+    const {name , phone , street , houseNo , city , country , pincode , landmark , email } = req.body;
 
      const addAddress = {
       
@@ -341,7 +334,7 @@ async function addNewAddress(req,res){
         name:name,
         phone:phone,
         email:email,
-        houseNo:houseNum,
+        houseNo:houseNo,
         street:street,
         landmark:landmark,
         pincode:pincode,
@@ -351,7 +344,8 @@ async function addNewAddress(req,res){
      }
 
      await addressModel.insertMany(addAddress);
-     res.redirect('/dashBoard')
+     res.status(200).json({ message: 'Address added successfully' });
+     
 
   } catch (error) {
     console.log(error);
@@ -371,56 +365,13 @@ async function editAddress(req,res){
 }
 
 
-// async function loadEditAddress(req,res){
-//   try {
-//       res.render('')
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
 
 
-// async function changePassword(req,res){
-//   try {
-
-//      const user = req.session.userId;
-//      console.log("session"+user);
-//     const { email , curPassword , cPassword } = req.body;
-//     const spassword = await securePassword(cPassword);
-//     const cursPassword = await securePassword(curPassword)
-//     let userData = await userModel.findOne({_id:user})
-//     const passwordmatch =  await bcrypt.compare(cursPassword, userData.password);
-//     if (userData) {
-//        if (userData.email === email) {
-        
-//         if ( passwordmatch ) {
-          
-//             userData.password = spassword;
-//             await userData.save();
-
-//             res.redirect('/dashboard')
-//         }else{
-//           console.log(" password is not maych");
-//         }
-
-//        }else{
-//         console.log("wrong user");
-//        }
-//     } else {
-//       console.log("no user found");
-//     }
-
-
-
- 
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
 
 
 async function changePassword(req, res) {
   try {
+
     const userId = req.session.userId;
     console.log("session", userId);
 
@@ -430,28 +381,20 @@ async function changePassword(req, res) {
 
     let userData = await userModel.findOne({ _id: userId });
 
-    if (userData) {
-      if (userData.email === email) {
-        const passwordMatch = await bcrypt.compare(curPassword, userData.password);
+         
+              const passwordMatch = await bcrypt.compare(curPassword, userData.password);
 
-        if (passwordMatch) {
-          userData.password = spassword;
-          await userData.save();
-          console.log("Password changed successfully");
-          req.session.destroy();
-          return res.redirect('/login');
-        } else {
-          console.log("Current password does not match");
-          
-        }
-      } else {
-        console.log("Wrong user");
-        
-      }
-    } else {
-      console.log("No user found");
-      
-    }
+              if (passwordMatch) {
+                userData.password = spassword;
+                await userData.save();
+                console.log("Password changed successfully");
+                req.session.destroy();
+                return res.redirect('/login');
+              } else {
+                console.log("Current password does not match");
+              }
+            
+
   } catch (error) {
     console.log(error);
     
@@ -464,14 +407,14 @@ async function confirmOrder(req,res){
 
   try {
 
-    console.log(req.body);
+      
      const userId = req.session.userId;
      const addressId = req.body.addressId;
      const paymentMethod = req.body.PaymentMethod;
      
 
      const cart = await cartSchema.findOne({user:userId}).populate('products.product')
-     
+      
 
      const order = {
       user : req.session.userId,
@@ -482,22 +425,31 @@ async function confirmOrder(req,res){
           product: item.product,
           quantity: item.quantity,
           price: item.product.price,
-          total: item.subTotal
+          total: item.subTotal,
+          
         }
       }),
       grandTotal: cart.Total
      }
-
+     
       await orderModel.insertMany(order);
 
-      await cartSchema.findOneAndUpdate({ user: userId }, { $set: { products: [], Total: 0 } });
-      res.status(200).json({message:"success"});
-    
-     
-    
-  } catch (error) {
-    console.log(error);
-  }
+      for (const item of cart.products) {
+        const product = item.product;
+        
+        const updatedQuantity = product.quantity - item.quantity;
+        const updatedOrders = product.orders + item.quantity;
+        console.log(updatedOrders);
+        console.log("//////////" +product.product);
+        await productModel.findByIdAndUpdate(product._id, { quantity: updatedQuantity , orders:updatedOrders});
+      }
+        await cartSchema.findOneAndUpdate({ user: userId }, { $set: { products: [], Total: 0 } });
+        res.status(200).json({message:"success"});
+        
+
+      } catch (error) {
+        console.log(error);
+      }
 }
 
 
@@ -508,22 +460,6 @@ async function successPage(req,res){
     console.log(error);
   }
 }
-
-
-// async function orderDetails(req,res){
-//   try {
-//     const userId = req.session.userId;
-
-//     const orderDetails = await orderModel.findById({ user : userId })
-//     console.log(orderDetails);
-
-    
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
 
 
 

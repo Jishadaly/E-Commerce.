@@ -16,40 +16,80 @@ const orderModel = require('../model/orderModel')
  }
 
 
-  async function addProduct(req,res){
-      try {
+  // async function addProduct(req,res){
+  //     try {
       
-        console.log(req.files);
-        const data = {
+  //       console.log(req.files);
 
-          name : req.body.ProductName,
-          brand: req.body.brandName,
-          quantity:req.body.quantity,
-          model:req.body.modelName,
-          ram:req.body.ram,
-          rom:req.body.rom,
-          processor:req.body.processor,
-          description:req.body.description,
-          price:req.body.price,
-          discountPrice:req.body.discountPrice,
-          category:req.body.category,
-          productImages:req.files.map((file) =>file.filename)
-        }
-          console.log(data);
-          console.log(data.category);
-        const DBdata=await productModel.insertMany(data);
-        console.log("data inserted succecfully");
-        res.redirect('/admin/productList')
-        console.log(DBdata);
-      } catch (error) {
-        console.log(error);
-      }
-  } 
+  //       const featured = req.body.refundable;
+  //       console.log(featured);
 
+  //       const data = {
+
+  //         name : req.body.ProductName,
+  //         brand: req.body.brandName,
+  //         quantity:req.body.quantity,
+  //         model:req.body.modelName,
+  //         ram:req.body.ram,
+  //         rom:req.body.rom,
+  //         processor:req.body.processor,
+  //         description:req.body.description,
+  //         price:req.body.price,
+  //         discountPrice:req.body.discountPrice,
+  //         category:req.body.category,
+  //         productImages:req.files.map((file) =>file.filename)
+  //       }
+  //         console.log(data);
+  //         console.log(data.category);
+  //       const DBdata=await productModel.insertMany(data);
+  //       console.log("data inserted succecfully");
+  //       res.redirect('/admin/productList')
+  //       console.log(DBdata);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  // } 
+
+
+  async function addProduct(req, res) {
+    try {
+      console.log(req.files);
+  
+      // Get the checkbox status - if it exists in the request body
+      const refundable = req.body.refundable === 'on'; // Assuming 'on' is the value when checkbox is checked
+  
+      const data = {
+        name: req.body.ProductName,
+        brand: req.body.brandName,
+        quantity: req.body.quantity,
+        model: req.body.modelName,
+        ram: req.body.ram,
+        rom: req.body.rom,
+        processor: req.body.processor,
+        description: req.body.description,
+        price: req.body.price,
+        discountPrice: req.body.discountPrice,
+        category: req.body.category,
+        featured: refundable, // Include the checkbox status in the data
+        productImages: req.files.map((file) => file.filename)
+      };
+  
+      console.log(data);
+      console.log(data.category);
+  
+      const DBdata = await productModel.insertMany(data);
+      console.log("data inserted successfully");
+      res.redirect('/admin/productList');
+      console.log(DBdata);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
 
  async function loadProductList(req,res){
   try {
-      const datas = await productModel.find();
+      const datas = await productModel.find().sort({orderDate:-1});
       
     res.render('productList',{datas})
     
@@ -98,6 +138,7 @@ const orderModel = require('../model/orderModel')
  }
 
 
+
 async function editProduct(req,res){
   try {
     
@@ -124,11 +165,12 @@ async function editProduct(req,res){
   
   }
 
+  
+
      console.log(datas);
     const updateData= await productModel.findByIdAndUpdate(newId,data);
     if(updateData){
-      console.log('////////////////////////////////////')
-      console.log(updateData);
+      
     console.log("data updated");
     }
 
@@ -151,6 +193,7 @@ async function loadProductDetails (req,res){
 
   
     const id = req.query.id;
+    
     console.log("prodect id /////"+id);
     const productDetails = await productModel.findById(id);
     const productCat = await category.find();
@@ -166,7 +209,7 @@ async function loadProductDetails (req,res){
 async function loadOrderList(req,res){
   try {
     
-    const orderData =  await orderModel.find().populate('address')
+    const orderData =  await orderModel.find().populate('address').sort({createdAt:-1})
      res.render('orderList',{orderData})
   } catch (error) {
     console.log(error);
@@ -188,71 +231,6 @@ async function loadOrderDetails(req,res){
 }
 
 
-
-
-// async function loadProducts (req,res){
-//   try {
-
-//     const products = await productModel.find()
-//      res.render('products',{products});
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-
-// async function loadProducts(req, res) {
-//   try {
-//     const brands = await productModel.distinct('brand');
-//     const categories = await category.find();
-//     const user = req.session.userId;
-//     const searchQuery = req.query.searchedData;
-//     const filter = {};
-
-//     console.log(searchQuery);
-
-//     // Get the current page from the query parameters, default to 1 if not provided
-//     const page = parseInt(req.query.page, 10) || 1;
-//     const productsPerPage = 4; // Number of products per page
-
-//     if (searchQuery) {
-//       // Use regex for case-insensitive search
-//       filter['$or'] = [
-//         { title: { $regex: new RegExp(searchQuery, 'i') } },
-//         { brand: { $regex: new RegExp(searchQuery, 'i') } },
-//       ];
-//     }
-//     filter['list'] = true; // Include only listed products
-
-//     // Use async.parallel to fetch productdata and totalProducts concurrently
-//     const results = await async.parallel({
-//       products: async function () {
-//         return productModel.find({filter})
-//           .skip((page - 1) * productsPerPage)
-//           .limit(productsPerPage)
-//           .exec();
-//       },
-//       totalProducts: async function () {
-//         return productModel.countDocuments().exec();
-//       },
-//     });
-
-//     const { products, totalProducts } = results;
-
-//     // Render your view with the fetched productdata, categories, brands, and pagination information
-//     res.render('products', {
-//       products,
-//       categories,
-//       brands,
-//       currentPage: page,
-//       totalPages: Math.ceil(totalProducts / productsPerPage),
-//       user
-//     });
-//   } catch (error) {
-//     console.error(error.message);
-//     res.status(500).send('Internal Server Error');
-//   }
-// }
 
 
 
@@ -348,8 +326,23 @@ async function orderStatus(req,res){
 
 }
 
+
+async function deleteImage(req,res){
+  try {
+    const { filename } = req.body;
+    console.log("Received filename:", filename);
+          console.log("////////////////////////"+image);
+      } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+
  module.exports = { addProductLoad ,loadProductList, addProduct , listUnlist , 
                    loadEditProduct , editProduct , loadProductDetails, loadOrderList,
-                   loadOrderDetails , loadProducts, orderStatus
+                   loadOrderDetails , loadProducts, orderStatus,deleteImage
 }
+
 

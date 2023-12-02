@@ -130,94 +130,94 @@
 
 
                                         <!-- Modal HTML Markup -->
-<div id="ModalLoginForm" class="modal fade">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="checkout-title">Billing Details</h2>
-            </div>
-            <div class="modal-body">
-                
-                <form role="form" method="POST" action="/address">
-                    <input type="hidden" name="_token" value="">
-                    <div class="form-group">
-                         
-                        <div class="p-5">
+                                        <div id="ModalLoginForm" class="modal fade">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h2 class="checkout-title">Billing Details</h2>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        
+                                                        <form id="addressForm" role="form" method="POST" action="/address">
+                                                            <input type="hidden" name="_token" value="">
+                                                            <div class="form-group">
+                                                                 
+                                                                <div class="p-5">
+                                        
+                                        
+                                        
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6">
+                                                                            <label>First Name *</label>
+                                                                            <input name="name" type="text" class="form-control" required>
+                                                                        </div><!-- End .col-sm-6 -->
+                                        
+                                                                        <div class="col-sm-6">
+                                                                            <label>Phone *</label>
+                                                                            <input name="phone" type="text" class="form-control" required>
+                                                                        </div><!-- End .col-sm-6 -->
+                                                                    </div><!-- End .row -->
+                                        
+                                                                    
+                                                                    <label>Street address *</label>
+                                                                    <input name="street" type="text" class="form-control" placeholder="Street name" required>
+                                                                    <label>House Number *</label>
+                                                                    <input name="houseNum" type="text" class="form-control" placeholder="House number " required>
+                                        
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6">
+                                                                            <label>Town / City *</label>
+                                                                            <input name="city" type="text" class="form-control" required>
+                                                                        </div><!-- End .col-sm-6 -->
+                                        
+                                                                        <div class="col-sm-6">
+                                                                            <label>State / Country *</label>
+                                                                            <input name="country" type="text" class="form-control" required>
+                                                                        </div><!-- End .col-sm-6 -->
+                                                                    </div><!-- End .row -->
+                                        
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6">
+                                                                            <label>Postcode / ZIP *</label>
+                                                                            <input name="pincode" type="text" class="form-control" required>
+                                                                        </div><!-- End .col-sm-6 -->
+                                        
+                                                                        <div class="col-sm-6">
+                                                                            <label>Landmark *</label>
+                                                                            <input name="landmark" type="tel" class="form-control" required>
+                                                                        </div><!-- End .col-sm-6 -->
+                                                                    </div><!-- End .row -->
+                                        
+                                                         
+                                        
+                                                                    <label>Email address *</label>
+                                                                    <input name="email" type="email" class="form-control" required>
+                                        
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="checkout-create-acc">
+                                                                        <label class="custom-control-label" for="checkout-create-acc">Create an account?</label>
+                                                                    </div><!-- End .custom-checkbox -->
+                                                                    
+                                                                <div>
+                                                                    <button  type="submit" class="btn btn-success">
+                                                                        Add
+                                                                    </button>
+                                                                </div>
+                                        
+                                                                </div>
+                                        
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
+                                        <button type="button" class="btn btn-outline-primary btn-rounded" data-toggle="modal" data-target="#ModalLoginForm">
+                                            Add new address
+                                        </button>
 
 
-
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <label>First Name *</label>
-                                    <input name="name" type="text" class="form-control" required>
-                                </div><!-- End .col-sm-6 -->
-
-                                <div class="col-sm-6">
-                                    <label>Phone *</label>
-                                    <input name="phone" type="text" class="form-control" required>
-                                </div><!-- End .col-sm-6 -->
-                            </div><!-- End .row -->
-
-                            
-                            <label>Street address *</label>
-                            <input name="street" type="text" class="form-control" placeholder="Street name" required>
-                            <label>House Number *</label>
-                            <input name="houseNum" type="text" class="form-control" placeholder="House number " required>
-
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <label>Town / City *</label>
-                                    <input name="city" type="text" class="form-control" required>
-                                </div><!-- End .col-sm-6 -->
-
-                                <div class="col-sm-6">
-                                    <label>State / Country *</label>
-                                    <input name="country" type="text" class="form-control" required>
-                                </div><!-- End .col-sm-6 -->
-                            </div><!-- End .row -->
-
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <label>Postcode / ZIP *</label>
-                                    <input name="pincode" type="text" class="form-control" required>
-                                </div><!-- End .col-sm-6 -->
-
-                                <div class="col-sm-6">
-                                    <label>Landmark *</label>
-                                    <input name="landmark" type="tel" class="form-control" required>
-                                </div><!-- End .col-sm-6 -->
-                            </div><!-- End .row -->
-
-                 
-
-                            <label>Email address *</label>
-                            <input name="email" type="email" class="form-control" required>
-
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="checkout-create-acc">
-                                <label class="custom-control-label" for="checkout-create-acc">Create an account?</label>
-                            </div><!-- End .custom-checkbox -->
-                            
-                        <div>
-                            <button type="submit" class="btn btn-success">
-                                Add
-                            </button>
-                        </div>
-
-                        </div>
-
-                    </div>
-                </form>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<button type="button" class="btn btn-outline-primary btn-rounded" data-toggle="modal" data-target="#ModalLoginForm">
-    Add new address
-</button>
-
-
-//edit address
+<!-- edit address -->
 
 <div id="modalEditAddressForm" class="modal fade">
     <div class="modal-dialog" role="document">
@@ -316,6 +316,7 @@
 								    			<div class="card card-dashboard">
 								    				<div class="card-body">
 								    					<h3 class="card-title">Billing Address</h3><!-- End .card-title -->
+
                                                         <p><%=item.name%></p>
 														<p><%=item.phone%><br>
                                                             <%=item.email%><br>
@@ -325,6 +326,7 @@
                                                             <%=item.pincode%><br>
                                                             <%=item.city%> <br>
                                                             <%=item.country%><br>
+                                                            
 													<a data-toggle="modal" data-target="#modalEditAddressForm" href="/editAddress?addressId=<%=item._id%>">Edit <i class="icon-edit"></i></a></p>
 								    				</div><!-- End .card-body -->
 								    			</div><!-- End .card-dashboard -->
@@ -339,8 +341,8 @@
 								    <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
 								    	<form action="/changePassword" method="post">
 			                				
-		                					<label>Email address *</label>
-		        							<input type="email" class="form-control" name="email" required>
+		                					<!-- <label>Email address *</label>
+		        							<input type="email" class="form-control" name="email" required> -->
 
 		            						<label>Current password (leave blank to leave unchanged)</label>
 		            						<input type="password" class="form-control" name="curPassword">
@@ -730,7 +732,52 @@
 
     
 
+    <script>
+         document.getElementById('addressForm').addEventListener('submit',function(event){
+            event.preventDefault();
 
+        const name = document.getElementsByName('name')[0].value;
+        const phone = document.getElementsByName('phone')[0].value;
+        const email = document.getElementsByName('email')[0].value;
+        const houseNum = document.getElementsByName('houseNum')[0].value;
+        const street = document.getElementsByName('street')[0].value;
+        const landmark = document.getElementsByName('landmark')[0].value;
+        const pincode = document.getElementsByName('pincode')[0].value;
+        const city = document.getElementsByName('city')[0].value;
+        const country = document.getElementsByName('country')[0].value;
+
+        // Construct the data object with form field values
+        const formData = {
+            name: name,
+            phone: phone,
+            email: email,
+            houseNo: houseNum,
+            street: street,
+            landmark: landmark,
+            pincode: pincode,
+            city: city,
+            country: country
+        };
+
+            fetch('/address',{
+                method:'POST',
+                headers:{
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response =>{
+                if (response.ok) {
+                    window.location.href = '/dashboard';
+                }else{
+                    console.error("failed add to address")
+                }
+            })
+            .catch(error=>{
+                console.error(error)
+            })
+        });
+    </script>
     
     <!-- Plugins JS File -->
     <script src="assets/js/jquery.min.js"></script>

@@ -35,3 +35,48 @@
                 </a>
               <% } %>
         </td>
+
+
+
+
+
+
+
+
+
+
+
+         <td>
+                                                      <% if(value.is_blocked) { %>
+                                                        <a href="/admin/blockUser?id=<%= value._id.toString()%>">
+                                                          <p class="text-danger ms-4">Unblock</p>
+                                                        </a>
+                                                        <% } else { %>
+                                                          <a href="/admin/blockUser?id=<%= value._id.toString() %>">                  
+                                                              <p class="text-primary ms-4">Block</p>
+                                                           
+                                                          </a>
+                                                        <% } %>
+
+
+
+                                                    </td>
+
+
+                                                    ////////////////////
+
+                                                     function fetchingUserId(id){
+                        const userId =  id;
+                        try {
+                            const response =  fetch(`/admin/blockUser?id=${id}`,{
+                                method:'GET',
+                                headers:{
+                                    'Content-Type' : 'application/json'
+                                },
+                                
+                            })
+                        } catch (error) {
+                            console.log(error);
+                        }
+                        
+                    }

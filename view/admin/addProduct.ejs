@@ -100,8 +100,8 @@
                                               <option>Pieces</option>
                                           </select>
                                       </div>
-                                  </div>
-                                  <div class="mb-4 row align-items-center">
+                                  </div> -->
+                                  <!-- <div class="mb-4 row align-items-center">
                                       <label class="col-sm-3 col-form-label form-label-title">Tags</label>
                                       <div class="col-sm-9">
                                           <div class="bs-example">
@@ -110,8 +110,8 @@
                                                   data-role="tagsinput">
                                           </div>
                                       </div>
-                                  </div>
-                                  <div class="mb-4 row align-items-center">
+                                  </div> -->
+                                   <!-- <div class="mb-4 row align-items-center">
                                       <label
                                           class="col-sm-3 col-form-label form-label-title">Exchangeable</label>
                                       <div class="col-sm-9">
@@ -119,17 +119,19 @@
                                               <input type="checkbox"><span class="switch-state"></span>
                                           </label>
                                       </div>
-                                  </div>
-                                  <div class="row align-items-center">
-                                      <label
-                                          class="col-sm-3 col-form-label form-label-title">Refundable</label>
-                                      <div class="col-sm-9">
-                                          <label class="switch">
-                                              <input type="checkbox" checked=""><span
-                                                  class="switch-state"></span>
-                                          </label>
-                                      </div>
-                                  </div> -->
+                                  </div>  -->
+                                  <input type="hidden" id="refundableStatus" name="refundable" value="true">
+
+                                <div class="row align-items-center">
+                                <label class="col-sm-3 col-form-label form-label-title">Refundable</label>
+                                <div class="col-sm-9">
+                                    <!-- Add an onchange event to the checkbox to update the hidden input value -->
+                                    <label class="switch">
+                                    <input type="checkbox" checked="" id="featuredCheckbox">
+                                    <span class="switch-state"></span>
+                                    </label>
+                                </div>
+
                             
                           </div>
                       </div>
@@ -223,7 +225,7 @@
                                           
                                       <div class="col-sm-9">
                                           <input class="form-control form-choose" type="file"
-                                              id="formFile" name="productImages" multiple>
+                                              id="formFile" name="productImages" multiple accept="image/*">
                                       </div>
                                       <span>(upto - 4 images)</span>
                                   </div>
@@ -521,7 +523,7 @@
                                   </div> -->
 
                                   <div class="col-4 col-3 ">
-                                    <button type="submit" class="btn btn-primary w-70  h-100 ">Add
+                                    <button type="submit" onclick="submitForm()" class="btn btn-primary w-70  h-100 ">Add
                                         Product</button>
                                 </div>
 
@@ -541,5 +543,22 @@
     </form>
   </div>
   <!-- New Product Add End -->
+  <script>
+      
+    async function updateFeturedStatus(){
+        const checkbox = document.getElementById('featuredCheckbox')
+        const featuringInput = document.getElementById('refundableStatus')
+
+        featuringInput.value = checkbox.checked ? 'true' : 'false';
+    }
+
+     function submitForm() {
+    updateRefundableStatus(); // Update the hidden input value before submitting
+    
+    const form = document.getElementById('addProductForm');
+    form.submit(); // Submit the form
+  }
+
+  </script>
 
   <%- include('../partials/footer')%>

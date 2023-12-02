@@ -6,7 +6,7 @@ async function loadCategory (req,res){
 
             try {
               if (req.session.admin) {
-                const categories = await category.find();
+                const categories = await category.find().sort({date:-1});
               res.render('category',{categories})
               } else {
                 res.redirect('/admin/dashboard')
@@ -43,12 +43,12 @@ async function addCategory(req,res) {
           
           const catName = await  category.findOne({category:categoryName});
           console.log(categoryName);
-          console.log("database name : "+ catName.category);
-          if (categoryName === catName.category ) {
-             res.render('addCategory',{ message:"You are ntered category is already exist" })
+
+          if (catName && categoryName === catName.category ) {
+             res.render('addCategory',{ message:"You are entered category is already exist" })
           } else {
 
-            const Categories = category({
+            const Categories = new category({
               category : categoryName ,
               image :  req.file.filename,
               description : description,
@@ -65,6 +65,7 @@ async function addCategory(req,res) {
           console.log(error.message);
           }
    }
+
 
 
 
@@ -109,46 +110,6 @@ async function loadEditCategory (req,res){
 
 
 
-// const updateCategory = async (req, res) => {
-//   try {
-//       const id = req.query.id;
-//       const { name, description } = req.body;
-
-//       // Handle image update if a new image is provided
-//       if (req.file) {
-//           // Assuming the image field in your Category model is named 'image'
-//           const imagePath = req.file.filename;
-//           // Update the image field along with other fields
-//           const updateCategory = await Category.findByIdAndUpdate(
-//               { _id: id },
-//               { name, description, image: imagePath },
-//               { new: true }
-//           );
-//           if (updateCategory) {
-//               console.log('Category Updated:', updateCategory);
-//           } else {
-//               console.log('Category not found or update failed.');
-//           }
-//       } else {
-//           // If no new image is provided, update other fields without the image
-//           const updateCategory = await Category.findByIdAndUpdate(
-//               { _id: id },
-//               { name, description },
-//               { new: true }
-//           );
-//           if (updateCategory) {
-//               console.log('Category Updated:', updateCategory);
-//           } else {
-//               console.log('Category not found or update failed.');
-//           }
-//       }
-
-//       res.redirect('/admin/category');
-//   } catch (error) {
-//       console.log(error.message);
-//   }
-// };
-
 
 async function updateCategory (req,res){
   try {
@@ -159,12 +120,15 @@ async function updateCategory (req,res){
     const name = req.body.categoryname;
     const desc=req.body.description;
     const image  =  req.file.filename;
+    console.log(image);
     
     
     
 
-    if (image) {
+    if (image ) {
+        console.log("111111111111111111");
       const updatedCat = await category.findByIdAndUpdate({_id:id},{category:name,description:desc ,image:image},{ new: true });
+      
     } else {
       const updatedCat = await category.findByIdAndUpdate({_id:id},{category:name,description:desc},{ new: true });
     }

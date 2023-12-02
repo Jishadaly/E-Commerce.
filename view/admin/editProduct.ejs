@@ -197,7 +197,7 @@
                                               <label class="form-label-title col-sm-3 mb-0 ">Product
                                                   Description</label>
                                               <div class="col-sm-9">
-                                                  <!-- <div> <input type="text" id="editor"> </div> -->
+                                                   <div> <input type="text" id="editor"> </div> -->
                                                 <!-- <div  >  <input type="text"  name="description"></div>
                                               </div>
                                           </div>
@@ -229,10 +229,13 @@
                                           class="col-sm-3 col-form-label form-label-title">Images</label>
                                           
                                       <div class="col-sm-9">
-                                        <img src="/images/<%= data.productImages[0]%>" class="img-fluid " style="width: 20%;" >
-                                        <img src="/images/<%= data.productImages[1]%>" class="img-fluid " style="width: 25%;" >
-                                        <img src="/images/<%= data.productImages[2]%>" class="img-fluid " style="width: 25%;" >
-                                        <img src="/images/<%= data.productImages[3]%>" class="img-fluid " style="width: 25%;" >
+                                        <% data.productImages.forEach(image =>{ %>
+
+                                     
+                                        <img src="/images/<%= image%>" class="img-fluid " style="width: 20%;" >
+                                        
+                                        <button onclick="deleteImage('<%= image%>')">Delete</button>
+                                        <%  }) %>
                                           <input class="form-control form-choose" type="file"
                                               id="formFile" name="productImages" multiple>
                                       </div>
@@ -551,6 +554,35 @@
       </div>
     </form>
   </div>
+
+  <script>
+    async function deleteImage(image){
+      try {
+        const response = await fetch('/deleteImage', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ filename: image })
+        });
+  
+        if (response.ok) {
+          // Handle successful deletion, such as removing the image from the UI
+          const imageElement = document.querySelector(`img[src="/images/${image}"]`);
+          if (imageElement) {
+            imageElement.parentNode.remove(); // Remove the image and delete button container
+          }
+        } else {
+          console.error('Failed to delete the image');
+          // Handle failure (optional)
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        // Handle network errors or other exceptions
+      }
+    }
+  </script>
+  
   <!-- New Product Add End -->
 
   
