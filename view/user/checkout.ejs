@@ -270,11 +270,13 @@
 										        </div><!-- End .collapse -->
 										    </div><!-- End .card -->
 
+                                            
+
 										    <div class="card">
 										        <div class="card-header" id="heading-4">
 										            <h2 class="card-title">
-										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4" onclick="('payPal')">
-										                    PayPal <small class="float-right paypal-link">What is PayPal?</small>
+										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4" onclick="selectPeyment('razorPay')">
+										                    Razorpay <small class="float-right paypal-link">What is RazorPay?</small>
 										                </a>
 										            </h2>
 										        </div><!-- End .card-header -->
@@ -288,7 +290,7 @@
 										    <div class="card">
 										        <div class="card-header" id="heading-5">
 										            <h2 class="card-title">
-										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-5" aria-expanded="false" aria-controls="collapse-5" onclick="('creditCard')" >
+										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-5" aria-expanded="false" aria-controls="collapse-5" onclick="selectPeyment('creditCard')" >
 										                    Credit Card (Stripe)
 										                    <img src="assets/images/payments-summary.png" alt="payments cards">
 										                </a>
@@ -679,6 +681,7 @@
         </div><!-- End .modal-dialog -->
     </div><!-- End .modal -->
 
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <script>
 
@@ -731,10 +734,12 @@
             let PaymentMethod='';
 
             function selectAddress(id){
+                
                 addressId=id;
             }
 
             function selectPeyment(payment) {
+                
                 PaymentMethod=payment;
                 
             }
@@ -755,9 +760,7 @@
         
         if (confirmed.isConfirmed){
             try {
-               
-                
-                        const response = await fetch('/orderConfirm',{
+                  const response = await fetch('/orderConfirm',{
                         method: 'post',
                         headers: {
                             'Content-Type' : 'application/json'
@@ -766,10 +769,52 @@
                     })
 
                     if (response.ok) {
-                        await Swal.fire('Success' , 'Order Placed succesfully ',  'success')
+                        if (response.status === 200) {
+                            alert(response.status);
+                            await Swal.fire('Success' , 'Order Placed succesfully ',  'success')
+                           window.location.href = '/success-page'
+                        }
+                        
+                        else if (response.status === 201) {
+                        try {
+                            const responseData = await response.json();
+                            const { orderId, amount, currency } = responseData; // Extract order details from the response
 
-                        window.location.href = '/success-page'
-                    }else{
+                            const options = {
+                                key: 'rzp_test_bZrV0YH9vSP3kB',
+                                amount: amount,
+                                currency: currency,
+                                order_id: orderId,
+                                description: 'Payment for your order',
+                                handler: async function (response) {
+                                    await fetch('/updatedPayment',{
+                                        method:'post',
+                                        headers: {
+                                            'Content-Type' :'application/json',
+                                        },
+                                        body:JSON.stringify({
+                                            paymentDetails:response,
+                                            address: addressId,
+                                            PaymentMethod:PaymentMethod
+                                        })
+                                    })
+
+                                    window.location.href = '/success-page';
+                                },
+                                theme: {
+                                    color: '#F37254'
+                                }
+                            };
+
+                            const rzp = new Razorpay(options);
+                            rzp.open();
+
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }
+                    }
+                    else{
                         await Swal.fire('error', 'Failed to place the order', 'error')
                     }
                 

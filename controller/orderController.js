@@ -1,59 +1,8 @@
 const productModel = require('../model/productModal')
 const orderModel = require('../model/orderModel')
 const cartSchema = require('../model/cartModel');
+const Razorpay = require('razorpay');
 
-
-
-
-
-async function confirmOrder(req,res){
-
-  try {
-
-      
-     const userId = req.session.userId;
-     const addressId = req.body.addressId;
-     const paymentMethod = req.body.PaymentMethod;
-     
-
-     const cart = await cartSchema.findOne({user:userId}).populate('products.product')
-      
-
-     const order = {
-      user : req.session.userId,
-      address : addressId,
-      paymentMethod: paymentMethod,
-      products: cart.products.map((item)=> {
-        return{
-          product: item.product,
-          quantity: item.quantity,
-          price: item.product.price,
-          total: item.subTotal,
-          
-        }
-      }),
-      grandTotal: cart.Total
-     }
-     
-      await orderModel.insertMany(order);
-
-      for (const item of cart.products) {
-        const product = item.product;
-        
-        const updatedQuantity = product.quantity - item.quantity;
-        const updatedOrders = product.orders + item.quantity;
-        console.log(updatedOrders);
-        console.log("//////////" +product.product);
-        await productModel.findByIdAndUpdate(product._id, { quantity: updatedQuantity , orders:updatedOrders});
-      }
-        await cartSchema.findOneAndUpdate({ user: userId }, { $set: { products: [], Total: 0 } });
-        res.status(200).json({message:"success"});
-        
-
-      } catch (error) {
-        console.log(error);
-      }
-}
 
 
 
@@ -147,8 +96,149 @@ async function orderStatus(req,res){
 }
 
 
+
+async function createRazorpayOrder(amount){
+  try {
+     const razorpay = new Razorpay({
+      key_id: 'rzp_test_bZrV0YH9vSP3kB',
+      key_secret:'2e6DKMMo4w3kStrTVGWaQ7hs'
+     });
+
+     const options = {
+      amount: amount*100,
+      currency:'INR',
+      receipt:'receipt_order_74394',
+      payment_capture:1
+
+     };
+
+     const order = await razorpay.orders.create(options);
+     return order;
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+async function confirmOrder(req,res){
+
+  try {
+
+      
+     const userId = req.session.userId;
+     const addressId = req.body.addressId;
+     const paymentMethod = req.body.PaymentMethod;
+     console.log(paymentMethod);
+     
+
+     const cart = await cartSchema.findOne({user:userId}).populate('products.product')
+      
+   if (paymentMethod === 'Pay on Delivery (Cash/Card).') {
+      const order = {
+      user : req.session.userId,
+      address : addressId,
+      paymentMethod: paymentMethod,
+      products: cart.products.map((item)=> {
+        return{
+          product: item.product,
+          quantity: item.quantity,
+          price: item.product.price,
+          total: item.subTotal,
+          
+        }
+      }),
+      grandTotal: cart.Total
+     }
+     
+      await orderModel.insertMany(order);
+
+      for (const item of cart.products) {
+        const product = item.product;
+        
+        const updatedQuantity = product.quantity - item.quantity;
+        const updatedOrders = product.orders + item.quantity;
+        console.log(updatedOrders);
+        console.log("//////////" +product.product);
+        await productModel.findByIdAndUpdate(product._id, { quantity: updatedQuantity , orders:updatedOrders});
+      }
+        await cartSchema.findOneAndUpdate({ user: userId }, { $set: { products: [], Total: 0 } });
+        res.status(200).json({message:"success"});
+
+  } else if (paymentMethod === 'razorPay'){
+        try {
+          const rezorpayOrder = await createRazorpayOrder(cart.Total);
+          res.status(201).json({
+            message:"success",
+            orderId: rezorpayOrder.id,
+            amount:rezorpayOrder.amount,
+            currency:rezorpayOrder.currency       
+          })
+          
+        } catch (error) {
+          console.log(error);
+        }
+        
+   }else{
+    console.log("not");
+   }
+     
+        
+
+      } catch (error) {
+        console.log(error);
+      }
+}
+
+async function updatedPayment(req,res){
+    try {
+        const { PaymentMethod ,paymentDetails , address } = req.body;
+        console.log("////"+PaymentMethod);
+        console.log(req.body);
+        const paymentId = paymentDetails.razorpay_payment_id;
+        const orderId = paymentDetails.razorpay_order_id;
+        const userId = req.session.userId;
+        console.log(userId);
+        const cart = await cartSchema.findOne({user:userId}).populate('products.product');
+
+        const order = {
+          user : userId,
+          address : address,
+          paymentMethod: PaymentMethod,
+          payment_Id:paymentId,
+          order_Id:orderId,
+          products: cart.products.map((item)=> {
+            return{
+              product: item.product,
+              quantity: item.quantity,
+              price: item.product.price,
+              total: item.subTotal,
+              
+            }
+          }),
+          grandTotal: cart.Total
+         }
+         
+          await orderModel.insertMany(order);
+    
+          for (const item of cart.products) {
+            const product = item.product;
+            
+            const updatedQuantity = product.quantity - item.quantity;
+            const updatedOrders = product.orders + item.quantity;
+            await productModel.findByIdAndUpdate(product._id, { quantity: updatedQuantity , orders:updatedOrders});
+          }
+            await cartSchema.findOneAndUpdate({ user: userId }, { $set: { products: [], Total: 0 } });
+            res.status(200).json({message:"success"});
+       
+    } catch (error) {
+      console.log(error);
+    }
+}
+
+
 module.exports = {
   confirmOrder, orderdetails,
   canceOrder,orderStatus,
-  loadOrderList, loadOrderDetails 
+  loadOrderList, loadOrderDetails ,updatedPayment
 }

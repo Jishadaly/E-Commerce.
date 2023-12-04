@@ -55,6 +55,7 @@ user_route.post('/address',userController.addNewAddress)
 user_route.post('/editAddress',userController.editAddress);
 user_route.get('/orderdetails',auth.isLogin,auth.isBlocked,orderController.orderdetails);
 user_route.post('/cancelOrder',orderController.canceOrder);
+user_route.post('/updatedPayment',orderController.updatedPayment);
 
 
 module.exports=user_route;

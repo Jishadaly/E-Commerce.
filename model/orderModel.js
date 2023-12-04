@@ -57,7 +57,7 @@ const orderSchema=new mongoose.Schema({
     },
     reason:String,
     response:Boolean, 
-    payment_id:String,
+    payment_Id:String,
     payment_status:{
       type:Boolean,
       default:false,
@@ -68,3 +68,5 @@ const orderSchema=new mongoose.Schema({
 
 
 module.exports = mongoose.model('Order',orderSchema);
+
+

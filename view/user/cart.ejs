@@ -526,69 +526,69 @@
         </div><!-- End .modal-dialog -->
     </div><!-- End .modal -->
 
-  <script>        
-            const updateProduct = async (productId,quantity)=>{
-                try {
-                    
-                    const  response = await fetch('/updateCart',{
-                        method:'POST',
-                        headers:{
-                            'Content-Type':'application/json'
-                        },
-                        body: JSON.stringify({ productId, quantity })
-                       
-                    });
-                    if (response.ok) {
-                        location.reload();
-                    } else {
+    <script>        
+                const updateProduct = async (productId,quantity)=>{
+                    try {
                         
+                        const  response = await fetch('/updateCart',{
+                            method:'POST',
+                            headers:{
+                                'Content-Type':'application/json'
+                            },
+                            body: JSON.stringify({ productId, quantity })
+                        
+                        });
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            
+                        }
+                    } catch (error) {
+                        console.log(error);
                     }
-                } catch (error) {
-                    console.log(error);
                 }
-            }
-            
-         // increacing quantity
-         document.addEventListener('DOMContentLoaded', function(){
+                
+            // increacing quantity
+            document.addEventListener('DOMContentLoaded', function(){
 
-         document.querySelectorAll('.increase-quantity').forEach(button =>{
-            
-            button.addEventListener('click',async function(){
-                const $product = this.closest('.product');
-                const productId = $product.dataset.productId
-                let quantity = parseInt($product.querySelector('.product-quantity').textContent);
-                quantity ++;
-                $product.querySelector('.product-quantity').textContent = quantity;
-                console.log("fetch/////////////////"+productId);
-                console.log("qauntity///////////////"+quantity);
-
-                await updateProduct(productId , quantity);
-            })
-         })
-
-         // decreacing quantity
-         document.querySelectorAll('.decrease-quantity').forEach(button =>{
-            button.addEventListener('click',async function(){
-                const $product = this.closest('.product');
-                const productId = $product.dataset.productId
-                let quantity = parseInt($product.querySelector('.product-quantity').textContent);
-                if(quantity > 1){
-                    quantity--;
-
+            document.querySelectorAll('.increase-quantity').forEach(button =>{
+                
+                button.addEventListener('click',async function(){
+                    const $product = this.closest('.product');
+                    const productId = $product.dataset.productId
+                    let quantity = parseInt($product.querySelector('.product-quantity').textContent);
+                    quantity ++;
                     $product.querySelector('.product-quantity').textContent = quantity;
-                    
-                    await updateProduct(productId, quantity)
-                }
+                    console.log("fetch/////////////////"+productId);
+                    console.log("qauntity///////////////"+quantity);
+
+                    await updateProduct(productId , quantity);
+                })
             })
-         })
-        });
+
+            // decreacing quantity
+            document.querySelectorAll('.decrease-quantity').forEach(button =>{
+                button.addEventListener('click',async function(){
+                    const $product = this.closest('.product');
+                    const productId = $product.dataset.productId
+                    let quantity = parseInt($product.querySelector('.product-quantity').textContent);
+                    if(quantity > 1){
+                        quantity--;
+
+                        $product.querySelector('.product-quantity').textContent = quantity;
+                        
+                        await updateProduct(productId, quantity)
+                    }
+                })
+            })
+            });
 
 
-  
+    
 
-   
+    
 
-    </script>
+        </script>
 
     <!-- Plugins JS File -->
     <script src="assets/js/jquery.min.js"></script>
