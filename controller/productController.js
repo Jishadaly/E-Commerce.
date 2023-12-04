@@ -16,47 +16,13 @@ const orderModel = require('../model/orderModel')
  }
 
 
-  // async function addProduct(req,res){
-  //     try {
-      
-  //       console.log(req.files);
-
-  //       const featured = req.body.refundable;
-  //       console.log(featured);
-
-  //       const data = {
-
-  //         name : req.body.ProductName,
-  //         brand: req.body.brandName,
-  //         quantity:req.body.quantity,
-  //         model:req.body.modelName,
-  //         ram:req.body.ram,
-  //         rom:req.body.rom,
-  //         processor:req.body.processor,
-  //         description:req.body.description,
-  //         price:req.body.price,
-  //         discountPrice:req.body.discountPrice,
-  //         category:req.body.category,
-  //         productImages:req.files.map((file) =>file.filename)
-  //       }
-  //         console.log(data);
-  //         console.log(data.category);
-  //       const DBdata=await productModel.insertMany(data);
-  //       console.log("data inserted succecfully");
-  //       res.redirect('/admin/productList')
-  //       console.log(DBdata);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  // } 
-
 
   async function addProduct(req, res) {
     try {
       console.log(req.files);
   
-      // Get the checkbox status - if it exists in the request body
-      const refundable = req.body.refundable === 'on'; // Assuming 'on' is the value when checkbox is checked
+      
+      const featured = req.body.refundable === 'on'; // Assuming 'on' is the value when checkbox is checked
   
       const data = {
         name: req.body.ProductName,
@@ -70,7 +36,7 @@ const orderModel = require('../model/orderModel')
         price: req.body.price,
         discountPrice: req.body.discountPrice,
         category: req.body.category,
-        featured: refundable, // Include the checkbox status in the data
+        featured: featured, 
         productImages: req.files.map((file) => file.filename)
       };
   
@@ -206,29 +172,29 @@ async function loadProductDetails (req,res){
 }
 
 
-async function loadOrderList(req,res){
-  try {
+// async function loadOrderList(req,res){
+//   try {
     
-    const orderData =  await orderModel.find().populate('address').sort({createdAt:-1})
-     res.render('orderList',{orderData})
-  } catch (error) {
-    console.log(error);
-  }
-}
+//     const orderData =  await orderModel.find().populate('address').sort({createdAt:-1})
+//      res.render('orderList',{orderData})
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 
 
-async function loadOrderDetails(req,res){
-  try {
+// async function loadOrderDetails(req,res){
+//   try {
 
-     const orderId = req.query.orderId;
-     console.log(orderId);
-     const orderDetails = await orderModel.findById(orderId).populate('address').populate('products.product')
-     res.render('orderDetails',{ orderDetails })
-  } catch (error) {
-    console.log(error);
-  }
-}
+//      const orderId = req.query.orderId;
+//      console.log(orderId);
+//      const orderDetails = await orderModel.findById(orderId).populate('address').populate('products.product')
+//      res.render('orderDetails',{ orderDetails })
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 
 
@@ -298,33 +264,33 @@ async function loadProducts(req, res) {
 
 
 
-async function orderStatus(req,res){
-  try {
-    console.log("inside::::::::orderstatus");
-      const {orderId,status } = req.body;
+// async function orderStatus(req,res){
+//   try {
+//     console.log("inside::::::::orderstatus");
+//       const {orderId,status } = req.body;
   
-      console.log('orderID::::'+orderId);
-      console.log("status "+ status);
-      // console.log(status,orderId);
-      if (!status || !orderId) {
-          return res.status(400).json({ error: 'Invalid input parameters' });
-      }
-      const updatedOrder = await orderModel.findByIdAndUpdate(
-        { _id: orderId},
-        { $set: { status: status } },
-        { new: true }
-    );
-      console.log(updatedOrder);
-      if (!updatedOrder) {
-          return res.status(404).json({ error: 'Order not found' });
-      }
-      res.json({ success: true });
-  } catch (error) {
-      console.error('Error updating order status:', error);
-      res.status(500).json({ error: 'Internal server error' });
-  }
+//       console.log('orderID::::'+orderId);
+//       console.log("status "+ status);
+//       // console.log(status,orderId);
+//       if (!status || !orderId) {
+//           return res.status(400).json({ error: 'Invalid input parameters' });
+//       }
+//       const updatedOrder = await orderModel.findByIdAndUpdate(
+//         { _id: orderId},
+//         { $set: { status: status } },
+//         { new: true }
+//     );
+//       console.log(updatedOrder);
+//       if (!updatedOrder) {
+//           return res.status(404).json({ error: 'Order not found' });
+//       }
+//       res.json({ success: true });
+//   } catch (error) {
+//       console.error('Error updating order status:', error);
+//       res.status(500).json({ error: 'Internal server error' });
+//   }
 
-}
+// }
 
 
 async function deleteImage(req,res){
@@ -341,8 +307,11 @@ async function deleteImage(req,res){
 
 
  module.exports = { addProductLoad ,loadProductList, addProduct , listUnlist , 
-                   loadEditProduct , editProduct , loadProductDetails, loadOrderList,
-                   loadOrderDetails , loadProducts, orderStatus,deleteImage
+                   loadEditProduct , editProduct , loadProductDetails, 
+                  //  loadOrderList,
+                  //  loadOrderDetails 
+                    loadProducts, deleteImage,
+                  //  orderStatus
 }
 
 

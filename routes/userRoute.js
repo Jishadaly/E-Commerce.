@@ -2,6 +2,7 @@ const express = require("express");
 const user_route = express();
 const auth = require('../middleware/authHandler');
 const cart = require('../controller/cartController');
+const orderController = require('../controller/orderController')
 
 
 
@@ -42,7 +43,7 @@ user_route.get('/cart',cart.addToCart);
 user_route.get('/removeproduct',cart.removeProduct)
 user_route.post('/updateCart',cart.updateSubTotal)
 user_route.get('/checkout',auth.isLogin,auth.isBlocked,userController.loadCheckout)
-user_route.post('/orderConfirm',userController.confirmOrder)
+user_route.post('/orderConfirm',orderController.confirmOrder)
 user_route.get('/success-page',userController.successPage)
 user_route.get('/products',auth.isLogin,auth.isBlocked,product.loadProducts);
 user_route.post('/changePassword',userController.changePassword)
@@ -52,8 +53,8 @@ user_route.post('/changePassword',userController.changePassword)
 user_route.get('/dashBoard',auth.isLogin,auth.isBlocked,userController.loadDashboard)
 user_route.post('/address',userController.addNewAddress)
 user_route.post('/editAddress',userController.editAddress);
-user_route.get('/orderdetails',auth.isLogin,auth.isBlocked,userController.orderdetails);
-user_route.post('/cancelOrder',userController.canceOrder);
+user_route.get('/orderdetails',auth.isLogin,auth.isBlocked,orderController.orderdetails);
+user_route.post('/cancelOrder',orderController.canceOrder);
 
 
 module.exports=user_route;

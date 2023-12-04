@@ -4,6 +4,7 @@ const adminRoute = express();
 const adminController = require('../controller/adminController');
 const category = require('../controller/categoryController');
 const product = require ('../controller/productController')
+const orderController = require('../controller/orderController')
 const upload = require('../helper/multer');
 const isLogin = require('../middleware/admin_authHandler');
 adminRoute.set('view engine','ejs')
@@ -35,9 +36,9 @@ adminRoute.get('/productList',isLogin,product.loadProductList);
 adminRoute.get('/productList/:id',product.listUnlist);
 adminRoute.get('/editProduct/:id',isLogin,product.loadEditProduct);
 adminRoute.post('/editProduct/:id',upload.array('productImages',4),product.editProduct);
-adminRoute.get('/orderList',isLogin,product.loadOrderList)
-adminRoute.get('/orderDetails',isLogin,product.loadOrderDetails);
-adminRoute.post('/ChangeOrderStatus',product.orderStatus);
+adminRoute.get('/orderList',isLogin,orderController.loadOrderList)
+adminRoute.get('/orderDetails',isLogin,orderController.loadOrderDetails);
+adminRoute.post('/ChangeOrderStatus',orderController.orderStatus);
 adminRoute.delete('/deleteImage',product.deleteImage)
 
 

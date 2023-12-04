@@ -244,16 +244,19 @@ const loadLogin = async (req,res)=>{
 
  const loadHome = async (req,res)=>{
               try{
-              const product = await productModel.find({list:true}).sort({orders:-1}).limit(4)
+              const Bestproduct = await productModel.find({list:true}).sort({orders:-1}).limit(4);
+              const featuredProduct = await productModel.find({list:true,featured:true});
               const cart =await cartSchema.findOne({user:req.session.userId});
               const category = await categories.find({listed:true})
               console.log(category);
-                 res.render('home',{product,cart,category});
+                 res.render('home',{Bestproduct,featuredProduct,cart,category});
+
               }catch(error){
               console.log(error.message);
               }
  }
- 
+
+
 
 
 
@@ -282,7 +285,7 @@ async function loadDashboard(req,res){
       const userid =req.session.userId;
       const user = await userModel.findById(userid);
       const address = await addAddressModel.find({user:user})
-      const orderDetails = await orderModel.find({user:userid}).sort({orderDate:-1})
+      const orderDetails = await orderModel.find({user:userid}).sort({createdAt:-1})
       res.render('dashboard',{user,address,orderDetails});
     } catch (error) {
       console.log(error);
@@ -303,22 +306,22 @@ async function orderdetails(req,res){
 }
 
 
-async function canceOrder(req,res){
-  try {
-   const orderId = req.body.orderId;
+// async function canceOrder(req,res){
+//   try {
+//    const orderId = req.body.orderId;
    
-   const updatedOrder = await orderModel.findByIdAndUpdate(orderId, { $set: { status: "Canceled" } });
+//    const updatedOrder = await orderModel.findByIdAndUpdate(orderId, { $set: { status: "Canceled" } });
 
-   if(updatedOrder){
-    res.status(200).json({ success: true, message: 'Order cancelled successfully' ,updatedOrder })
-   }else{
-    res.status(404).json({ success: false, message: 'Order not found or could not be cancelled' });
-   }
+//    if(updatedOrder){
+//     res.status(200).json({ success: true, message: 'Order cancelled successfully' ,updatedOrder })
+//    }else{
+//     res.status(404).json({ success: false, message: 'Order not found or could not be cancelled' });
+//    }
 
-  } catch (error) {
-    console.log(error);
-  }
-}
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 
 
@@ -403,54 +406,54 @@ async function changePassword(req, res) {
 
 
 
-async function confirmOrder(req,res){
+// async function confirmOrder(req,res){
 
-  try {
+//   try {
 
       
-     const userId = req.session.userId;
-     const addressId = req.body.addressId;
-     const paymentMethod = req.body.PaymentMethod;
+//      const userId = req.session.userId;
+//      const addressId = req.body.addressId;
+//      const paymentMethod = req.body.PaymentMethod;
      
 
-     const cart = await cartSchema.findOne({user:userId}).populate('products.product')
+//      const cart = await cartSchema.findOne({user:userId}).populate('products.product')
       
 
-     const order = {
-      user : req.session.userId,
-      address : addressId,
-      paymentMethod: paymentMethod,
-      products: cart.products.map((item)=> {
-        return{
-          product: item.product,
-          quantity: item.quantity,
-          price: item.product.price,
-          total: item.subTotal,
+//      const order = {
+//       user : req.session.userId,
+//       address : addressId,
+//       paymentMethod: paymentMethod,
+//       products: cart.products.map((item)=> {
+//         return{
+//           product: item.product,
+//           quantity: item.quantity,
+//           price: item.product.price,
+//           total: item.subTotal,
           
-        }
-      }),
-      grandTotal: cart.Total
-     }
+//         }
+//       }),
+//       grandTotal: cart.Total
+//      }
      
-      await orderModel.insertMany(order);
+//       await orderModel.insertMany(order);
 
-      for (const item of cart.products) {
-        const product = item.product;
+//       for (const item of cart.products) {
+//         const product = item.product;
         
-        const updatedQuantity = product.quantity - item.quantity;
-        const updatedOrders = product.orders + item.quantity;
-        console.log(updatedOrders);
-        console.log("//////////" +product.product);
-        await productModel.findByIdAndUpdate(product._id, { quantity: updatedQuantity , orders:updatedOrders});
-      }
-        await cartSchema.findOneAndUpdate({ user: userId }, { $set: { products: [], Total: 0 } });
-        res.status(200).json({message:"success"});
+//         const updatedQuantity = product.quantity - item.quantity;
+//         const updatedOrders = product.orders + item.quantity;
+//         console.log(updatedOrders);
+//         console.log("//////////" +product.product);
+//         await productModel.findByIdAndUpdate(product._id, { quantity: updatedQuantity , orders:updatedOrders});
+//       }
+//         await cartSchema.findOneAndUpdate({ user: userId }, { $set: { products: [], Total: 0 } });
+//         res.status(200).json({message:"success"});
         
 
-      } catch (error) {
-        console.log(error);
-      }
-}
+//       } catch (error) {
+//         console.log(error);
+//       }
+// }
 
 
 async function successPage(req,res){
@@ -477,12 +480,12 @@ module.exports={
   loadCheckout,
   addNewAddress,
   loadDashboard,
-  confirmOrder,
+  // confirmOrder,
   successPage,
   changePassword,
   resendOtp,
-  orderdetails,
-  canceOrder,
+  // orderdetails,
+  // canceOrder,
   editAddress
   
   

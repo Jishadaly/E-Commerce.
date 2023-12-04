@@ -1,0 +1,81 @@
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'your-email-service-provider',
+    auth: {
+        user: 'your-email@example.com',
+        pass: 'your-email-password',
+    },
+});
+
+const generateOTP = () => {
+    return Math.floor(1000 + Math.random() * 9000);
+};
+
+
+const insertUser = async (req, res) => {
+    try {
+        const user = User({
+            name: req.body.name,
+            email: req.body.email,
+            mobile: req.body.mno,
+            password: req.body.password,
+        });
+
+        // Generate and store the OTP in the session
+        const otp = generateOTP();
+        req.session.otp = otp;
+
+        // Send the OTP via email
+        const mailOptions = {
+            from: 'your-email@example.com',
+            to: req.body.email,
+            subject: 'OTP Verification',
+            text: `Your OTP: ${otp}`,
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('OTP sent: ' + info.response);
+            }
+        });
+
+        res.redirect('/otp');
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+
+Route
+user_route.get('/otp', userController.verifyOtp);
+
+
+Controler
+
+const verifyOtp = async (req, res) => {
+    try {
+        res.render('otp'); // Render the OTP verification page
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+user_route.post('/verify-otp', (req, res) => {
+    const enteredOTP = req.body.otp;
+    const storedOTP = req.session.otp;
+
+    if (enteredOTP === storedOTP) {
+        // OTP is valid, you can now save the user data in MongoDB
+        // and clear the OTP from the session
+        delete req.session.otp;
+        const userData = req.session.userData; // Retrieve user data from the session
+        await userData.save(); // Save user data to MongoDB
+
+        res.render('registration-success', { message: 'Registration successful' });
+    } else {
+        res.render('otp', { errorMessage: 'Invalid OTP. Please try again.' });
+    }
+});

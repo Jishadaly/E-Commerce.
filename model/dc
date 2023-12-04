@@ -1,0 +1,144 @@
+const mongoose = require('mongoose');
+
+const ratingSchema = new mongoose.Schema({
+    userId: String,
+    rating: Number,
+    review: String,
+    date: Date,
+    image: String,
+});
+
+const productSchema = new mongoose.Schema({
+    name: String,
+    category: String,
+    price: Number,
+    discountPrice: Number,
+    quantity: Number,
+    productImages: [String], 
+    battery: String,
+    productColor: String,
+    ratings: [ratingSchema],
+    ram: String,
+    rom: String,
+    expandable: String,
+    frontCam: String,
+    rearCam: String,
+    processor: String,
+    list:{
+        type:Boolean,
+        default:true
+    },
+    orderDate: {
+        type: Date,
+        default: Date.now,
+      },
+});
+
+module.exports = mongoose.model('Product', productSchema);
+
+
+ProductName: '',
+state: 'office',
+brandName: '',
+quantity: '',
+Model: '',
+ram: '',
+rom: '',
+Processor: '',
+rgsdgv: '',
+image: '',
+price: '',
+discountPrice: 
+
+
+[7:55 PM, 11/14/2023] Ashish Brocamp: const productSchema=new mongoose.Schema({
+    name:String,
+    category:{
+        type:mongoose.Schema.ObjectId,
+        required:true,
+        ref:'categories'
+    },
+
+    // category:String,
+    price:String,
+    stock:String,
+    status:{
+        type:Boolean,
+        default:true
+    },
+    discount:String,
+    active:{
+        type:Boolean,
+        default:true,
+    },
+    coverimage: {
+        filename: String,
+        mimetype: String,
+        size: Number,
+        data: Buffer,
+      },
+    images:[{
+        filename:String
+    }],
+
+})
+
+
+
+
+let addproduct = async (req, res, next) => {
+
+console.log(req.body,req.body.category);
+  try {
+    console.log('////////////////'+req.files);
+    let Data = {
+      name: req.body.name,
+      category: req.body.category,
+      price: req.body.price,
+      stock: req.body.stock,
+      discount: req.body.discount,
+    
+      coverimage: {
+        filename: req.files.coverImage[0].filename,
+        mimetype: req.files.coverImage[0].mimetype,
+        size: req.files.coverImage[0].size,
+        data: req.files.coverImage[0].buffer,
+      },
+      
+      images: req.files.images.map((file) => ({
+        filename: file.filename,
+        mimetype: file.mimetype,
+        size: file.size,
+        data: file.buffer,
+      })),
+    }
+    console.log(Data);
+    console.log(req.files);
+    await product.insertMany(Data)
+    
+    console.log('Product data saved');
+    return res.redirect('/admin/products');
+  } catch (err) {
+    console.error('Error saving product data:', err);
+    res.status(500).send('Error saving product data');
+  }
+};
+
+
+let productstatus=async (req,res,next)=>{
+  try{
+    let id=req.body.id;
+    console.log(id);
+    let data=await product.findById(id)
+    data.active=(data.active===true)?false:true;
+    data.save()    
+    console.log('aah mati');
+    res.status(200).json({status:true})
+  }
+  catch(e)
+  {
+    console.error(e);
+    res.status(404).json({status:true})
+  
+  }
+  }

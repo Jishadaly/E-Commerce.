@@ -42,8 +42,7 @@ const orderSchema=new mongoose.Schema({
       enum: ['Pending', 'Shipped', 'Delivered','Cancelled','Out for Delivery','Confirmed'],
       default: 'Pending',
     },
-    createdAt:
-    {
+    createdAt:{
       type:Date,
       default:Date.now
     },
