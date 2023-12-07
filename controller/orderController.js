@@ -2,7 +2,8 @@ const productModel = require('../model/productModal')
 const orderModel = require('../model/orderModel')
 const cartSchema = require('../model/cartModel');
 const Razorpay = require('razorpay');
-
+const userModal = require('../model/userModal');
+const transactionModal = require('../model/transactionModal');
 
 
 
@@ -11,32 +12,13 @@ async function orderdetails(req,res){
     
     const orderId = req.query.orderId;
     const orderDetails = await orderModel.findById(orderId).populate('address').populate('products.product')
-    res.render('orderDetails',{orderDetails})
-
+    res.render('orderDetails',{orderDetails}) 
 
   } catch (error) {
     console.log(error);
   }
 }
 
-
-
-async function canceOrder(req,res){
-try {
- const orderId = req.body.orderId;
- 
- const updatedOrder = await orderModel.findByIdAndUpdate(orderId, { $set: { status: "Canceled" } });
-
- if(updatedOrder){
-  res.status(200).json({ success: true, message: 'Order cancelled successfully' ,updatedOrder })
- }else{
-  res.status(404).json({ success: false, message: 'Order not found or could not be cancelled' });
- }
-
-} catch (error) {
-  console.log(error);
-}
-}
 
 
 
@@ -50,6 +32,7 @@ async function loadOrderList(req,res){
     console.log(error);
   }
 }
+
 
 
 
@@ -161,7 +144,7 @@ async function confirmOrder(req,res){
         console.log(updatedOrders);
         console.log("//////////" +product.product);
         await productModel.findByIdAndUpdate(product._id, { quantity: updatedQuantity , orders:updatedOrders});
-      }
+      } 
         await cartSchema.findOneAndUpdate({ user: userId }, { $set: { products: [], Total: 0 } });
         res.status(200).json({message:"success"});
 
@@ -220,6 +203,17 @@ async function updatedPayment(req,res){
          }
          
           await orderModel.insertMany(order);
+
+          const transfer = {
+            user:userId,
+            amount:paymentDetails.amount,
+            paymentMethod:PaymentMethod,
+            type:"debit",
+            orderId:orderId
+
+          }
+
+          await transactionModal.insertMany(transfer);
     
           for (const item of cart.products) {
             const product = item.product;
@@ -229,7 +223,7 @@ async function updatedPayment(req,res){
             await productModel.findByIdAndUpdate(product._id, { quantity: updatedQuantity , orders:updatedOrders});
           }
             await cartSchema.findOneAndUpdate({ user: userId }, { $set: { products: [], Total: 0 } });
-            res.status(200).json({message:"success"});
+            res.status(201).json({message:"success"});
        
     } catch (error) {
       console.log(error);
@@ -237,8 +231,67 @@ async function updatedPayment(req,res){
 }
 
 
+async function cancelOrder(req,res){
+  try {
+   const orderId = req.body.orderId;
+   let updatedOrder = await orderModel.findByIdAndUpdate(orderId, { $set: { status: "Canceled" } }).populate('products.product');
+   const userData = await userModal.findById(req.session.userId);
+
+   if (updatedOrder.paymentMethod === 'razorPay') {
+    
+    console.log("000000"+userData);
+    const walletUpdating = updatedOrder.grandTotal + userData.walletAmount;
+    console.log("11111"+walletUpdating);
+    userData.walletAmount = walletUpdating;
+    await userData.save();
+    console.log("222222"+userData);
+
+    const transfer = {
+      user:userId,
+      amount:paymentDetails.amount,
+      paymentMethod:PaymentMethod,
+      type:"credited",
+      orderId:orderId
+
+    }
+    await transactionModal.insertMany(transfer)
+
+   } 
+  console.log("333333 "+userData);
+   
+   for (const item of updatedOrder.products) {
+    const product = item.product;
+    
+    const updatedQuantity = product.quantity + item.quantity;
+    const updatedOrders = product.orders - item.quantity;
+    await productModel.findByIdAndUpdate(product._id, { quantity: updatedQuantity , orders:updatedOrders});
+  }
+   
+  
+   if(updatedOrder){
+    res.status(200).json({ success: true, message: 'Order cancelled successfully' ,updatedOrder })
+   }else{
+    res.status(404).json({ success: false, message: 'Order not found or could not be cancelled' });
+   }
+  
+  } catch (error) {
+    console.log(error);
+  }
+  }
+  
+
+  async function loadReturnOrderPage(req,res){
+    try {
+      res.render('returnPage');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
 module.exports = {
   confirmOrder, orderdetails,
-  canceOrder,orderStatus,
-  loadOrderList, loadOrderDetails ,updatedPayment
+  cancelOrder,orderStatus,
+  loadOrderList, loadOrderDetails ,updatedPayment,
+  loadReturnOrderPage
 }

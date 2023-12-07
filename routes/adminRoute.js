@@ -7,6 +7,7 @@ const product = require ('../controller/productController')
 const orderController = require('../controller/orderController')
 const upload = require('../helper/multer');
 const isLogin = require('../middleware/admin_authHandler');
+
 adminRoute.set('view engine','ejs')
 adminRoute.set('views','./view/admin');
 
@@ -40,6 +41,6 @@ adminRoute.get('/orderList',isLogin,orderController.loadOrderList)
 adminRoute.get('/orderDetails',isLogin,orderController.loadOrderDetails);
 adminRoute.post('/ChangeOrderStatus',orderController.orderStatus);
 adminRoute.delete('/deleteImage',product.deleteImage)
-
+adminRoute.get('/returnOrder',orderController.loadReturnOrderPage);
 
 module.exports = adminRoute;

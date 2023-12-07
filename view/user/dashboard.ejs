@@ -65,7 +65,7 @@
 								    	<a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a> -->
                                            
 
-                                            <div class="container mt-5">
+                                            <div>
                                                 <div class="d-flex justify-content-center row">
                                                     <div class="col-md-10">
                                                         <div class="rounded">
@@ -88,11 +88,16 @@
                                                                             <td><%=order._id  %></td>
                                                                             <td><%= order.grandTotal %></td>
                                                                             <td><%=order.createdAt.toLocaleDateString() %></td>
-                                                                            <td><%= order.status %></td>
+                                                                            
+                                                                            <td <% if (order.status === 'Canceled') { %> style="color: red;" <% } else { %> style="color: green;" <% } %>>
+                                                                                <%= order.status %>
+                                                                            </td>
+                                                                            
+                                                                            
                                                                             <td>
                                                                                 <a href="/orderdetails?orderId=<%=order._id %>">
                                             
-                                                                                    <button class="btn btn-success" style="font-size: 10px; padding: 5px 10px;">Details</button>
+                                                                                    <button class="btn btn-outline-primary-2 btn-order btn-block" style="font-size: 10px; padding: 5px 10px;">Details</button>
                                                                                 </a>
                                                                                
                                                                             </td>

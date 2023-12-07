@@ -85,12 +85,12 @@
                                     <div class="bg-inner cart-section order-details-table">
                                         <div class="row g-4">
                                             <div class="col-xl-8">
-                                                <div class="table-responsive table-details">
+                                                <div class="table-responsive table-details ">
                                                     <table class="table cart-table table-borderless">
-                                                        <thead>
-                                                            <tr>
-                                                                <th colspan="2">Items</th>
-                                                                <th class="text-end" colspan="2">
+                                                        <thead  >
+                                                            <tr  >
+                                                                <th style="background-color:#c96;" colspan="2">Items</th>
+                                                                <th style="background-color:#c96;" class="text-end" colspan="2">
                                                                    
                                                                 </th>
                                                             </tr>
@@ -118,7 +118,7 @@
                                                                   </td>
                                                                   <td>
                                                                       <p>Price</p>
-                                                                      <h5>₹<%= item.product.price%></h5>
+                                                                      <h5 >₹<%= item.product.price%></h5>
                                                                   </td>
 
                                                                  
@@ -151,10 +151,10 @@
 
                                                             <tr class="table-order">
                                                                 <td colspan="3">
-                                                                    <h4 class="theme-color fw-bold">Total Price :</h4>
+                                                                    <h4 style="color: #c96;" class=" fw-bold">Total Price :</h4>
                                                                 </td>
                                                                 <td>
-                                                                    <h4 class="theme-color fw-bold">₹<%=orderDetails.grandTotal%></h4>
+                                                                    <h4 style="color: #c96;" class=" fw-bold">₹<%=orderDetails.grandTotal%></h4>
                                                                 </td>
                                                             </tr>
                                                         </tfoot>
@@ -180,7 +180,7 @@
                                                             
                                                             <li>Order ID:<%= orderDetails._id %> </li>
                                                             <li>Order Date: <%= orderDetails.createdAt%></li>
-                                                            <li style="color: rgb(255, 174, 0);">Order Total: <%= orderDetails.grandTotal %></li>
+                                                            <li >Order Total: <span style="color: rgb(56, 38, 0);"><%= orderDetails.grandTotal %></span> </li>
                                                         </ul>
 
                                                         <h4>shipping address</h4>
@@ -195,12 +195,19 @@
                                                             <p><%=orderDetails.paymentMethod%></p>
                                                         </div>
                                                       
-                                                        
-                                                          <button onclick="disableButton()" id="cancelButton" class=" p-1 cancel-button" data-order-id="<%= orderDetails._id %>" data-product-id="">Cancel order</button>
+                                                        <% if (orderDetails.status === 'Delivered') { %>
+                                                            <!-- Content to display if order status is 'Canceled' -->
+                                                            <button onclick="returnOrder('<%= orderDetails._id %>')" id= returnButton class=" p-1 return-button" data-order-id="<%= orderDetails._id %>" data-product-id="">Return order</button>
 
-                                                                        
-                                                                        
-                                                                    
+                                                        <% }else{ %>
+                                                            <% if(orderDetails.status === 'Canceled'|| orderDetails.status === 'Return Confirmed' ){ %>
+                                                                <p style="text-align: center; color: red;"> Canceled order Succefully</p>
+                                                          <%  }else{ %>
+                                                            <button onclick="disableButton()"  id= cancelButton class=" p-1 cancel-button" data-order-id="<%= orderDetails._id %>" data-product-id="">cancel order</button>
+                                                        <%  } %>
+                                                      <%  } %>
+                                                        
+            
                                                 </div>
                                             </div>
                                         </div>
@@ -239,6 +246,37 @@
         var button = document.getElementById('cancelButton');
         button.disabled = true;
         }
+
+        let orderId = "";
+        function returnOrder(id){
+            orderId = id;
+            alert(orderId)
+
+            Swal.fire({
+                  title: "Are you sure?",
+                  text: "Confirm return for this product",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#c96",
+                  cancelButtonColor: "#3085d6",
+                  confirmButtonText: "Yes, return it!"
+              }).then(result => {
+                  if (result.isConfirmed) {                
+                      fetch(`/admin/returnOrder`, {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/json',                        
+                          },
+                          body: JSON.stringify({ orderId })
+
+                      })
+                  }
+              });
+            }
+
+
+        
+
 
       document.querySelectorAll('.cancel-button').forEach(button => {
           button.addEventListener('click', function () {

@@ -12,7 +12,6 @@ user_route.use(express.json());
 user_route.use(express.urlencoded({ extended : true }));
 
 
-//setting session
 
 // seting ejs
 user_route.set('view engine','ejs')
@@ -54,7 +53,7 @@ user_route.get('/dashBoard',auth.isLogin,auth.isBlocked,userController.loadDashb
 user_route.post('/address',userController.addNewAddress)
 user_route.post('/editAddress',userController.editAddress);
 user_route.get('/orderdetails',auth.isLogin,auth.isBlocked,orderController.orderdetails);
-user_route.post('/cancelOrder',orderController.canceOrder);
+user_route.post('/cancelOrder',orderController.cancelOrder);
 user_route.post('/updatedPayment',orderController.updatedPayment);
 
 

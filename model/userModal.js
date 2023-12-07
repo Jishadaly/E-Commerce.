@@ -33,6 +33,10 @@ is_blocked:{
 date:{
     type:Date,
     default:Date.now()
+},
+walletAmount :{
+    type:Number,
+    default:0
 }
 });
 
