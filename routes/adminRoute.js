@@ -41,6 +41,8 @@ adminRoute.get('/orderList',isLogin,orderController.loadOrderList)
 adminRoute.get('/orderDetails',isLogin,orderController.loadOrderDetails);
 adminRoute.post('/ChangeOrderStatus',orderController.orderStatus);
 adminRoute.delete('/deleteImage',product.deleteImage)
-adminRoute.get('/returnOrder',orderController.loadReturnOrderPage);
+adminRoute.post('/returnRequest',orderController.returnRequest);
+adminRoute.get('/returnOrderList',orderController.loadReturnOrderList)
+adminRoute.get('/returnOrder_Details',orderController.loadReturnOrderDetails)
 
 module.exports = adminRoute;

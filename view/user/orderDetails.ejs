@@ -262,7 +262,7 @@
                   confirmButtonText: "Yes, return it!"
               }).then(result => {
                   if (result.isConfirmed) {                
-                      fetch(`/admin/returnOrder`, {
+                      fetch(`/admin/returnRequest`, {
                           method: 'POST',
                           headers: {
                               'Content-Type': 'application/json',                        

@@ -280,18 +280,44 @@ async function cancelOrder(req,res){
   }
   
 
-  async function loadReturnOrderPage(req,res){
+  async function returnRequest(req,res){
+      try {
+        const orderId = req.body.orderId;
+        console.log("/////|  return requesy  |/////////////"+orderId);
+        const order = await orderModel.findByIdAndUpdate(orderId,{$set:{returnRequest:'requested'}});
+        console.log(order);
+
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
+  async function loadReturnOrderList(req,res){
     try {
-      res.render('returnPage');
+      const returnedOrders = await orderModel.find({returnRequest:'requested'}) 
+      res.render('returnOrdersList',{returnedOrders});
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function loadReturnOrderDetails(req,res){
+    try {
+      const orderId = req.query.orderId;
+      const order = await orderModel.findById(orderId).populate('address').populate('products.product')
+      console.log(order);
+      res.render('returnOrderDetails',{order})
     } catch (error) {
       console.log(error);
     }
   }
 
 
+
 module.exports = {
-  confirmOrder, orderdetails,
-  cancelOrder,orderStatus,
-  loadOrderList, loadOrderDetails ,updatedPayment,
-  loadReturnOrderPage
-}
+
+      confirmOrder, orderdetails,
+      cancelOrder,orderStatus,
+      loadOrderList, loadOrderDetails ,updatedPayment,
+      returnRequest,loadReturnOrderList,loadReturnOrderDetails
+
+    }

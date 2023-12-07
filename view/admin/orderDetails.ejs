@@ -94,7 +94,7 @@
                                                                     <h4 class="theme-color fw-bold">Total Price :</h4>
                                                                 </td>
                                                                 <td>
-                                                                    <h4 class="theme-color fw-bold">₹<%=orderDetails.grandTotal%></h4>
+                                                                   ~~
                                                                 </td>
                                                             </tr>
                                                         </tfoot>
@@ -146,32 +146,32 @@
                                                      
                                                      
     
-                                                      <ul class="order-details">
-                                                        <br>
-                                                            
-                                                            <li id="statusDetails"><%= orderDetails.status %></li>
-                                                            
-                                                        </ul>
-
-                                                        <h4>summery</h4>
                                                         <ul class="order-details">
-                                                            <li>Order ID:<%= orderDetails._id %> </li>
-                                                            <li>Order ID:<%= orderDetails._id %> </li>
-                                                            <li>Order Date: <%= orderDetails.createdAt%></li>
-                                                            <li>Order Total: <%= orderDetails.grandTotal %></li>
-                                                        </ul>
+                                                            <br>
+                                                                
+                                                                <li id="statusDetails"><%= orderDetails.status %></li>
+                                                                
+                                                            </ul>
 
-                                                        <h4>shipping address</h4>
-                                                        <ul class="order-details">
-                                                            <li><%= orderDetails.address.name %></li>
-                                                            <li><%= orderDetails.address.houseNo%>, <%= orderDetails.address.street %>.</li>
-                                                            <li><%= orderDetails.address.country %>, <%= orderDetails.address.pincode %> Contact No. <%= orderDetails.address.phone %></li>
-                                                        </ul>
+                                                            <h4>summery</h4>
+                                                            <ul class="order-details">
+                                                                <li>Order ID:<%= orderDetails._id %> </li>
+                                                                <li>Order ID:<%= orderDetails._id %> </li>
+                                                                <li>Order Date: <%= orderDetails.createdAt%></li>
+                                                                <li>Order Total: <%= orderDetails.grandTotal %></li>
+                                                            </ul>
 
-                                                        <div class="payment-mode">
-                                                            <h4>payment method</h4>
-                                                            <p><%=orderDetails.paymentMethod%></p>
-                                                        </div>
+                                                            <h4>shipping address</h4>
+                                                            <ul class="order-details">
+                                                                <li><%= orderDetails.address.name %></li>
+                                                                <li><%= orderDetails.address.houseNo%>, <%= orderDetails.address.street %>.</li>
+                                                                <li><%= orderDetails.address.country %>, <%= orderDetails.address.pincode %> Contact No. <%= orderDetails.address.phone %></li>
+                                                            </ul>
+
+                                                            <div class="payment-mode">
+                                                                <h4>payment method</h4>
+                                                                <p><%=orderDetails.paymentMethod%></p>
+                                                            </div>
 
                                                         <!-- <div class="delivery-sec">
                                                             <h3>expected date of delivery: <span>october 22, 2018</span>

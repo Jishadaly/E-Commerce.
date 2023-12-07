@@ -63,6 +63,10 @@ const orderSchema=new mongoose.Schema({
       default:false,
     },
     order_Id:String,
+    returnRequest :{
+      type:String,
+      enum:['requested','accepted','rejected']
+    }
 
 })
 
