@@ -108,8 +108,18 @@
                               </div>
 
                                 <div class="col-xl-4">
+                               
                                     <div class="order-success">
+                                    
                                         <div class="row g-4">
+                                          <h4>Returning order Request?</h4>
+                                          <div class="container align-items-center " style="display: flex; ">
+                                      
+                                        <button onclick="returnStatus('accepted','<%=order._id%>')" style=" width: 80%;"  class="btn-solid btn m-1 " >Accept</button>
+                                        <button onclick="returnStatus('rejected','<%=order._id%>')" style="background-color: rgb(198, 36, 36); color: white; width: 80%;"  class="btn " >Reject</button>
+                                         
+                                         
+                                         </div>
                                           <!-- <h4>summery</h4>
                                           <ul class="order-details">
                                               <li>Order ID:<%=order._id %> </li>
@@ -152,5 +162,88 @@
           </div>
       </div>
   </div>
+
+  <!-- SweetAlert JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    
+   
+    async function returnStatus(status, orderId) {
+      
+      alert(orderId);
+      
+      const confirmed = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#  3085d6",
+        confirmButtonText: "Yes"
+      })
+
+      if(confirmed.isConfirmed){
+        
+        const response = await fetch('/admin/returnResponse',{
+        method:'POST',
+        headers:{
+          'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({orderId ,status})
+      });
+
+      if (response.ok) {
+        await Swal.fire({
+          title: "Success!",
+          text: "Order return request is successful.",
+          icon: "success"
+        });
+
+        // Redirect to another page after successful request
+        window.location.href = "/admin/returnOrderList";
+      } 
+      
+    }
+
+   }
+
+      
+
+//    async function returnRejected(status) {
+//       rejected= status
+//       alert(rejected)
+
+//       const confirmed = await Swal.fire({
+//         title: "Are you sure?",
+//         text: "You won't be able to revert this!",
+//         icon: "warning",
+//         showCancelButton: true,
+//         confirmButtonColor: "#d33",
+//         cancelButtonColor: "#  3085d6",
+//         confirmButtonText: "Yes, delete it!"
+//       })
+
+//       if(confirmed.isConfirmed){
+//        console.log('called');
+//         alert('called')
+//         const response = fetch('/admin/returnResponse',{
+//         method:'POST',
+//         headers:{
+//           'Content-Type' : 'application/json'
+//         },
+//         body: JSON.stringify({orderId ,rejected})
+//       });
+    
+//     //   }
+//       }
+
+//     }
+
+
+
+    
+
+  </script>
   <!-- tracking table end -->
   <%- include('../partials/footer')%>

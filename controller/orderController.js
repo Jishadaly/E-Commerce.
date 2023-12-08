@@ -304,13 +304,54 @@ async function cancelOrder(req,res){
     try {
       const orderId = req.query.orderId;
       const order = await orderModel.findById(orderId).populate('address').populate('products.product')
-      console.log(order);
+      
       res.render('returnOrderDetails',{order})
     } catch (error) {
       console.log(error);
     }
   }
+async function returnResponse(req,res){
+    try {
+      
+      
+      const {status , orderId } = req.body;
+      const updatedStatus = await orderModel.findByIdAndUpdate(orderId,{$set:{returnRequest:status}}).populate('products.product')
+      const userData = await userModal.findOne({_id:updatedStatus.user})
+      console.log(userData);
+      
+      if(status === "accepted"){
 
+        const walletUpdating = updatedStatus.grandTotal + userData.walletAmount;
+          console.log("11111"+walletUpdating);
+          userData.walletAmount = walletUpdating;
+          await userData.save();
+          console.log("222222"+userData);
+
+         const transaction = {
+          user: updatedStatus.user,
+          amount:updatedStatus.grandTotal,
+          paymentMethod:updatedStatus.paymentMethod,
+          type:'Credited'
+         }
+         await transactionModal.insertMany(transaction);
+         for (const item of updatedStatus.products) {
+          const product = item.product;
+          
+          const updatedQuantity = product.quantity + item.quantity;
+          const updatedOrders = product.orders - item.quantity;
+          await productModel.findByIdAndUpdate(product._id, { quantity: updatedQuantity , orders:updatedOrders});
+      }
+      
+      }
+
+      res.status(200).json({ success: true, message: "Operation completed successfully" });
+      
+    console.log( updatedStatus);
+      
+    } catch (error) {
+      console.log(error);
+    }
+}
 
 
 module.exports = {
@@ -318,6 +359,7 @@ module.exports = {
       confirmOrder, orderdetails,
       cancelOrder,orderStatus,
       loadOrderList, loadOrderDetails ,updatedPayment,
-      returnRequest,loadReturnOrderList,loadReturnOrderDetails
+      returnRequest,loadReturnOrderList,loadReturnOrderDetails,
+      returnResponse  
 
     }

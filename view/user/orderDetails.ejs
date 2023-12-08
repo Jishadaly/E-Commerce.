@@ -197,10 +197,23 @@
                                                       
                                                         <% if (orderDetails.status === 'Delivered') { %>
                                                             <!-- Content to display if order status is 'Canceled' -->
+
+                                                            <% if(orderDetails.returnRequest === 'accepted'){ %>
+                                                               <h4 class="mb-0 text-warning">Return Request Accepted!</h4>
+                                                            <p class="mt-0 ">Your return request has been successfully accepted! and the refund will be credited to your wallet shortly. Thank you for your patience!</p>
+                                                            <% }else if(orderDetails.returnRequest === 'rejected'){ %>
+                                                                ,<h4 class="mb-0 text-danger">Return Request rejected!</h4>
+                                                            <p class="mt-0 ">"Unfortunately, your return request has been rejected. We apologize for any inconvenience caused. If you have any concerns or need further assistance, please don't hesitate to contact our support team."</p>
+                                                          <%  }else{ %>
                                                             <button onclick="returnOrder('<%= orderDetails._id %>')" id= returnButton class=" p-1 return-button" data-order-id="<%= orderDetails._id %>" data-product-id="">Return order</button>
+                                                       <%   } %>
+
+                                                         
+                                                            
 
                                                         <% }else{ %>
                                                             <% if(orderDetails.status === 'Canceled'|| orderDetails.status === 'Return Confirmed' ){ %>
+                                                                
                                                                 <p style="text-align: center; color: red;"> Canceled order Succefully</p>
                                                           <%  }else{ %>
                                                             <button onclick="disableButton()"  id= cancelButton class=" p-1 cancel-button" data-order-id="<%= orderDetails._id %>" data-product-id="">cancel order</button>
