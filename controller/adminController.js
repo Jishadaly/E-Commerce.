@@ -2,6 +2,7 @@
 
 const  User  = require('../model/userModal')
 const  Admin  = require('../model/adminModel');
+const couponModal = require('../model/couponModal');
 
 
 const loadLogin = async(req,res)=>{
@@ -89,13 +90,104 @@ const blockUser = async (req,res)=>{
   }
   
   
+async function loadAddCoupon(req,res){
+      try {
+        res.render('addCoupon')
+      } catch (error) {
+        console.log(error);
+      }
+}
+
+
+async function addCoupon(req,res){
+
+    try {
+      const { name ,code, discountAmount, expireDate,  minimumCartTotal } = req.body;
+      const coupon = {
+        name:name,
+        Couponcode:code,
+        expiry:expireDate,
+        discount:discountAmount,
+        minimumCartTotal:minimumCartTotal
+      }
+
+      const couponDetails =  await couponModal.insertMany(coupon);
+      console.log(couponDetails);
+      res.redirect('/admin/listCoupon');
+
+    } catch (error) {
+      console.log(error);
+    }
+}
+
+async function couponList(req,res){
+  try {
+    const coupons = await couponModal.find();
+     res.render('listCoupon',{coupons})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function loadEdiCoupon(req,res){
+  try {
+     const id = req.query.couponId;
+     console.log(id);
+     const coupon = await couponModal.findById(id)
+     res.render('editCoupon',{coupon});
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function ediCoupon(req,res){
+ console.log(req.body);
+  const couponId = req.query.couponId;
+  console.log(couponId);
+  const { name ,code, discountAmount, expireDate,  minimumCartTotal } = req.body;
+  
+  if (couponId) {
+
+     const editCoupon = {
+      name:name,
+      Couponcode:code,
+      discount:discountAmount,
+      expiry:expireDate,
+      minimumCartTotal:minimumCartTotal
+     }
+     
+     const editedCoupon  = await couponModal.findByIdAndUpdate(couponId,editCoupon);
+     console.log(editedCoupon);
+     res.redirect('/admin/listCoupon')
+
+    }
+
+  try {
+      
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+async function deleteCoupon(req,res){
+  try {
+
+     console.log(req.query);
+     const couponId = req.query.couponId;
+     await couponModal.findByIdAndDelete(couponId);
+     res.redirect('/admin/listCoupon')
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 
 module.exports = {
-  loadLogin,
-  verifyLogin,
-  loadDashboard,
-  loadUserlist,
-  blockUser,
+  loadLogin, verifyLogin, loadDashboard,
+  loadUserlist,blockUser,loadAddCoupon,
+  addCoupon,couponList,loadEdiCoupon,ediCoupon,
+  deleteCoupon
 }

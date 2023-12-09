@@ -1,0 +1,100 @@
+<%- include('../partials/header')%>
+<%- include('../partials/sidebar')%>
+
+<!-- Create Coupon Table start -->
+ <div class="page-body">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-12">
+              <div class="row">
+                  <div class="col-sm-12">
+                      <div class="card">
+                          <div class="card-body">
+                              <div class="title-header option-title">
+                                  <h5>Edit Coupon</h5>
+                              </div>
+                              
+
+                              <div class="tab-content" id="pills-tabContent">
+                                  <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
+                                      <form class="theme-form theme-form-2 mega-form" method="post" action="/admin/editCoupon?couponId=<%= coupon._id%>">
+                                          
+
+                                          <div class="row">
+                                              <div class="mb-4 row align-items-center">
+                                                  <label
+                                                      class="form-label-title col-lg-2 col-md-3 mb-0">Coupon
+                                                      Title</label>
+                                                  <div class="col-md-9 col-lg-10">
+                                                      <input class="form-control" type="text" name="name" required value="<%=coupon.name%>" >
+                                                  </div>
+                                              </div>
+
+                                              <div class="mb-4 row align-items-center">
+                                                  <label
+                                                      class="col-lg-2 col-md-3 col-form-label form-label-title">Coupon
+                                                      Code</label>
+                                                  <div class="col-md-9 col-lg-10">
+                                                      <input class="form-control" type="number" name="code" required value="<%=coupon.Couponcode%>">
+                                                  </div>
+                                              </div>
+
+                                              <div class="mb-4 row align-items-center">
+                                                <label
+                                                    class="col-lg-2 col-md-3 col-form-label form-label-title" >Discount Amount</label>
+                                                <div class="col-md-9 col-lg-10">
+                                                    <input class="form-control" type="number" name="discountAmount" required value="<%=coupon.discount%>">
+                                                </div>
+                                            </div>
+
+                                              
+
+                                              <div class="mb-4 row align-items-center">
+                                                  <label
+                                                      class="col-lg-2 col-md-3 col-form-label form-label-title">Expire
+                                                      Date</label>
+                                                  <div class="col-md-9 col-lg-10">
+                                                      <input class="form-control" type="date" name="expireDate" required value="<%=coupon.expiry%>">
+                                                  </div>
+                                              </div>
+
+                                              
+
+                                              <!-- <div class="mb-4 row align-items-center">
+                                                  <label
+                                                      class="col-lg-2 col-md-3 col-form-label form-label-title">Quantity</label>
+                                                  <div class="col-md-9 col-lg-10">
+                                                      <input class="form-control" type="number">
+                                                  </div>
+                                              </div> -->
+
+                                              <div class="mb-4 row align-items-center">
+                                                <label
+                                                    class="col-lg-2 col-md-3 col-form-label form-label-title">Minimum Cart Amount</label>
+                                                <div class="col-md-9 col-lg-10">
+                                                    <input class="form-control" type="number" name="minimumCartTotal" required value="<%=coupon.minimumCartTotal%>">
+                                                </div>
+                                            </div>
+
+                                            
+                                              <button type="submit"  class="btn btn-primary w-40  h-100 " fdprocessedid="9x9s8g">Add
+                                                Coupon</button>
+                                        
+
+                                           
+                                              
+                                          </div>
+                                      </form>
+                                  </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Create Coupon Table End -->
+
+
+<%- include('../partials/footer')%>

@@ -8,6 +8,7 @@ const orderController = require('../controller/orderController')
 const upload = require('../helper/multer');
 const isLogin = require('../middleware/admin_authHandler');
 
+
 adminRoute.set('view engine','ejs')
 adminRoute.set('views','./view/admin');
 
@@ -44,6 +45,12 @@ adminRoute.delete('/deleteImage',product.deleteImage)
 adminRoute.post('/returnRequest',orderController.returnRequest);
 adminRoute.get('/returnOrderList',orderController.loadReturnOrderList)
 adminRoute.get('/returnOrder_Details',orderController.loadReturnOrderDetails)
-adminRoute.post('/returnResponse',orderController.returnResponse)
+adminRoute.post('/returnResponse',orderController.returnResponse);
+adminRoute.get('/createCoupon',adminController.loadAddCoupon);
+adminRoute.post('/createCoupon',adminController.addCoupon);
+adminRoute.get('/listCoupon',adminController.couponList);
+adminRoute.get('/editCoupon',adminController.loadEdiCoupon);
+adminRoute.post('/editCoupon',adminController.ediCoupon);
+adminRoute.get('/deleteCoupon',adminController.deleteCoupon);
 
 module.exports = adminRoute;

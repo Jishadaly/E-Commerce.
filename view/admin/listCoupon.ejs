@@ -1,0 +1,90 @@
+
+
+<%- include('../partials/header')%>
+<%- include('../partials/sidebar')%>
+
+
+ <!-- Coupon list table starts-->
+ <div class="page-body">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-sm-12">
+              <div class="card card-table">
+                  <div class="card-body">
+                      <div class="title-header option-title">
+                          <h5>Coupon List</h5>
+                          <div class="right-options">
+                              <ul>
+                                  <li>
+                                      <a class="btn btn-solid" href="/admin/createCoupon">Add Coupon</a>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                      <div>
+                          <div class="table-responsive">
+                              <table class="table all-package coupon-list-table table-hover theme-table"
+                                  id="table_id">
+                                  <thead>
+                                      <tr>
+                                         
+                                          <th>Title</th>
+                                          <th>Code</th>
+                                          <th>Discount</th>
+                                          <th>Status</th>
+                                          <th>max amount</th>
+                                          <th>Option</th>
+                                      </tr>
+                                  </thead>
+
+                                  <tbody>
+                                      
+                                    <%  coupons.forEach((coupon)=>{ %>
+                                        
+                                        
+
+                                  
+                                      <tr>
+
+                                          <td><%=coupon.name%></td>
+                                          <td><%=coupon.Couponcode%></td>
+                                          <td class="theme-color">₹<%=coupon.discount%></td>
+                                          <td class="menu-status">
+                                              <span class="success"><%=coupon.status%></span>
+                                          </td>
+                                          <td><%=coupon.minimumCartTotal%></td>
+                                          <td>
+                                              <ul>
+                                                  <li>
+                                                      <a href="/admin/editCoupon?couponId=<%=coupon._id%>">
+                                                          <i class="ri-pencil-line"></i>
+                                                      </a>
+                                                  </li>
+
+                                                  <li>
+                                                    <a href="/admin/deleteCoupon?couponId=<%=coupon._id%>">
+                                                        <i class="ri-delete-bin-line"></i>
+                                                    </a>
+                                                </li>
+
+                                                  
+                                              </ul>
+                                          </td>
+                                      </tr>
+
+                                      <%   }) %>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- Pagination End -->
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Container-fluid Ends-->
+
+
+
+  <%- include('../partials/footer')%>
