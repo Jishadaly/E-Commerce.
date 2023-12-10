@@ -7,6 +7,7 @@ const addressModel = require('../model/addressModel');
 const addAddressModel = require('../model/addressModel')
 const userModel = require('../model/userModal')
 const couponModal = require('../model/couponModal');
+const transactionModal = require('../model/transactionModal')
 
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
@@ -270,7 +271,7 @@ async function loadCheckout(req,res){
         const cart = await cartSchema.findOne({user:userid}).populate('products.product');
         console.log(cart);
         const address = await addressModel.find({user:userid})
-        const coupon = await couponModal.find({minimumCartTotal:{$lte:cart.Total}});
+        const coupon = await couponModal.find({minimumCartTotal:{$lte:cart.Total},status:true});
         
         
         res.render('checkout',{cart,address,coupon})
@@ -289,8 +290,9 @@ async function loadDashboard(req,res){
       const userid =req.session.userId;
       const user = await userModel.findById(userid);
       const address = await addAddressModel.find({user:user})
-      const orderDetails = await orderModel.find({user:userid}).sort({createdAt:-1})
-      res.render('dashboard',{user,address,orderDetails});
+      const orderDetails = await orderModel.find({user:userid}).sort({createdAt:-1});
+      const transactions = await transactionModal.find({user:userid}).sort({date:-1});
+      res.render('dashboard',{user,address,orderDetails,transactions});
     } catch (error) {
       console.log(error);
     }

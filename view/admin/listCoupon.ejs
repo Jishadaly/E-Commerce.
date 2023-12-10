@@ -49,10 +49,10 @@
                                           <td><%=coupon.name%></td>
                                           <td><%=coupon.Couponcode%></td>
                                           <td class="theme-color">₹<%=coupon.discount%></td>
-
+                                          
                                           <% if(coupon.status){ %>
                                             <td class="status-danger">
-                                             
+                                               
                                                 <a href="/admin/couponlistAndUnlist/<%=coupon._id%>"> <span class="success">Unlist</span></a>
                                                
                                             </td>
@@ -61,9 +61,7 @@
 
                                                 <td class="status-primary ">
                                                     
-                                                    <a href="/admin/couponlistAndUnlist/<%=coupon._id%>">  <p style="text-decoration: underline;">list</p> </a>
-                                                    
-                                                   
+                                                    <a href="/admin/couponlistAndUnlist/<%=coupon._id%>"> <span class="success text-success">list</span>
                                                 </td>
                                             
                                       <%  } %>

@@ -208,7 +208,7 @@ async function updatedPayment(req,res){
             user:userId,
             amount:paymentDetails.amount,
             paymentMethod:PaymentMethod,
-            type:"debit",
+            type:"debited",
             orderId:orderId
 
           }

@@ -31,8 +31,9 @@
 								        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
 								    </li>
 								    <li class="nav-item">
-								        <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
+								        <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Wallet</a>
 								    </li>
+                                    
 								    <li class="nav-item">
 								        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
 								    </li>
@@ -121,19 +122,56 @@
                                         
 								    </div><!-- .End .tab-pane -->
 
+
 								    <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
-								    	<p>No downloads available yet.</p>
-								    	<a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
-								    </div><!-- .End .tab-pane -->
+
+                                        <div>
+
+                                        
+
+                                        <div class="card mb-4">
+                                            <div class="card-header">
+                                                Total Wallet Amount
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">₹<span id="totalAmount"><%=user.walletAmount%>.00</span></h5>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-header">
+                                            All Transactions
+                                        </div>
+
+                                        <table class="table">
+                                            <thead>
+                                              <tr>
+                                                <th>Order Id</th>
+                                                <th>Date</th>
+                                                <th>type</th>
+                                                <th>Amount</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% transactions.forEach(transaction => { %>
+                                              <tr>
+                                                
+                                                <td><%= transaction._id %></td>
+                                                <td><%= transaction.date.toLocaleDateString() %></td>
+                                                <td><%= transaction.type %></td>
+                                                <td><%= transaction.amount %></td>
+                                                
+                                              </tr>
+                                              <% }) %>
+                                            </tbody>
+                                          </table>
+
+                                        </div>
+                                        
+                                        
+                                    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
 								    	<p>The following addresses will be used on the checkout page by default.</p>
-                                       
-                                        
-
- 
-
-
                                         <!-- Modal HTML Markup -->
                                         <div id="ModalLoginForm" class="modal fade">
                                             <div class="modal-dialog" role="document">
@@ -224,19 +262,19 @@
 
 <!-- edit address -->
 
-<div id="modalEditAddressForm" class="modal fade">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="checkout-title">Edit adreess Billing Details</h2>
-            </div>
-            <div class="modal-body">
-                
-                <form role="form" method="POST" action="/address">
-                    <input type="hidden" name="_token" value="">
-                    <div class="form-group">
-                         
-                        <div class="p-5">
+                                <div id="modalEditAddressForm" class="modal fade">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h2 class="checkout-title">Edit adreess Billing Details</h2>
+                                            </div>
+                                            <div class="modal-body">
+                                                
+                                                <form role="form" method="POST" action="/address">
+                                                    <input type="hidden" name="_token" value="">
+                                                    <div class="form-group">
+                                                        
+                                                        <div class="p-5">
 
 
 

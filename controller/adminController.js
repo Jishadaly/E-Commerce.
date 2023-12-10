@@ -187,6 +187,7 @@ async function couponlistAndUnlist(req,res){
   try {
       const id = req.params.id;
       console.log(id);
+      
       if (id) {
         const data = await couponModal.findById(id);
         console.log(data);
