@@ -6,6 +6,7 @@ const cartSchema = require('../model/cartModel');
 const addressModel = require('../model/addressModel');
 const addAddressModel = require('../model/addressModel')
 const userModel = require('../model/userModal')
+const couponModal = require('../model/couponModal');
 
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
@@ -267,10 +268,13 @@ async function loadCheckout(req,res){
 
         const userid = req.session.userId;
         const cart = await cartSchema.findOne({user:userid}).populate('products.product');
+        console.log(cart);
         const address = await addressModel.find({user:userid})
-      
-
-        res.render('checkout',{cart,address})
+        const coupon = await couponModal.find({minimumCartTotal:{$lte:cart.Total}});
+        
+        
+        res.render('checkout',{cart,address,coupon})
+        
 
       } catch (error) {
         console.log(error);

@@ -74,7 +74,7 @@ const orderModel = require('../model/orderModel')
         console.log(data);
         data.list = !data.list;
         await data.save();
-
+        
         res.redirect('/admin/productList');
 
       } else {

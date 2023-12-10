@@ -183,11 +183,34 @@ async function deleteCoupon(req,res){
   }
 }
 
+async function couponlistAndUnlist(req,res){
+  try {
+      const id = req.params.id;
+      console.log(id);
+      if (id) {
+        const data = await couponModal.findById(id);
+        console.log(data);
+        data.status = !data.status;
+        await data.save();
 
+        res.redirect('/admin/listCoupon');
+
+      } else {
+        res.redirect('/admin/listCoupon');
+        console.log("no chang btw list unlist");
+      }
+     
+
+  } catch (error) {
+    console.log(error);
+  }
+ }
+
+  
 
 module.exports = {
   loadLogin, verifyLogin, loadDashboard,
   loadUserlist,blockUser,loadAddCoupon,
   addCoupon,couponList,loadEdiCoupon,ediCoupon,
-  deleteCoupon
+  deleteCoupon,couponlistAndUnlist
 }

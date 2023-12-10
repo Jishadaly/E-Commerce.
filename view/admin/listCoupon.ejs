@@ -49,9 +49,25 @@
                                           <td><%=coupon.name%></td>
                                           <td><%=coupon.Couponcode%></td>
                                           <td class="theme-color">₹<%=coupon.discount%></td>
-                                          <td class="menu-status">
-                                              <span class="success"><%=coupon.status%></span>
-                                          </td>
+
+                                          <% if(coupon.status){ %>
+                                            <td class="status-danger">
+                                             
+                                                <a href="/admin/couponlistAndUnlist/<%=coupon._id%>"> <span class="success">Unlist</span></a>
+                                               
+                                            </td>
+
+                                            <%} else {%>
+
+                                                <td class="status-primary ">
+                                                    
+                                                    <a href="/admin/couponlistAndUnlist/<%=coupon._id%>">  <p style="text-decoration: underline;">list</p> </a>
+                                                    
+                                                   
+                                                </td>
+                                            
+                                      <%  } %>
+                   
                                           <td><%=coupon.minimumCartTotal%></td>
                                           <td>
                                               <ul>

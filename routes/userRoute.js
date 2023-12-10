@@ -48,13 +48,12 @@ user_route.get('/products',auth.isLogin,auth.isBlocked,product.loadProducts);
 user_route.post('/changePassword',userController.changePassword)
 
 
-
 user_route.get('/dashBoard',auth.isLogin,auth.isBlocked,userController.loadDashboard)
 user_route.post('/address',userController.addNewAddress)
 user_route.post('/editAddress',userController.editAddress);
 user_route.get('/orderdetails',auth.isLogin,auth.isBlocked,orderController.orderdetails);
 user_route.post('/cancelOrder',orderController.cancelOrder);
 user_route.post('/updatedPayment',orderController.updatedPayment);
-
+user_route.post('/applyCoupon',orderController.applyCoupon)
 
 module.exports=user_route;

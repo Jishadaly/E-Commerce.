@@ -107,14 +107,19 @@
                                                         </div><!-- End .ratings -->
                                                         <span class="ratings-text">( 0 Reviews )</span>
                                                     </div><!-- End .rating-container -->
-
+                                                  
                                                     <div class="product-action">
+                                                         
                                                         <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
                                                         <a href="#" class="btn-product btn-compare" title="Compare"><span>compare</span></a>
                                                     </div><!-- End .product-action -->
-
+                                                    <% if(item.quantity <= 0){ %>
+                                                        <p style="color:red;">out of stock</p>
+                                                        <%	} else { %>
                                                     <a href="/cart?id=<%= item._id %>" class="btn-product btn-cart"><span>add to cart</span></a>
+                                                    <%	} %>
                                                 </div><!-- End .product-list-action -->
+                                                
                                             </div><!-- End .col-sm-6 col-lg-3 -->
 
                                             <div class="col-lg-6">

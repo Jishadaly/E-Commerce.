@@ -55,9 +55,67 @@
             	<div class="checkout">
 	                <div class="container">
             			<div class="checkout-discount">
-            				<form action="#">
-        						<input type="text" class="form-control" required id="checkout-discount-input">
-            					<label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to enter your code</span></label>
+                            <button type="button" class="btn text-warning" data-toggle="modal" data-target=".bd-example-modal-lg">Click here to see your currunt coupons</button>
+
+
+                            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title">Available Coupons</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="p-4 pt-0">
+
+                                            <table class="table">
+                                                <thead>
+                                                  <tr>
+                                                    <th>Coupon Code</th>
+                                                    <th>Discount Price</th>
+                                                    <th>Expire Date</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                    <% coupon.forEach((coupon)=>{ %>
+                                                        
+                                                        <%if(!coupon){ %>
+                                                            <p>coupon is empty</p>
+                                                            <%  }%>
+        
+                                                  <tr>
+                                                    <td><%=coupon.Couponcode%></td>
+                                                    <td>$<%=coupon.discount%> off</td>
+                                                    <td><%=coupon.expiry.toLocaleDateString('en-US') %></td>
+                                                  </tr>
+                                                 
+                                                  <!-- Add more coupon details as needed -->
+                                                  <% })%>
+                                                
+                                                </tbody>
+                                              </table>
+
+                                        </div>
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+            				<form action="/applyCoupon" method="post">
+        						<!-- <input type="text" class="form-control" required id="checkout-discount-input" name="couponCode" >
+            					<label for="checkout-discount-input m-0" class="text-truncate">Have a coupon? <span>Click here to enter your code</span></label>
+                               -->
+                              
+                               <div class="form-group mx-sm-3 mb-2">
+                                <label for="inputPassword2" class="sr-only">Password</label>
+                                <input type="text" class="form-control" id="inputPassword2" placeholder="Click here to enter your code" name="couponCode" >
+                                <button type="submit" class="btn btn-primary mb-2">Apply</button>
+                            </div>
+                              
             				</form>
             			</div><!-- End .checkout-discount -->
 

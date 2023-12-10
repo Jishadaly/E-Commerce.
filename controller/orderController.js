@@ -4,7 +4,7 @@ const cartSchema = require('../model/cartModel');
 const Razorpay = require('razorpay');
 const userModal = require('../model/userModal');
 const transactionModal = require('../model/transactionModal');
-
+const couponModal = require('../model/couponModal')
 
 
 async function orderdetails(req,res){
@@ -354,12 +354,40 @@ async function returnResponse(req,res){
 }
 
 
+async function applyCoupon(req,res){
+  try {
+    
+    const enteredCode = req.body.couponCode;
+    const coupon = await couponModal.findOne({Couponcode:enteredCode});
+    const user = req.session.userId;
+    const userCart = await cartSchema.findOne({user:user});
+    console.log(userCart);
+    if (coupon) {
+       
+      const newTotal = userCart.Total - coupon.discount;
+      userCart.Total = newTotal;
+      await userCart.save();
+
+      console.log(userCart);
+
+    } else {
+      res.render('checkout',{message:"noooo"})
+    }
+    console.log(coupon);
+    
+    res.redirect('/checkout')
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
 
       confirmOrder, orderdetails,
       cancelOrder,orderStatus,
       loadOrderList, loadOrderDetails ,updatedPayment,
       returnRequest,loadReturnOrderList,loadReturnOrderDetails,
-      returnResponse  
+      returnResponse,applyCoupon
 
     }
