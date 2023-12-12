@@ -291,7 +291,7 @@ async function loadDashboard(req,res){
       const user = await userModel.findById(userid);
       const address = await addAddressModel.find({user:user})
       const orderDetails = await orderModel.find({user:userid}).sort({createdAt:-1});
-      const transactions = await transactionModal.find({user:userid}).sort({date:-1});
+      const transactions = await transactionModal.find({ user: userid, type: 'Credited' }).sort({ date: -1 });
       res.render('dashboard',{user,address,orderDetails,transactions});
     } catch (error) {
       console.log(error);

@@ -279,11 +279,11 @@
                                     </div>
 
                                     <div class="best-selling-box d-sm-flex d-none">
-                                        <span>Short By:</span>
+                                        <!-- <span>Short By:</span> -->
                                         <div class="dropdown">
-                                            <button class="btn p-0 dropdown-toggle" type="button"
+                                            <!-- <button class="btn p-0 dropdown-toggle" type="button"
                                                 id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                data-bs-auto-close="true">Today</button>
+                                                data-bs-auto-close="true">Today</button> -->
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                 <li><a class="dropdown-item" href="#">Action</a></li>
                                                 <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -301,15 +301,22 @@
                                             w-image table border-0">
                                                 <tbody>
                                                     <tr>
+                                                       <% bestProducts.forEach((product)=>{ %>
+
+
+
+                                                   
+
+                                                     
                                                         <td>
                                                             <div class="best-product-box">
                                                                 <div class="product-image">
-                                                                    <img src="/assetsB/images/product/1.png"
+                                                                    <img src="/public/images/<%=product.productImages[0]%>"
                                                                         class="img-fluid" alt="Product">
                                                                 </div>
                                                                 <div class="product-name">
-                                                                    <h5>Aata Buscuit</h5>
-                                                                    <h6>26-08-2022</h6>
+                                                                    <h5><%=product.name%></h5>
+                                                                    <h6><%=product.orderDate.toLocaleDateString()%></h6>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -317,116 +324,30 @@
                                                         <td>
                                                             <div class="product-detail-box">
                                                                 <h6>Price</h6>
-                                                                <h5>$29.00</h5>
+                                                                <h5>$<%=product.discountPrice%></h5>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                        <td>
+                                                            <div class="product-detail-box">
+                                                                <h6>Stock</h6>
+                                                                <h5><%=product.quantity%></h5>
                                                             </div>
                                                         </td>
 
                                                         <td>
                                                             <div class="product-detail-box">
                                                                 <h6>Orders</h6>
-                                                                <h5>62</h5>
+                                                                <h5><%=product.orders%></h5>
                                                             </div>
                                                         </td>
 
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Stock</h6>
-                                                                <h5>510</h5>
-                                                            </div>
-                                                        </td>
+                                                        
 
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Amount</h6>
-                                                                <h5>$1,798</h5>
-                                                            </div>
-                                                        </td>
+                                                        
                                                     </tr>
 
-                                                    <tr>
-                                                        <td>
-                                                            <div class="best-product-box">
-                                                                <div class="product-image">
-                                                                    <img src="/assetsB/images/product/2.png"
-                                                                        class="img-fluid" alt="Product">
-                                                                </div>
-                                                                <div class="product-name">
-                                                                    <h5>Aata Buscuit</h5>
-                                                                    <h6>26-08-2022</h6>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Price</h6>
-                                                                <h5>$29.00</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Orders</h6>
-                                                                <h5>62</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Stock</h6>
-                                                                <h5>510</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Amount</h6>
-                                                                <h5>$1,798</h5>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>
-                                                            <div class="best-product-box">
-                                                                <div class="product-image">
-                                                                    <img src="/assetsB/images/product/3.png"
-                                                                        class="img-fluid" alt="Product">
-                                                                </div>
-                                                                <div class="product-name">
-                                                                    <h5>Aata Buscuit</h5>
-                                                                    <h6>26-08-2022</h6>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Price</h6>
-                                                                <h5>$29.00</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Orders</h6>
-                                                                <h5>62</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Stock</h6>
-                                                                <h5>510</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Amount</h6>
-                                                                <h5>$1,798</h5>
-                                                            </div>
-                                                        </td>
+                                                    <% })%>
                                                     </tr>
                                                 </tbody>
                                             </table>

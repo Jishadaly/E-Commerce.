@@ -3,7 +3,7 @@
 const  User  = require('../model/userModal')
 const  Admin  = require('../model/adminModel');
 const couponModal = require('../model/couponModal');
-
+const productModal = require('../model/productModal')
 
 const loadLogin = async(req,res)=>{
 
@@ -37,12 +37,20 @@ const verifyLogin = async(req,res)=>{
             }
 }
 
+//  const logout = async function(req,res){
+//   try {
+     
+//   } catch (error) {
+//     console.log(error);
+//   }
+//  }
 
  const loadDashboard = async(req,res)=>{
                 
             try {
               if (req.session.admin) {
-                res.render('dashboard.ejs');
+                const bestProducts = await productModel.find({list:true}).sort({orders:-1}).limit(4);
+                res.render('dashboard.ejs',{bestProducts});
               } else {
                 res.redirect('/admin')
               }
@@ -53,19 +61,49 @@ const verifyLogin = async(req,res)=>{
 
 
 
-const loadUserlist= async(req,res)=>{
+// const loadUserlist= async(req,res)=>{
 
-            try {
-            if(req.session.admin){
-            const datas = await User.find().sort({date:-1});
-            res.render('usersList',{datas});
-            }else{
-            res.redirect('/admin');
-            }
-            } catch (error) {
-            console.log(error);
-            }
-  }
+//             try {
+//             if(req.session.admin){
+//             const datas = await User.find().sort({date:-1});
+//             res.render('usersList',{datas});
+//             }else{
+//             res.redirect('/admin');
+//             }
+//             } catch (error) {
+//             console.log(error);
+//             }
+//   }
+
+
+
+  async function loadUserlist(req, res) {
+    try {
+        const page = parseInt(req.query.page, 10) || 1;
+        const ordersPerPage = 10; // Number of orders per page
+
+        const totalCount = await User.countDocuments(); // Total count of orders
+
+        const totalPages = Math.ceil(totalCount / ordersPerPage); // Total pages
+
+        const skip = (page - 1) * ordersPerPage; // Number of documents to skip
+
+        const datas = await User.find()
+            
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(ordersPerPage);
+
+        res.render('usersList', {
+          datas,
+            currentPage: page,
+            totalPages: totalPages
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+}
 
 
 
@@ -187,7 +225,7 @@ async function couponlistAndUnlist(req,res){
   try {
       const id = req.params.id;
       console.log(id);
-      
+
       if (id) {
         const data = await couponModal.findById(id);
         console.log(data);

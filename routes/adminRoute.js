@@ -54,4 +54,5 @@ adminRoute.post('/editCoupon',adminController.ediCoupon);
 adminRoute.get('/deleteCoupon',adminController.deleteCoupon);
 adminRoute.get('/couponlistAndUnlist/:id',adminController.couponlistAndUnlist)
 
+
 module.exports = adminRoute;

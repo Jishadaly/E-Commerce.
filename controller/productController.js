@@ -2,7 +2,8 @@ const { model, default: mongoose } = require('mongoose');
 // const { productModel, categories: category} = require('../model/dataBaseModel');
 const productModel = require('../model/productModal')
 const category = require('../model/categoryModal')
-const orderModel = require('../model/orderModel')
+const orderModel = require('../model/orderModel');
+const categoryModal = require('../model/categoryModal');
 
 
  async function addProductLoad (req,res){
@@ -55,14 +56,31 @@ const orderModel = require('../model/orderModel')
 
  async function loadProductList(req,res){
   try {
-      const datas = await productModel.find().sort({orderDate:-1});
+
+      const page = parseInt(req.query.page, 10) || 1;
+      const productsPerPage = 4; 
       
-    res.render('productList',{datas})
-    
+      const totalCount =  await productModel.countDocuments();
+      const totalPages = Math.ceil(totalCount/productsPerPage);
+      const skip = (page - 1) * productsPerPage;
+
+      const datas = await productModel.find()
+      .sort({orderDate:-1})
+      .skip(skip)
+      .limit(productsPerPage);
+
+      res.render('productList',{
+        datas,
+        currentPage:page,
+        totalPages:totalPages
+      })
+      
   } catch (error) {
     console.log(error.message);
   }
  }
+
+
 
  
  async function listUnlist(req,res){
@@ -304,13 +322,35 @@ async function deleteImage(req,res){
 }
 
 
+async function filterProduct(req, res) {
+  try {
+      console.log("Received request body:");
+      
+      const category = req.body.category;
+      const pricesort = req.body.sortOrder;
+      console.log(pricesort);
+      console.log(category);
+      
+      const foundCategory = await categoryModal.findOne({ category: category });
+      
+      console.log(foundCategory);
+      if(category){
+        const productsInCategory = await productModel.find({ category: foundCategory._id }).populate('category');
+        console.log(productsInCategory);
+        
+      }
+  } catch (error) {
+      console.error(error);
+  }
+}
+
 
 
  module.exports = { addProductLoad ,loadProductList, addProduct , listUnlist , 
                    loadEditProduct , editProduct , loadProductDetails, 
                   //  loadOrderList,
                   //  loadOrderDetails 
-                    loadProducts, deleteImage,
+                    loadProducts, deleteImage,filterProduct
                   //  orderStatus
 }
 

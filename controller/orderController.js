@@ -5,6 +5,7 @@ const Razorpay = require('razorpay');
 const userModal = require('../model/userModal');
 const transactionModal = require('../model/transactionModal');
 const couponModal = require('../model/couponModal')
+require('dotenv').config();
 
 
 async function orderdetails(req,res){
@@ -23,22 +24,52 @@ async function orderdetails(req,res){
 
 
 
-async function loadOrderList(req,res){
-  try {
+// async function loadOrderList(req,res){
+//   try {
     
-    const orderData =  await orderModel.find().populate('address').sort({createdAt:-1})
-     res.render('orderList',{orderData})
+//     const orderData =  await orderModel.find().populate('address').sort({createdAt:-1})
+    
+//      res.render('orderList',{orderData})
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+async function loadOrderList(req, res) {
+  try {
+      const page = parseInt(req.query.page, 10) || 1;
+      const ordersPerPage = 10; // Number of orders per page
+
+      const totalCount = await orderModel.countDocuments(); // Total count of orders
+
+      const totalPages = Math.ceil(totalCount / ordersPerPage); // Total pages
+
+      const skip = (page - 1) * ordersPerPage; // Number of documents to skip
+
+      const orderData = await orderModel.find()
+          .populate('address')
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(ordersPerPage);
+
+      res.render('orderList', {
+          orderData,
+          currentPage: page,
+          totalPages: totalPages
+      });
   } catch (error) {
-    console.log(error);
+      console.error(error);
+      res.status(500).send('Internal Server Error');
   }
 }
 
 
 
 
+
 async function loadOrderDetails(req,res){
   try {
-
+     
      const orderId = req.query.orderId;
      console.log(orderId);
      const orderDetails = await orderModel.findById(orderId).populate('address').populate('products.product')
@@ -83,14 +114,14 @@ async function orderStatus(req,res){
 async function createRazorpayOrder(amount){
   try {
      const razorpay = new Razorpay({
-      key_id: 'rzp_test_bZrV0YH9vSP3kB',
-      key_secret:'2e6DKMMo4w3kStrTVGWaQ7hs'
+      key_id: process.env.keyId,
+      key_secret:process.env.keySecret
      });
 
      const options = {
       amount: amount*100,
       currency:'INR',
-      receipt:'receipt_order_74394',
+      receipt:process.env.receipt,
       payment_capture:1
 
      };
@@ -102,6 +133,7 @@ async function createRazorpayOrder(amount){
     console.log(error);
   }
 }
+
 
 
 async function confirmOrder(req,res){
@@ -173,11 +205,13 @@ async function confirmOrder(req,res){
       }
 }
 
+
 async function updatedPayment(req,res){
     try {
         const { PaymentMethod ,paymentDetails , address } = req.body;
         console.log("////"+PaymentMethod);
         console.log(req.body);
+
         const paymentId = paymentDetails.razorpay_payment_id;
         const orderId = paymentDetails.razorpay_order_id;
         const userId = req.session.userId;
@@ -212,9 +246,10 @@ async function updatedPayment(req,res){
             orderId:orderId
 
           }
+          console.log(transfer.amount);
 
           await transactionModal.insertMany(transfer);
-    
+          
           for (const item of cart.products) {
             const product = item.product;
             
@@ -229,6 +264,8 @@ async function updatedPayment(req,res){
       console.log(error);
     }
 }
+
+
 
 
 async function cancelOrder(req,res){

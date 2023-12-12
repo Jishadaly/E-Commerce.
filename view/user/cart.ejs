@@ -49,7 +49,7 @@
 													</h3><!-- End .product-title -->
 												
 											</td>
-											<td class="price-col">₹<%= item.product.discountPrice%></td>
+											<td class="price-col">₹<%= item.product.discountPrice%>.00</td>
 											<td class="quantity-col">
                                                 <div class="cart-product-quantity product "     data-product-id = "<%=item.product._id%>" >
                                                     <!-- <input type="number" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required> -->
@@ -63,7 +63,7 @@
                                                 </div><!-- End .cart-product-quantity --> 
                                             </div><!-- End .product -->                                
                                             </td>
-											<td class="total-col">₹<%=item.subTotal%></td>
+											<td class="total-col">₹<%=item.subTotal%>.00</td>
 
 											<td  class="remove-col"> <a href="/removeproduct?id=<%=item.product._id%>"><button class="btn-remove"><i class="icon-close"></i></button></a>   </td>
 										</tr>
@@ -102,7 +102,7 @@
                                             
 	                						<tr class="summary-subtotal">
 	                							<td>Subtotal:</td>
-	                							<td>₹<%= cart.Total %></td>
+	                							<td>₹<%= cart.Total %>.00</td>
 	                						</tr><!-- End .summary-subtotal -->
 	                						<tr class="summary-shipping">
 	                							<td>Shipping:</td>
@@ -145,7 +145,7 @@
 
 	                						<tr class="summary-total">
 	                							<td>Total:</td>
-	                							<td>₹<%= cart.Total+80 %></td>
+	                							<td>₹<%= cart.Total+80 %>.00</td>
 	                						</tr><!-- End .summary-total -->
 
                                             

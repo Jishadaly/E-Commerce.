@@ -1,0 +1,39 @@
+<nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                  <% if (currentPage > 1) { %>
+                                    <li class="page-item">
+                                      <a class="page-link page-link-prev" href="/products?page=<%= currentPage - 1 %>" aria-label="Previous">
+                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                      </a>
+                                    </li>
+                                  <% } else { %>
+                                    <li class="page-item disabled">
+                                      <span class="page-link page-link-prev" aria-disabled="true">
+                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                      </span>
+                                    </li>
+                                  <% } %>
+                              
+                                  <% for (let i = 1; i <= totalPages; i++) { %>
+                                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                      <a class="page-link" href="/productsView?page=<%= i %>"><%= i %></a>
+                                    </li>
+                                  <% } %>
+                              
+                                  <li class="page-item-total">of <%= totalPages %></li>
+                              
+                                  <% if (currentPage < totalPages) { %>
+                                    <li class="page-item">
+                                      <a class="page-link page-link-next" href="/productsView?page=<%= currentPage + 1 %>" aria-label="Next">
+                                        Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                      </a>
+                                    </li>
+                                  <% } else { %>
+                                    <li class="page-item disabled">
+                                      <span class="page-link page-link-next" aria-disabled="true">
+                                        Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                      </span>
+                                    </li>
+                                  <% } %>
+                                </ul>
+                              </nav>

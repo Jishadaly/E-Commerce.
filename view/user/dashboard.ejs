@@ -157,8 +157,8 @@
                                                 
                                                 <td><%= transaction._id %></td>
                                                 <td><%= transaction.date.toLocaleDateString() %></td>
-                                                <td><%= transaction.type %></td>
-                                                <td><%= transaction.amount %></td>
+                                                <td class="text-warning"><%= transaction.type %></td>
+                                                <td>₹<%= transaction.amount %>.00</td>
                                                 
                                               </tr>
                                               <% }) %>

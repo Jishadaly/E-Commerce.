@@ -281,14 +281,14 @@
 
 		                						<tr>
 		                							<td><a href="#"><%=item.product.name%></a></td>
-		                							<td>₹<%=item.subTotal%></td>
+		                							<td>₹<%=item.subTotal%>.00</td>
 		                						</tr>
 
 																<%	})%>
 															 
 		                						<tr class="summary-subtotal">
 		                							<td>Subtotal:</td>
-		                							<td>₹<%=cart.Total%></td>
+		                							<td>₹<%=cart.Total%>.00</td>
 																
 																
 		                						</tr><!-- End .summary-subtotal -->
@@ -300,7 +300,7 @@
 		                						</tr>
 		                						<tr class="summary-total">
 		                							<td>Total:</td>
-		                							<td>₹<%=cart.Total%></td>
+		                							<td>₹<%=cart.Total%>.00</td>
 																	
 		                						</tr><!-- End .summary-total -->
 																
@@ -845,7 +845,7 @@
                                 order_id: orderId,
                                 description: 'Payment for your order',
                                 handler: async function (response) {
-                                    await fetch('/updatedPayment',{
+                                    await fetch('/updated Payment',{
                                         method:'post',
                                         headers: {
                                             'Content-Type' :'application/json',

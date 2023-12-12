@@ -14,7 +14,7 @@ const db = mongoose.connection;
 if(db)
 {console.log('db set');}
 
-
+app.use(express.json());
 //creating the session.
 app.use(session({
   secret:'mysitesessionsecret',
@@ -23,7 +23,7 @@ app.use(session({
   
 }))
 
-app.use(express.json());
+
 app.use("/public", express.static("public"));
 app.use(express.static(path.join(__dirname, 'public')));
 
