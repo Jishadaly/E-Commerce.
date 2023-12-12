@@ -261,32 +261,57 @@
         }
 
         let orderId = "";
-        function returnOrder(id){
-            orderId = id;
-            alert(orderId)
+       
 
-            Swal.fire({
-                  title: "Are you sure?",
-                  text: "Confirm return for this product",
-                  icon: "warning",
-                  showCancelButton: true,
-                  confirmButtonColor: "#c96",
-                  cancelButtonColor: "#3085d6",
-                  confirmButtonText: "Yes, return it!"
-              }).then(result => {
-                  if (result.isConfirmed) {                
-                      fetch(`/admin/returnRequest`, {
-                          method: 'POST',
-                          headers: {
-                              'Content-Type': 'application/json',                        
-                          },
-                          body: JSON.stringify({ orderId })
+        function returnOrder(orderId) {
+    Swal.fire({
+        title: "Enter your reason for return",
+        input: "text",
+        inputAttributes: {
+            autocapitalize: "off"
+        },
+        showCancelButton: true,
+        confirmButtonText: "Look up",
+        showLoaderOnConfirm: true,
+        preConfirm: async (reason) => {
+            try {
+                const response = await fetch(`/admin/returnRequest`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ orderId, reason })
+                });
 
-                      })
-                  }
-              });
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+
+
+                Swal.fire({
+                    title: 'Return request submitted!',
+                    icon: 'success'
+                });
+                const returnButton = document.getElementById('returnButton');
+                if (returnButton) {
+                    returnButton.innerHTML = 'Requested';
+                    returnButton.disabled = true; 
+                }
+
+                
+
+            } catch (error) {
+               
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Failed to submit return request!',
+                    icon: 'error'
+                });
+                console.error('There was an error:', error);
             }
-
+        }
+    });
+}
 
         
 

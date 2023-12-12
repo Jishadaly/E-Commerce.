@@ -55,6 +55,6 @@ user_route.get('/orderdetails',auth.isLogin,auth.isBlocked,orderController.order
 user_route.post('/cancelOrder',orderController.cancelOrder);
 user_route.post('/updatedPayment',orderController.updatedPayment);
 user_route.post('/applyCoupon',orderController.applyCoupon)
-user_route.post('/productFiltering',product.filterProduct);
+// user_route.post('/productFiltering',product.filterProduct);
 
 module.exports=user_route;

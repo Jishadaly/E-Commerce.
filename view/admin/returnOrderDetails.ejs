@@ -141,8 +141,8 @@
                                           </div>
 
                                           <div class="payment-mode">
-                                            <h4>Returning Reason</h4>
-                                            <p>dummy</p>
+                                            <h4>Return Reason</h4>
+                                            <p><%=order.reason%></p>
                                         </div>
 
 
@@ -171,7 +171,7 @@
    
     async function returnStatus(status, orderId) {
       
-      alert(orderId);
+      
       
       const confirmed = await Swal.fire({
         title: "Are you sure?",
@@ -200,6 +200,7 @@
           icon: "success"
         });
 
+        
         // Redirect to another page after successful request
         window.location.href = "/admin/returnOrderList";
       } 

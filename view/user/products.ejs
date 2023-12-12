@@ -646,8 +646,8 @@ function filterCategory(category) {
     
     alert(category);
 
-    fetch('/productFiltering', {
-        method: 'POST',
+    fetch('/products', {
+        method: 'get',
         headers: {
             'Content-Type': 'application/json',
         },

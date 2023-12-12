@@ -219,16 +219,18 @@ async function loadProductDetails (req,res){
 
 
 async function loadProducts(req, res) {
+
   try {
+
     const brands = await productModel.distinct('brand');
     const categories = await category.find();
     const user = req.session.userId;
     const searchQuery = req.query.searchedData;
     const filter = {};
+    
 
     console.log(searchQuery);
 
-    
     const page = parseInt(req.query.page, 10) || 1;
     const productsPerPage = 4; 
     if (searchQuery) {
@@ -248,7 +250,13 @@ async function loadProducts(req, res) {
 
     
     const query = filter['$and'] ? { $and: filter['$and'] } : filter;
+    let sortCriteria = {}; // Initialize sorting criteria
 
+    // Check if sort query parameter exists and set the sorting criteria
+    const sortQuery = req.body.sort;
+    if (sortQuery === 'priceLowToHigh') {
+      sortCriteria['price'] = 1; // Sort by price in ascending order
+    }
     
     const results = await Promise.all([
       productModel
@@ -322,27 +330,27 @@ async function deleteImage(req,res){
 }
 
 
-async function filterProduct(req, res) {
-  try {
-      console.log("Received request body:");
+// async function filterProduct(req, res) {
+//   try {
+//       console.log("Received request body:");
       
-      const category = req.body.category;
-      const pricesort = req.body.sortOrder;
-      console.log(pricesort);
-      console.log(category);
+//       const category = req.body.category;
+//       const pricesort = req.body.sortOrder;
+//       console.log(pricesort);
+//       console.log(category);
       
-      const foundCategory = await categoryModal.findOne({ category: category });
+//       const foundCategory = await categoryModal.findOne({ category: category });
       
-      console.log(foundCategory);
-      if(category){
-        const productsInCategory = await productModel.find({ category: foundCategory._id }).populate('category');
-        console.log(productsInCategory);
+//       console.log(foundCategory);
+//       if(category){
+//         const productsInCategory = await productModel.find({ category: foundCategory._id }).populate('category');
+//         console.log(productsInCategory);
         
-      }
-  } catch (error) {
-      console.error(error);
-  }
-}
+//       }
+//   } catch (error) {
+//       console.error(error);
+//   }
+// }
 
 
 
@@ -350,7 +358,8 @@ async function filterProduct(req, res) {
                    loadEditProduct , editProduct , loadProductDetails, 
                   //  loadOrderList,
                   //  loadOrderDetails 
-                    loadProducts, deleteImage,filterProduct
+                    loadProducts, deleteImage,
+                    // filterProduct
                   //  orderStatus
 }
 

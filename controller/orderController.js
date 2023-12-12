@@ -319,19 +319,24 @@ async function cancelOrder(req,res){
 
   async function returnRequest(req,res){
       try {
-        const orderId = req.body.orderId;
+        const { orderId , reason } = req.body;
         console.log("/////|  return requesy  |/////////////"+orderId);
-        const order = await orderModel.findByIdAndUpdate(orderId,{$set:{returnRequest:'requested'}});
+        console.log("/////|  return reson  |/////////////"+reason);
+        const order = await orderModel.findByIdAndUpdate(orderId,{$set:{returnRequest:'requested',reason:reason}});
+
+        res.status(200).json({ success: true, message: 'Return request submitted successfully.' });
         console.log(order);
 
       } catch (error) {
         console.log(error);
+        res.status(500).json({ success: false, message: 'Failed to process the return request.' });
       }
   }
 
   async function loadReturnOrderList(req,res){
     try {
       const returnedOrders = await orderModel.find({returnRequest:'requested'}) 
+      console.log(returnedOrders);
       res.render('returnOrdersList',{returnedOrders});
     } catch (error) {
       console.log(error);
