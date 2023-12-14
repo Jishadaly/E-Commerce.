@@ -247,7 +247,7 @@ const loadLogin = async (req,res)=>{
  const loadHome = async (req,res)=>{
               try{
               const Bestproduct = await productModel.find({list:true}).sort({orders:-1}).limit(4);
-              const featuredProduct = await productModel.find({list:true,featured:true});
+              const featuredProduct = await productModel.find({list:true,featured:"true"});
               const cart =await cartSchema.findOne({user:req.session.userId});
               const category = await categories.find({listed:true})
               console.log(category);
@@ -411,55 +411,6 @@ async function changePassword(req, res) {
 }
 
 
-
-// async function confirmOrder(req,res){
-
-//   try {
-
-      
-//      const userId = req.session.userId;
-//      const addressId = req.body.addressId;
-//      const paymentMethod = req.body.PaymentMethod;
-     
-
-//      const cart = await cartSchema.findOne({user:userId}).populate('products.product')
-      
-
-//      const order = {
-//       user : req.session.userId,
-//       address : addressId,
-//       paymentMethod: paymentMethod,
-//       products: cart.products.map((item)=> {
-//         return{
-//           product: item.product,
-//           quantity: item.quantity,
-//           price: item.product.price,
-//           total: item.subTotal,
-          
-//         }
-//       }),
-//       grandTotal: cart.Total
-//      }
-     
-//       await orderModel.insertMany(order);
-
-//       for (const item of cart.products) {
-//         const product = item.product;
-        
-//         const updatedQuantity = product.quantity - item.quantity;
-//         const updatedOrders = product.orders + item.quantity;
-//         console.log(updatedOrders);
-//         console.log("//////////" +product.product);
-//         await productModel.findByIdAndUpdate(product._id, { quantity: updatedQuantity , orders:updatedOrders});
-//       }
-//         await cartSchema.findOneAndUpdate({ user: userId }, { $set: { products: [], Total: 0 } });
-//         res.status(200).json({message:"success"});
-        
-
-//       } catch (error) {
-//         console.log(error);
-//       }
-// }
 
 
 

@@ -63,17 +63,18 @@
       default:Date.now()
     },
     category:{
+      
       required:true,
-      type: mongoose.Schema.Types.ObjectId,
-      ref:'category',
+      type: String,
+
     },
     cart:{
       type:mongoose.Schema.Types.ObjectId,
       ref:'Cart'
     },
     featured : {
-      type :Boolean,
-      default:false 
+      type :String,
+      default:"false"
     },
     orders: {
       type: Number,

@@ -45,6 +45,7 @@ user_route.get('/checkout',auth.isLogin,auth.isBlocked,userController.loadChecko
 user_route.post('/orderConfirm',orderController.confirmOrder)
 user_route.get('/success-page',userController.successPage)
 user_route.get('/products',auth.isLogin,auth.isBlocked,product.loadProducts);
+user_route.post('/products',product.loadProducts)
 user_route.post('/changePassword',userController.changePassword)
 
 
@@ -55,6 +56,7 @@ user_route.get('/orderdetails',auth.isLogin,auth.isBlocked,orderController.order
 user_route.post('/cancelOrder',orderController.cancelOrder);
 user_route.post('/updatedPayment',orderController.updatedPayment);
 user_route.post('/applyCoupon',orderController.applyCoupon)
+user_route.get('/downloadInvoice',orderController.downloadInvoice)
 // user_route.post('/productFiltering',product.filterProduct);
 
 module.exports=user_route;

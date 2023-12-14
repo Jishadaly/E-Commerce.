@@ -46,7 +46,7 @@
                                               <option disabled>Category Menu</option>
 
                                             <% cat.forEach((value) => { %>
-                                                <option value="<%= value._id %>"><%= value.category %></option>
+                                                <option value="<%= value.category %>"><%= value.category %></option>
                                             <% }) %>
                                                
                                              
@@ -88,7 +88,19 @@
                                     </div>
                                 </div>
 
-                               
+                                <div class="mb-4 row align-items-center">
+                                    <label
+                                        class="col-sm-3 col-form-label form-label-title">Featured Product</label>
+                                    <div class="col-sm-9">
+                                        <select class="js-example-basic-single w-100" name="featurdStatus" for="featuredProduct">
+                                            
+                                            <option value="false">No</option>
+                                            <option value="true">Yes</option>
+                                            
+                                            
+                                        </select>
+                                    </div>
+                                </div>
 
                                   <!-- <div class="mb-4 row align-items-center">
                                       <label class="col-sm-3 col-form-label form-label-title">Unit</label>
@@ -224,23 +236,18 @@
                               </div>
 
                             
-                                  <div class="mb-4 row align-items-center">
-                                      <label
-                                          class="col-sm-3 col-form-label form-label-title">Images</label>
-                                          
-                                      <div class="col-sm-9">
-                                        <% data.productImages.forEach(image =>{ %>
-
-                                     
-                                        <img src="/images/<%= image%>" class="img-fluid " style="width: 20%;" >
-                                        
-                                        <button onclick="deleteImage('<%= image%>')">Delete</button>
-                                        <%  }) %>
-                                          <input class="form-control form-choose" type="file"
-                                              id="formFile" name="productImages" multiple>
-                                      </div>
-                                      <span>(upto - 4 images)</span>
-                                  </div>
+                              <div class="mb-4 row align-items-center">
+                                <label class="col-sm-3 col-form-label form-label-title">Images</label>
+                                <div class="col-sm-9">
+                                    <% data.productImages.forEach((image, index) => { %>
+                                        <img src="/images/<%= image %>" class="img-fluid" style="width: 20%;">
+                                        <button onclick="deleteImage('<%= image %>', '<%= index %>' , '<%= data._id%>')">Delete</button>
+                                    <% }) %>
+                                    <input class="form-control form-choose" type="file" id="formFile" name="productImages" multiple>
+                                </div>
+                                <span>(up to 4 images)</span>
+                            </div>
+                            
 <!-- 
                                   <div class="row align-items-center">
                                       <label class="col-sm-3 col-form-label form-label-title">Thumbnail
@@ -556,32 +563,33 @@
   </div>
 
   <script>
-    async function deleteImage(image){
+    async function deleteImage(image , index , productId) {
       try {
-        const response = await fetch('/deleteImage', {
-          method: 'DELETE',
+        const response = await fetch('/admin/deleteImage', {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ filename: image })
+          body: JSON.stringify({  image , index  , productId})
         });
   
         if (response.ok) {
-          // Handle successful deletion, such as removing the image from the UI
           const imageElement = document.querySelector(`img[src="/images/${image}"]`);
+         
           if (imageElement) {
-            imageElement.parentNode.remove(); // Remove the image and delete button container
+            imageElement.remove(); // Remove the image element from the DOM
+           
+            window.location.reload();
           }
         } else {
           console.error('Failed to delete the image');
-          // Handle failure (optional)
         }
       } catch (error) {
         console.error('Error:', error);
-        // Handle network errors or other exceptions
       }
     }
   </script>
+  
   
   <!-- New Product Add End -->
 

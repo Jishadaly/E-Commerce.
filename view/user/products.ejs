@@ -24,12 +24,14 @@
                 					</div><!-- End .toolbox-info -->
                 				</div><!-- End .toolbox-left -->
 
+                                <form action="" method="POST" id="productForm">
+
                 				<div class="toolbox-right">
                 					<div class="toolbox-sort">
                 						<label for="sortby">Sort by:</label>
                 						<div class="select-custom">
-											<select name="sortby" id="sortby" class="form-control" onchange="handleSortChange(this.value)">
-                                                <option value="popularity">Date</option>
+											<select name="sortby" id="sortby" class="form-control">
+                                                
                                                 <option value="low-to-high">Low to high</option>
                                                 <option value="high-to-low">High to low</option>
                                             </select>
@@ -216,26 +218,29 @@
 									    </a>
 									</h3><!-- End .widget-title -->
                                    
-
+                                    
                                         <div class="collapse show" id="widget-4">
                                             <div class="widget-body">
                                                 <div class="filter-items">
 
 
                                                   
-                                                    <% categories.map((category, index) => { %>
-                                                        <div class="filter-item">
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="" class="custom-control-input" id="brand-<%= index %>">
-                                                                <label onclick="filterCategory('<%=category.category%>')" class="custom-control-label" for="brand-<%= index %>"><%= category.category %></label>
-                                                            </div><!-- End .custom-checkbox -->
-                                                        </div><!-- End .filter-item -->
+
+                                                        <% categories.map((category, index) => { %>
+                                                    <div class="filter-item">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="cat-<%= index + 1 %>" name="categories" value="<%= category.category %>">
+                                                            <label class="custom-control-label" for="cat-<%= index + 1 %>"><%= category.category %></label>
+                                                        </div><!-- End .custom-checkbox -->
+                                                    </div><!-- End .filter-item -->
                                                     <% }) %>
+                                                                                                    
       
                                                 </div><!-- End .filter-items -->
                                             </div><!-- End .widget-body -->
                                         </div><!-- End .collapse -->
 
+                                    
 
         						</div><!-- End .widget -->
 
@@ -250,20 +255,24 @@
 									    </a>
 									</h3><!-- End .widget-title -->
 
-									<div class="collapse show" id="widget-5">
-										<div class="widget-body">
-                                            <div class="filter-price">
-                                                <div class="filter-price-text">
-                                                    Price Range:
-                                                    <span id="filter-price-range"></span>
-                                                </div><!-- End .filter-price-text -->
-
-                                                <div id="price-slider"></div><!-- End #price-slider -->
-                                            </div><!-- End .filter-price -->
-										</div><!-- End .widget-body -->
-									</div><!-- End .collapse -->
-
+                                    <div class="collapse show" id="widget-5">
+                                        <div class="widget-body">
+                                           
+                                                <div class="filter-price">
+                                                    <div class="filter-price-text">
+                                                        Price Range:
+                                                        <span id="filter-price-range"></span>
+                                                    </div><!-- End .filter-price-text -->
+                                    
+                                                    <div id="price-slider"></div><!-- End #price-slider -->
+                                    
+                                                    <!-- Sorting value inputs -->
+                                                    <input type="hidden" name="sorting" value="">
+                                                </div><!-- End .filter-price -->
         						</div><!-- End .widget -->
+
+                                    <button class="btn btn-outline-primary-2" type="submit">Filter ></button>
+                                </form>
                                 
                 			</div><!-- End .sidebar sidebar-shop -->
                 		</aside><!-- End .col-lg-3 -->
@@ -642,63 +651,28 @@
     <script>
 
 
-function filterCategory(category) {
+// function handleSortChange() {
     
-    alert(category);
+//         let selectElement = document.getElementById('sortby');
+//         let selectedValue = selectElement.value;
+//         console.log("Selected value: ", selectedValue);
+//         alert(selectedValue);
 
-    fetch('/products', {
-        method: 'get',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({category}) 
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('Network response was not ok.');
-    })
-    .then(data => {
-        // Handle the response data here
-        console.log(data);
-    })
-    .catch(error => {
-        // Handle errors here
-        console.error('There was a problem with the fetch operation:', error);
-    });
-}
+//         const response =  fetch('/products?sortOrder=' + selectedValue, {
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     }).then((response)=>{
+
+//         alert("succes")
+//         window.location.href="/products";
+//     })
 
 
-function handleSortChange(selectedValue) {
-    if (selectedValue === 'low-to-high' || selectedValue === 'high-to-low') {
-        priceFiltering(selectedValue);
-    }
-}
+// }
 
-function priceFiltering(sortOrder) {
-    fetch('/productFiltering', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ sortOrder })
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('Network response was not ok.');
-    })
-    .then(data => {
-        // Handle the response data here
-        console.log(data);
-    })
-    .catch(error => {
-        // Handle errors here
-        console.error('There was a problem with the fetch operation:', error);
-    });
-}
+
 
 
 

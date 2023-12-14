@@ -41,7 +41,7 @@ adminRoute.post('/editProduct/:id',upload.array('productImages',4),product.editP
 adminRoute.get('/orderList',isLogin,orderController.loadOrderList)
 adminRoute.get('/orderDetails',isLogin,orderController.loadOrderDetails);
 adminRoute.post('/ChangeOrderStatus',orderController.orderStatus);
-adminRoute.delete('/deleteImage',product.deleteImage)
+adminRoute.post('/deleteImage',product.deleteImage)
 adminRoute.post('/returnRequest',orderController.returnRequest);
 adminRoute.get('/returnOrderList',orderController.loadReturnOrderList)
 adminRoute.get('/returnOrder_Details',orderController.loadReturnOrderDetails)
@@ -53,6 +53,7 @@ adminRoute.get('/editCoupon',adminController.loadEdiCoupon);
 adminRoute.post('/editCoupon',adminController.ediCoupon);
 adminRoute.get('/deleteCoupon',adminController.deleteCoupon);
 adminRoute.get('/couponlistAndUnlist/:id',adminController.couponlistAndUnlist)
+
 
 
 module.exports = adminRoute;
