@@ -5,7 +5,7 @@ const Razorpay = require('razorpay');
 const userModal = require('../model/userModal');
 const transactionModal = require('../model/transactionModal');
 const couponModal = require('../model/couponModal');
-const createInvoice = require('../helper/createInvoice');
+
 require('dotenv').config();
 
 
@@ -184,6 +184,7 @@ async function confirmOrder(req, res) {
     } else if (paymentMethod === 'razorPay') {
       try {
         const rezorpayOrder = await createRazorpayOrder(cart.Total);
+        
         res.status(201).json({
           message: "success",
           orderId: rezorpayOrder.id,
@@ -432,45 +433,6 @@ async function applyCoupon(req, res) {
 }
 
 
-async function downloadInvoice(req, res) {
-  try {
-  
-
-    const invoice = {
-      shipping: {
-        name: 'John Doe',
-        address: '1234 Main Street',
-        city: 'San Francisco',
-        state: 'CA',
-        country: 'US',
-        postal_code: 94111,
-      },
-      items: [
-        {
-          item: 'TC 100',
-          description: 'Toner Cartridge',
-          quantity: 2,
-          amount: 6000,
-        },
-        {
-          item: 'USB_EXT',
-          description: 'USB Cable Extender',
-          quantity: 1,
-          amount: 2000,
-        },
-      ],
-      subtotal: 8000,
-      paid: 0,
-      invoice_nr: 1234,
-    };
-
-    createInvoice( invoice ,'invoice.pdf' );
-
-
-  } catch (error) {
-    console.log(error);
-  }
-}
 
 module.exports = {
 
@@ -478,6 +440,6 @@ module.exports = {
   cancelOrder, orderStatus,
   loadOrderList, loadOrderDetails, updatedPayment,
   returnRequest, loadReturnOrderList, loadReturnOrderDetails,
-  returnResponse, applyCoupon, downloadInvoice
+  returnResponse, applyCoupon
 
 }

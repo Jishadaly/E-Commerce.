@@ -81,6 +81,13 @@
                                         <ul>
                                             <li>
                                                 <%=orderDetails.createdAt%>
+
+                                                <% if(orderDetails.status === 'Delivered'){  %>
+                                                    <div style="align-items: end;">
+                                                       <a href="/downloadInvoice?orderId=<%=orderDetails._id%>">> Click here to get your invoice</a>
+                                                    </div>
+                                              <%  } %>
+                                                
                                             </li>
 
                                         </ul>
@@ -169,14 +176,14 @@
                                                                     <%=orderDetails.grandTotal%>
                                                                 </h4>
                                                             </td>
+                                                            
                                                         </tr>
                                                     </tfoot>
+                                                    
                                                 </table>
                                                 
 
-                                                <div class="m-3">
-                                                    <a href="/downloadInvoice">download Invoice</a>
-                                                </div>
+                                               
                                             </div>
                                         </div>
 
@@ -247,10 +254,11 @@
                                                                     assistance, please don't hesitate to contact our
                                                                     support team."</p>
                                                                 <% }else{ %>
-                                                                    <button
+                                                                    <button 
                                                                         onclick="returnOrder('<%= orderDetails._id %>')"
-                                                                        id=returnButton class=" p-1 return-button"
+                                                                        id=returnButton class="btn btn-outline-secondary p-1 return-button"
                                                                         data-order-id="<%= orderDetails._id %>"
+                                                                        
                                                                         data-product-id="">Return order</button>
                                                                     <% } %>
 
@@ -266,16 +274,16 @@
                                                                                     style="text-align: center; color: red;">
                                                                                     Canceled order Succefully</p>
                                                                                 <% }else{ %>
-                                                                                    <button onclick="disableButton()"
+                                                                                    <button  onclick="disableButton()"
                                                                                         id=cancelButton
-                                                                                        class=" p-1 cancel-button"
+                                                                                        class=" btn btn-outline-danger p-1 cancel-button"
                                                                                         data-order-id="<%= orderDetails._id %>"
                                                                                         data-product-id="">cancel
                                                                                         order</button>
                                                                                     <% } %>
                                                                                         <% } %>
-
-
+                                                                                        
+                                                                                        
                                                 </div>
                                             </div>
                                         </div>
@@ -287,6 +295,7 @@
                     </div>
                 </div>
                 <!-- tracking table end -->
+               
 
                 <div class="container-fluid">
                     <!-- footer start-->
@@ -307,6 +316,10 @@
 
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        
+
+        
 
         <script>
 
@@ -413,9 +426,12 @@
                     });
                 });
             });
+            
 
 
         </script>
+
+        
 
         <!-- latest js -->
         <script src="/assetsB
