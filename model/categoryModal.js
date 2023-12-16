@@ -16,7 +16,8 @@ const categorySchema = new mongoose.Schema({
   date :{
     type:Date,
     default:Date.now()
-  }
+  },
+  discountPercentage:Number
   
 });
 

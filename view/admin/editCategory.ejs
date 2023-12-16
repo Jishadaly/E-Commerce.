@@ -15,7 +15,7 @@
                                                 <h5>Edit Category Information</h5>
                                             </div>           
                                             
-                                            <form class="theme-form theme-form-2 mega-form" action="/admin/editCategory/<%= value._id %>" method="post">
+                                            <form class="theme-form theme-form-2 mega-form" action="/admin/editCategory?id=<%= value._id %>" method="post">
                                                
                                                 <div class="mb-4 row align-items-center">
                                                     <label class="form-label-title col-sm-3 mb-0">Category Name</label>
@@ -54,6 +54,13 @@
                                                           placeholder="Write Here...." value="<%= value.description %>">
                                                   </div>
                                               </div>
+
+                                              <div class="mb-4 row align-items-center">
+                                                <label class="col-sm-3 form-label-title">Discount offer</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="number" placeholder="0" value="<%= value.discountPercentage %>" name="discountPercentage">
+                                                </div>
+                                            </div>
 
                                               <div class="col-4">
                                                 <button type="submit" class="btn btn-primary w-70  h-100 "> 

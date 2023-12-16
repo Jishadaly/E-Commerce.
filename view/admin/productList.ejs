@@ -34,6 +34,8 @@
                                                         <!-- <th>Category</th> -->
                                                         <th>Current Qty</th>
                                                         <th>Price</th>
+                                                        <th>Offer</th>
+                                                        <th>Discount Price</th>
                                                         <th>orders</th>
                                                         <th>Status</th>
                                                         <th>Option</th>
@@ -53,6 +55,8 @@
                                                             <td><%= value.name%></td>
                                                             <td><%= value.quantity %></td>
                                                             <td class="td-price"><%= value.price%></td>
+                                                            <td class="td-price"><%= value.offer%>%off</td>
+                                                            <td class="td-price"><%= value.discountPrice%></td>
                                                             <td class="td-price"><%= value.orders%></td>
 
                                                         <% if(value.list){ %>

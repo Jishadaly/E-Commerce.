@@ -99,15 +99,22 @@
                                             </div><!-- End .col-sm-6 col-lg-3 -->
 
                                             <div class="col-6 col-lg-3 order-lg-last">
-                                                <div class="product-list-action">
+                                                <div class="product-list-action mb-0">
                                                     <div class="product-price">
                                                     ₹<%= item.discountPrice%>
+                                                   
                                                     </div><!-- End .product-price -->
+                                                    <% if (item.offer && item.offer > 0 && item.offer !== 'undefined') { %>
+                                                        <div class="m-0">
+                                                                <span><%= item.offer %>% off</span>
+                                                        </div>
+                                                <% } %>
                                                     <div class="ratings-container">
                                                         <div class="ratings">
                                                             <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
                                                         </div><!-- End .ratings -->
                                                         <span class="ratings-text">( 0 Reviews )</span>
+
                                                     </div><!-- End .rating-container -->
                                                   
                                                     <div class="product-action">

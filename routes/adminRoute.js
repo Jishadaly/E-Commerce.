@@ -31,7 +31,7 @@ adminRoute.get('/addCategory',category.loadAddCategory);
 adminRoute.post('/addCategory',upload.single('image'),category.addCategory);
 adminRoute.get('/listingCat',isLogin,category.listingCategory);
 adminRoute.get('/editCategory', category.loadEditCategory);
-adminRoute.post('/editCategory/:id',upload.single('image'),category.updateCategory);
+adminRoute.post('/editCategory',upload.single('image'),category.updateCategory);
 adminRoute.get('/addProduct',product.addProductLoad);
 adminRoute.post('/addProduct',upload.array('productImages',4),product.addProduct)
 adminRoute.get('/productList',isLogin,product.loadProductList);

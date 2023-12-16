@@ -69,6 +69,11 @@
                                         <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
                                     </div><!-- End .rating-container -->
                                     <span style="text-decoration: line-through;">₹<%=productDetails.price%></span>
+                                    <% if (productDetails.offer && productDetails.offer > 0 && productDetails.offer !== 'undefined') { %>
+                                        <div class="m-0">
+                                                <span><%= productDetails.offer %>% off</span>
+                                        </div>
+                                <% } %>
                                     <div class="product-price">
                                         
                                         ₹<%=productDetails.discountPrice%>

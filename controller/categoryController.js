@@ -39,7 +39,7 @@ async function loadAddCategory (req,res){
 async function addCategory(req,res) {
           try {
             
-          const { categoryName, description } = req.body;
+          const { categoryName, description ,discountPercentage } = req.body;
           
           const catName = await  category.findOne({category:categoryName});
           console.log(categoryName);
@@ -52,7 +52,8 @@ async function addCategory(req,res) {
               category : categoryName ,
               image :  req.file.filename,
               description : description,
-              listed:true
+              listed:true,
+              discountPercentage:discountPercentage
               });
               console.log(Categories.image);
               await Categories.save();
@@ -114,23 +115,30 @@ async function loadEditCategory (req,res){
 async function updateCategory (req,res){
   try {
     
-    console.log(req.file);
     
-    const id=req.params.id;
+    
+    const id=req.query.id;
     const name = req.body.categoryname;
     const desc=req.body.description;
-    const image  =  req.file.filename;
-    console.log(image);
-    
-    
-    
 
+    const discountPercentage = req.body.discountPercentage;
+   
+    
+    
+    let image = ''; 
+
+    if (req.file && req.file.filename) {
+      image = req.file.filename; 
+    }
+
+   
+    
     if (image ) {
         console.log("111111111111111111");
-      const updatedCat = await category.findByIdAndUpdate({_id:id},{category:name,description:desc ,image:image},{ new: true });
+      const updatedCat = await category.findByIdAndUpdate({_id:id},{category:name,description:desc,discountPercentage:discountPercentage ,image:image},{ new: true });
       
     } else {
-      const updatedCat = await category.findByIdAndUpdate({_id:id},{category:name,description:desc},{ new: true });
+      const updatedCat = await category.findByIdAndUpdate({_id:id},{category:name,description:desc ,discountPercentage:discountPercentage },{ new: true });
     }
 
       res.redirect('/admin/category')

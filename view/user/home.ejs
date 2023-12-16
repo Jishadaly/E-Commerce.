@@ -371,6 +371,11 @@
                                     <div class="product-price">
                                         <%= data.discountPrice %>
                                     </div><!-- End .product-price -->
+																		<% if (data.offer && data.offer > 0 && data.offer !== 'undefined') { %>
+																			<div class="m-0">
+																					<span><%= data.offer %>% off</span>
+																			</div>
+																	<% } %>
                             	</div>
                             	<div class="product-detail">
                                     <div class="ratings-container">
@@ -486,6 +491,16 @@
 		                                    <div class="product-price">
 		                                        <%=data.discountPrice%>
 		                                    </div><!-- End .product-price -->
+
+																				<% if (data.offer && data.offer > 0 && data.offer !== 'undefined') { %>
+																					<div class="m-0">
+																							<span><%= data.offer %>% off</span>
+																					</div>
+																			<% } %>
+																			
+
+																	
+
 		                            	</div>
 		                            	<div class="product-detail">
 		                                    <div class="ratings-container">

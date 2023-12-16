@@ -4,8 +4,8 @@ const productModel = require('../model/productModal')
 const category = require('../model/categoryModal')
 const orderModel = require('../model/orderModel');
 const categoryModal = require('../model/categoryModal');
-const fs = require('fs');
-const path = require('path');
+
+
 
 
 async function addProductLoad(req, res) {
@@ -22,9 +22,20 @@ async function addProductLoad(req, res) {
 
 async function addProduct(req, res) {
   try {
-
-
+    
     console.log(req.body);
+
+    
+    
+    const { discountPercentage , price , category } = req.body;
+    const filterdCategory = await categoryModal.findOne({category:category})
+    const categoryOffer = filterdCategory.discountPercentage;
+    const productOffer = discountPercentage;  
+
+  
+    const finaloffer = productOffer + discountPercentage || discountPercentage;
+    const discountPrice =  price - (price * discountPercentage) / 100;
+    const finalPrice = discountPrice - (discountPrice * categoryOffer)/100;
 
     const data = {
       name: req.body.ProductName,
@@ -35,24 +46,26 @@ async function addProduct(req, res) {
       rom: req.body.rom,
       processor: req.body.processor,
       description: req.body.description,
-      price: req.body.price,
-      discountPrice: req.body.discountPrice,
-      category: req.body.category,
+      price: price,
+      offer:finaloffer,
+      discountPrice:finalPrice,
+      category: category,
       featured: req.body.featurdStatus,
       productImages: req.files.map((file) => file.filename)
     };
 
     console.log(data);
-    console.log(data.category);
+    
 
     const DBdata = await productModel.insertMany(data);
-    console.log("data inserted successfully");
+    
     res.redirect('/admin/productList');
     console.log(DBdata);
   } catch (error) {
     console.log(error);
   }
 }
+
 
 
 
@@ -84,6 +97,7 @@ async function loadProductList(req, res) {
 
 
 
+
 async function listUnlist(req, res) {
   try {
     const id = req.params.id;
@@ -108,6 +122,8 @@ async function listUnlist(req, res) {
 }
 
 
+
+
 async function loadEditProduct(req, res) {
   try {
 
@@ -124,53 +140,6 @@ async function loadEditProduct(req, res) {
 
 
 
-// async function editProduct(req, res) {
-//   try {
-
-//     // const id = model.Types.ObjectId(req.params.id);
-//     const id = req.params.id;
-//     console.log(id);
-//     const newId = new mongoose.Types.ObjectId(id);
-
-//     const datas = await productModel.findById(id)
-
-//     const data = {
-
-//       name: req.body.ProductName,
-//       brand: req.body.brandName,
-//       quantity: req.body.quantity,
-//       model: req.body.Model,
-//       ram: req.body.ram,
-//       rom: req.body.rom,
-//       processor: req.body.processor,
-//       description: req.body.description,
-//       discountPrice: req.body.discountPrice,
-//       featured:req.body.featurdStatus,
-//       category: req.body.category,
-//       productImages: req.files.map((file) => file.filename)
-
-//     }
-
-
-
-//     console.log(datas);
-//     const updateData = await productModel.findByIdAndUpdate(newId, data);
-//     if (updateData) {
-
-//       console.log("data updated");
-//     }
-
-//     res.redirect('/admin/productList');
-
-//     //  const updateData =  await productModel.findById(newId);
-//     // console.log(updateData);
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-
 async function editProduct(req, res) {
   try {
     const id = req.params.id;
@@ -178,6 +147,19 @@ async function editProduct(req, res) {
     const newId = new mongoose.Types.ObjectId(id);
 
     const datas = await productModel.findById(id);
+    const category = req.body.category;
+
+    
+    const price  = req.body.price;
+    const discountPerc = req.body.discountPercentage;
+    const filterdCategory = await categoryModal.findOne({category:category})
+    console.log(filterdCategory);
+    const categoryOffer = filterdCategory.discountPercentage;
+    console.log("//////////////////"+categoryOffer);
+    
+    const productOffer = discountPerc;  
+    const discountPrice =  price - (price * discountPerc) / 100;
+    const finalPrice = discountPrice - (discountPrice * categoryOffer)/100;
 
     const data = {
       name: req.body.ProductName,
@@ -188,7 +170,9 @@ async function editProduct(req, res) {
       rom: req.body.rom,
       processor: req.body.processor,
       description: req.body.description,
-      discountPrice: req.body.discountPrice,
+      price:price,
+      discountPrice: finalPrice,
+      offer:productOffer,
       featured: req.body.featurdStatus,
       category: req.body.category,
     };
@@ -212,8 +196,8 @@ async function editProduct(req, res) {
 
 
 
+//user side product
 
-//user side product 
 
 async function loadProductDetails(req, res) {
   try {
@@ -233,100 +217,6 @@ async function loadProductDetails(req, res) {
 }
 
 
-// async function loadOrderList(req,res){
-//   try {
-
-//     const orderData =  await orderModel.find().populate('address').sort({createdAt:-1})
-//      res.render('orderList',{orderData})
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-
-
-// async function loadOrderDetails(req,res){
-//   try {
-
-//      const orderId = req.query.orderId;
-//      console.log(orderId);
-//      const orderDetails = await orderModel.findById(orderId).populate('address').populate('products.product')
-//      res.render('orderDetails',{ orderDetails })
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-
-
-
-
-
-// async function loadProducts(req, res) {
-
-//   try {
-
-//     const brands = await productModel.distinct('brand');
-//     const categories = await category.find();
-//     const user = req.session.userId;
-//     const searchQuery = req.query.searchedData;
-//     const filter = {};
-
-//     console.log(req.body);
-//     console.log(searchQuery);
-
-//     const page = parseInt(req.query.page, 10) || 1;
-//     const productsPerPage = 4;
-
-//     if (searchQuery) {
-
-//       filter['$and'] = [
-//         {
-//           $or: [
-//             { name: { $regex: new RegExp(searchQuery, 'i') } },
-//             { brand: { $regex: new RegExp(searchQuery, 'i') } },
-//           ],
-//         },
-//         { list: true },
-//       ];
-//     } else {
-//       filter['list'] = true;
-//     }
-
-
-//     const query = filter['$and'] ? { $and: filter['$and'] } : filter;
-
-
-
-
-//   const results = await Promise.all([
-//     productModel
-//       .find(query)
-//       .skip((page - 1) * productsPerPage)
-//       .limit(productsPerPage)
-//       .exec(),
-//       productModel.countDocuments(query).exec(),
-//   ]);
-
-//     const [products, totalProducts] = results;
-
-
-//     res.render('products',{
-//       products,
-//       categories,
-//       brands,
-//       currentPage: page,
-//       totalPages: Math.ceil(totalProducts / productsPerPage),
-//       user,
-//     });
-
-
-
-//   } catch (error) {
-//     console.error(error.message);
-
-//   }
-// }
 
 
 
@@ -436,10 +326,6 @@ async function deleteImage(req, res) {
   }
 }
 
-module.exports = deleteImage;
-
-module.exports = deleteImage;
-
 
 
 
@@ -447,8 +333,7 @@ module.exports = {
   addProductLoad, loadProductList, addProduct, listUnlist,
   loadEditProduct, editProduct, loadProductDetails,
   loadProducts, deleteImage,
-  // filterProduct
-
+  
 }
 
 
