@@ -6,6 +6,7 @@ function generateHr(doc, y) {
       .stroke();
 }
 
+
 function formatDate(date) {
   const day = date.getDate();
   const month = date.getMonth() + 1;
@@ -50,6 +51,7 @@ function generateTableRowSales(doc, y, item, quantity, userid, date, lineTotal) 
   const rowHeight = Math.max(itemHeight, 40);
   return rowHeight;
 }
+
 
 module.exports = {
   formatDate,

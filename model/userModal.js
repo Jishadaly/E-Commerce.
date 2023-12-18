@@ -37,6 +37,9 @@ date:{
 walletAmount :{
     type:Number,
     default:0
+},
+referelCode:{
+    type:Number
 }
 });
 

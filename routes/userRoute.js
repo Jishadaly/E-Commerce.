@@ -23,7 +23,7 @@ const product = require("../controller/productController")
 
 
 //api
-user_route.get('/register',userController.loadRegister);
+user_route.get('/register',auth.isLogin,auth.isBlocked,userController.loadRegister);
 user_route.post('/register',userController.insertUser);
 user_route.get('/otpVerification',userController.loadOtpVerification);
 user_route.post('/verify',userController.verifyOtp);
@@ -57,6 +57,7 @@ user_route.post('/cancelOrder',orderController.cancelOrder);
 user_route.post('/updatedPayment',orderController.updatedPayment);
 user_route.post('/applyCoupon',orderController.applyCoupon)
 user_route.get('/downloadInvoice',downloadInvoice.downloadInvoice);
+user_route.get('/sendReferel',userController.shareReferel);
 // user_route.post('/productFiltering',product.filterProduct);
 
 module.exports=user_route;

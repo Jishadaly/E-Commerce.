@@ -7,15 +7,12 @@ const product = require ('../controller/productController')
 const orderController = require('../controller/orderController')
 const upload = require('../helper/multer');
 const isLogin = require('../middleware/admin_authHandler');
-
+const report = require('../controller/reportController')
 
 adminRoute.set('view engine','ejs')
 adminRoute.set('views','./view/admin');
 
-
-
-
-
+ 
 
 adminRoute.use(express.urlencoded({ extended: true }));
 adminRoute.use(express.json());
@@ -53,7 +50,13 @@ adminRoute.get('/editCoupon',adminController.loadEdiCoupon);
 adminRoute.post('/editCoupon',adminController.ediCoupon);
 adminRoute.get('/deleteCoupon',adminController.deleteCoupon);
 adminRoute.get('/couponlistAndUnlist/:id',adminController.couponlistAndUnlist)
-
-
+adminRoute.get('/salesReports',report.loadReportPage);
+adminRoute.get('/monthly-revenue',report.monthlyRevenue)
+adminRoute.get('/weekly-revenue',report.weeklyRevenue)
+adminRoute.get('/yearly-revenue',report.yearlyRevenue)
+adminRoute.get('/monthly-sales-count',report.monthlySales)
+adminRoute.get('/weekly-sales-count', report.weeklySales);
+adminRoute.get('/yearly-sales-count', report.yearlySales);
+adminRoute.get('/user-counts',report.userCounts)
 
 module.exports = adminRoute;
