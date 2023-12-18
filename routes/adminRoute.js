@@ -41,16 +41,16 @@ adminRoute.post('/ChangeOrderStatus',orderController.orderStatus);
 adminRoute.post('/deleteImage',product.deleteImage)
 adminRoute.post('/returnRequest',orderController.returnRequest);
 adminRoute.get('/returnOrderList',orderController.loadReturnOrderList)
-adminRoute.get('/returnOrder_Details',orderController.loadReturnOrderDetails)
+adminRoute.get('/returnOrder_Details',isLogin,orderController.loadReturnOrderDetails)
 adminRoute.post('/returnResponse',orderController.returnResponse);
-adminRoute.get('/createCoupon',adminController.loadAddCoupon);
+adminRoute.get('/createCoupon',isLogin,adminController.loadAddCoupon);
 adminRoute.post('/createCoupon',adminController.addCoupon);
 adminRoute.get('/listCoupon',adminController.couponList);
-adminRoute.get('/editCoupon',adminController.loadEdiCoupon);
+adminRoute.get('/editCoupon',isLogin,adminController.loadEdiCoupon);
 adminRoute.post('/editCoupon',adminController.ediCoupon);
 adminRoute.get('/deleteCoupon',adminController.deleteCoupon);
 adminRoute.get('/couponlistAndUnlist/:id',adminController.couponlistAndUnlist)
-adminRoute.get('/salesReports',report.loadReportPage);
+adminRoute.get('/salesReports',isLogin,report.loadReportPage);
 adminRoute.get('/monthly-revenue',report.monthlyRevenue)
 adminRoute.get('/weekly-revenue',report.weeklyRevenue)
 adminRoute.get('/yearly-revenue',report.yearlyRevenue)
@@ -58,5 +58,6 @@ adminRoute.get('/monthly-sales-count',report.monthlySales)
 adminRoute.get('/weekly-sales-count', report.weeklySales);
 adminRoute.get('/yearly-sales-count', report.yearlySales);
 adminRoute.get('/user-counts',report.userCounts)
+adminRoute.post('/getSalesReport',report.getSalesReport);
 
 module.exports = adminRoute;

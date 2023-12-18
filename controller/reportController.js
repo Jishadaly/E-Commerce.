@@ -6,10 +6,10 @@ async function loadReportPage(req, res) {
   try {
 
     const orderData = await orderModal.find()
-    .populate('address')
-    .sort({ createdAt: -1 })
-    .limit(10);
-    res.render('report',{ orderData });
+      .populate('address')
+      .sort({ createdAt: -1 })
+      .limit(10);
+    res.render('report', { orderData });
   } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');
@@ -20,7 +20,7 @@ async function monthlyRevenue(req, res) {
   try {
     const monthlyRevenueData = await orderModal.aggregate([
       {
-        $match: { status: 'Delivered' } // Fetch revenue for orders with 'Delivered' status
+        $match: { status: 'Delivered' }
       },
       {
         $group: {
@@ -40,7 +40,7 @@ async function weeklyRevenue(req, res) {
   try {
     const weeklyRevenueData = await orderModal.aggregate([
       {
-        $match: { status: 'Delivered' } // Fetch revenue for orders with 'Delivered' status
+        $match: { status: 'Delivered' }
       },
       {
         $group: {
@@ -60,7 +60,7 @@ async function yearlyRevenue(req, res) {
   try {
     const yearlyRevenueData = await orderModal.aggregate([
       {
-        $match: { status: 'Delivered' } // Fetch revenue for orders with 'Delivered' status
+        $match: { status: 'Delivered' }
       },
       {
         $group: {
@@ -88,8 +88,8 @@ async function getSalesCountByInterval(req, res, interval) {
         aggregationPipeline = [
           {
             $group: {
-              _id: { $month: '$orderDate' }, // Group by month
-              orders: { $sum: '$orders' } // Calculate total sales count
+              _id: { $month: '$orderDate' },
+              orders: { $sum: '$orders' }
             }
           }
         ];
@@ -98,8 +98,8 @@ async function getSalesCountByInterval(req, res, interval) {
         aggregationPipeline = [
           {
             $group: {
-              _id: { $week: '$orderDate' }, // Group by week
-              orders: { $sum: '$orders' } // Calculate total sales count
+              _id: { $week: '$orderDate' },
+              orders: { $sum: '$orders' }
             }
           }
         ];
@@ -108,8 +108,8 @@ async function getSalesCountByInterval(req, res, interval) {
         aggregationPipeline = [
           {
             $group: {
-              _id: { $year: '$orderDate' }, // Group by year
-              orders: { $sum: '$orders' } // Calculate total sales count
+              _id: { $year: '$orderDate' },
+              orders: { $sum: '$orders' }
             }
           }
         ];
@@ -125,17 +125,17 @@ async function getSalesCountByInterval(req, res, interval) {
   }
 }
 
-// Endpoint for fetching monthly sales count
+
 async function monthlySales(req, res) {
   return getSalesCountByInterval(req, res, 'monthly');
 }
 
-// Endpoint for fetching weekly sales count
+
 async function weeklySales(req, res) {
   return getSalesCountByInterval(req, res, 'weekly');
 }
 
-// Endpoint for fetching yearly sales count
+
 async function yearlySales(req, res) {
   return getSalesCountByInterval(req, res, 'yearly');
 }
@@ -143,23 +143,23 @@ async function yearlySales(req, res) {
 
 async function userCounts(req, res) {
   try {
-    const interval = req.query.interval; // Get the interval parameter from the query string
+    const interval = req.query.interval;
     let aggregationOptions = [
       {
         $group: {
-          _id: { $dateToString: { format: `%${interval}`, date: '$date' } }, // Group by the specified interval
-          userCount: { $sum: 1 }, // Count the number of users
+          _id: { $dateToString: { format: `%${interval}`, date: '$date' } },
+          userCount: { $sum: 1 },
         },
       },
     ];
 
-    // For 'yearly' interval, adjust the date format
+
     if (interval === 'yearly') {
       aggregationOptions = [
         {
           $group: {
-            _id: { $year: '$date' }, // Group by year
-            userCount: { $sum: 1 }, // Count the number of users
+            _id: { $year: '$date' },
+            userCount: { $sum: 1 },
           },
         },
       ];
@@ -174,8 +174,16 @@ async function userCounts(req, res) {
 }
 
 
+// sales report
 
+async function getSalesReport(req,res){
 
+  try {
+    console.log(req.body);
+  } catch (error) {
+    
+  }
+}
 
 
 module.exports = {
@@ -186,6 +194,7 @@ module.exports = {
   monthlySales,
   weeklySales,
   yearlySales,
-  userCounts
-  
+  userCounts,
+  getSalesReport
+
 };

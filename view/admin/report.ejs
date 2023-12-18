@@ -49,7 +49,7 @@
                                                 <button onclick="changeInterval('weekly')">Weekly</button>
                                                 <button onclick="changeInterval('yearly')">Yearly</button>
                                               </div>
-                                              <canvas id="salesCountChart" width="400" height="325"></canvas>
+                                              <canvas id="salesCountChart" width="300" height="250"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -167,12 +167,46 @@
                                                 </tbody>
                                                
                                             </table>
+                                            <!-- Button trigger modal -->
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- Booking history  end-->
+                        <div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Get sales Report
+                              </button>
+                              
+                              <!-- Modal -->
+                              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">get the report pdf or Excel</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body align-items-center">
+                                        <label for="type">filter</label>
+
+                                        <select name="dateType" id="filterdOption">
+                                            <option value="" disabled selected hidden>Choose</option>
+                                            <option value="monthly">Monthly</option>
+                                            <option value="weekly">Weekly</option>
+                                            <option value="yearly">Yearly</option>
+                                          </select>
+                                          
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button onclick="getSalesReport('pdf')" type="button" class="btn btn-warning" >Pdf</button>
+                                      <button onclick="getSalesReport('excel')" type="button" class="btn btn-primary">Excel</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Container-fluid Ends-->
@@ -438,8 +472,38 @@ function renderUserCountChart(data) {
 fetchUserCountData('weekly');
 
 
+////////////////////////////////////////////
+
 
  
+let selectedValue = '';
+
+const selectElement = document.getElementById('filterdOption');
+selectElement.addEventListener('change', function() {
+  selectedValue = selectElement.value;
+  getSalesReport(selectedValue);
+});
+
+async function getSalesReport(type) {
+  try {
+    
+    const response = await fetch('/admin/getSalesReport', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ type, selectedValue })
+    });
+
+    const data = await response.json();
+    // Handle the data from the response
+    console.log(data);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+
 
 </script>
 
