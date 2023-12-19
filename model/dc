@@ -51,7 +51,7 @@ price: '',
 discountPrice: 
 
 
-[7:55 PM, 11/14/2023] Ashish Brocamp: const productSchema=new mongoose.Schema({
+ const productSchema=new mongoose.Schema({
     name:String,
     category:{
         type:mongoose.Schema.ObjectId,
@@ -144,3 +144,196 @@ let productstatus=async (req,res,next)=>{
   }
 
   
+
+
+
+
+
+
+
+
+
+  const getSalesReport=async(req,res)=>{
+    try{
+        const admin=req.session.adminData
+
+        const page=parseInt(req.query.page) || 1;
+        const perPage=10;
+
+
+        let query={status:"payment successfull"};
+        
+        if (req.query.paymentMethod) {
+            if (req.query.paymentMethod === "Online Payment") {
+              query.paymentMethod = "Online Payment";
+            } else if (req.query.paymentMethod === "Wallet") {
+              query.paymentMethod = "Wallet Payment";
+            } else if (req.query.paymentMethod === "Cash On Delivery") {
+              query.paymentMethod = "Cash on delivery";
+            }
+      
+          }
+
+        if (req.query.status) {
+            if (req.query.status === "Daily") {
+              query.orderDate = dateUtils.getDailyDateRange();
+            } else if (req.query.status === "Weekly") {
+              query.orderDate = dateUtils.getWeeklyDateRange();
+            } else if (req.query.status === "Yearly") {
+              query.orderDate = dateUtils.getYearlyDateRange();
+            }
+          }
+        if(req.query.status){
+            if(req.query.status=== "Daily"){
+                query.orderDate=dateUtils.getDailyDateRange();
+
+            }
+            
+                else if(req.query.status==="Weekly"){
+                    query.orderDate=dateUtils.getWeeklyDateRange();
+
+                }
+            
+            else if(req.query.status === "Yearly")
+            {
+                query.orderDate= dateUtils.getYearlyDateRange();
+            }
+        }
+        if(req.query.startDate && req.query.endDate){
+            query.orderDate={
+                $gte:new Date(req.query.startDate),
+                $lte:new Date(req.query.endDate),
+            };
+        }
+      
+        const totalOrdersCount = await Order.countDocuments(query);
+        const totalPages=Math.ceil(totalOrdersCount/perPage);
+        const skip=(page-1) * perPage;
+
+        const orders = await Order.find(query)
+        .populate("user")
+        .populate({
+          path: "address",
+          model: "Address",
+      })
+      .populate({
+        path: "items.product",
+        model: "Product",
+      })
+      .sort({ orderDate: -1 })
+      .skip(skip)
+      .limit(perPage);
+
+
+        const totalRevenue=orders.reduce((acc,order)=>acc + order.totalAmount,0);
+        const returnedOrders = orders.filter(order => order.status === "Return confirmed");
+
+
+console.log("Count of orders with 'Return Confirmed' status:", );
+
+
+        const totalSales=orders.length;
+
+
+        const totalProductSold=orders.reduce((acc,order)=>acc + order.items.length,0);
+
+        res.render("salesReport",{
+            orders,admin,totalRevenue,returnedOrders,totalSales,totalProductSold,req,totalPages,currentPage:page});
+      
+
+
+    }catch(error){
+        console.log(error.message);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const Order = require('../models/orderModel');
+const ExcelJS = require('exceljs');
+const fs = require("fs");
+const path = require("path");
+
+const getExcelSalesReport = async (req, res) => {
+    try {
+        const orders = await Order.find({status:"payment successfull"})
+        .populate('user', 'email') 
+        .populate({
+          path: 'items.product',
+          model: 'Product',
+        })
+        .populate('address');
+
+         
+
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Sales Report');
+        let serialNumber = 1;
+
+        worksheet.columns = [
+            { header: 'Serial Number', key: 'Sno', width: 10 },
+            { header: 'UserID', key: 'userId', width: 10 },
+            { header: 'Order Date', key: 'orderDate', width: 15, style: { numFmt: 'yyyy-mm-dd' } },
+            { header: 'Name', key: 'userName', width: 10 },
+            { header: 'Product', key: 'productName', width: 25 },
+            { header: 'Quantity', key: 'quantity', width: 5 },
+            { header: 'Total Amount', key: 'totalAmount', width: 10 },
+            { header: 'Order status', key: 'orderStatus', width: 10 },
+            { header: 'Payment Method', key: 'paymentMethod', width: 10 },
+            { header: 'Address', key: 'address', width: 55 },
+        ];
+
+        worksheet.getRow(1).eachCell((cell) => {
+            cell.font = { bold: true };
+        });
+
+        orders.forEach((eachOrder) => {
+            eachOrder.items.forEach((item) => {
+                const fullAddress = ${eachOrder.address.street}, ${eachOrder.address.city}, ${eachOrder.address.state}, ${eachOrder.address.pincode};
+                const salesData = {
+                    Sno: serialNumber++,
+                    userId: eachOrder.user._id,
+                    orderDate: eachOrder.orderDate,
+                    userName: eachOrder.address.name,
+                    productName: item.product.name,
+                    quantity: item.quantity,
+                    totalAmount: eachOrder.totalAmount,
+                    orderStatus: eachOrder.status,
+                    paymentMethod: eachOrder.paymentMethod,
+                    address: fullAddress,
+                };
+                
+
+                worksheet.addRow(salesData);
+            });
+        });
+
+        const exportPath = path.resolve("public", "sales_report", "salesReport.xlsx");
+
+        await workbook.xlsx.writeFile(exportPath);
+        res.download(exportPath, 'sales_report.xlsx', (err) => {
+            if (err) {
+                res.status(500).send('Error sending the file');
+            }
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Error generating the report');
+    }
+};
+
+module.exports = {
+    getExcelSalesReport
+};

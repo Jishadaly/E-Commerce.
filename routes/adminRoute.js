@@ -60,4 +60,5 @@ adminRoute.get('/yearly-sales-count', report.yearlySales);
 adminRoute.get('/user-counts',report.userCounts)
 adminRoute.post('/getSalesReport',report.getSalesReport);
 
+
 module.exports = adminRoute;

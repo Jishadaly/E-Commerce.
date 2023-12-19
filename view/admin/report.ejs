@@ -1,514 +1,220 @@
-
 <%- include('../partials/header') %>
-<%- include('../partials/sidebar') %>
-<head>  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script></head>
+  <%- include('../partials/sidebar') %>
 
-            <!-- Reports Section Start -->
-            <div class="page-body">
-                <!-- Container-fluid starts-->
-                <div class="container-fluid">
-                    <div class="row">
-                        <!-- Salery Summy star-->
-                        <div class="col-xl-8 col-lg-12 col-md-6">
-                            <div class="card o-hidden">
-                                <div class="card-header border-0 pb-1">
-                                    <div class="card-header-title">
-                                        <h4>Users Summary</h4>
-                                    </div>
-                                </div>
-                                <div class="align-items-center">
-                                    <button onclick="fetchUserCountData('monthly')">Monthly</button>
-                                    <button onclick="fetchUserCountData('weekly')">Weekly</button>
-                                    <button onclick="fetchUserCountData('yearly')">Yearly</button>
-                                  </div>
-                                  
-                                  <canvas id="userCountChart" width="400" height="150"></canvas>
-                                  
-                               
-                                 
-                                  
+
+    <div class="page-wrapper compact-wrapper" id="pageWrapper">
+      <!-- Page Header Start-->
+
+      <div class="page-body">
+        <!-- Table Start -->
+        <div class="container-fluid">
+          <div class="row justify-content-between"> <!-- Align items to the left and right -->
+            <div class="col-auto"> <!-- Adjust width as needed -->
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  Select Period
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" href="/admin/salesReports?status=Daily">Daily</a></li>
+                  <li><a class="dropdown-item" href="/admin/salesReports?status=Weekly">Weekly</a></li>
+                  <li><a class="dropdown-item" href="/admin/salesReports?status=Yearly">Yearly</a></li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="col-auto"> <!-- Adjust width as needed -->
+              <button id="pdfButton" class="btn btn-secondary print"><i class="icon material-icons md-print"></i> Download PDF</button>
+            </div>
+          </div>
+        </div>
+        
+       
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card card-table">
+                      <div class="col-12 cardbody">
+                        <div class="cardbody">
+                          <div class="card-header border-0 pb-1">
+                            <div class="card-header-title">
+                              <h4>Transfer History</h4>
                             </div>
-                        </div>
-                        <!-- Salery Summy end-->
-
-                        <!-- Employ Salary  start-->
-                        <div class="col-xl-4 col-lg-12 col-md-6">
-                            <div class="h-100">
-                                <div class="card o-hidden">
-                                    <div class="card-header border-0 pb-1">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="card-header-title">
-                                                <h4>Sales / Purchase</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <div class="pie-chart">
-                                            <div>
-                                                <button onclick="changeInterval('monthly')">Monthly</button>
-                                                <button onclick="changeInterval('weekly')">Weekly</button>
-                                                <button onclick="changeInterval('yearly')">Yearly</button>
-                                              </div>
-                                              <canvas id="salesCountChart" width="300" height="250"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Employ Salary end-->
-
-                        <!-- Expenses star-->
-                        <!-- <div class="col-xl-4 col-lg-12 col-md-6">
-                            <div class="card o-hidden">
-                                <div class="card-header border-0 pb-1">
-                                    <div class="card-header-title">
-                                        <h4>Expenses</h4>
-                                    </div>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div id="expenses-cart"></div>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- Expenses end-->
-
-                        <!-- Sales / Purchase chart start -->
-                        <!-- <div class="col-xl-8 col-lg-12 col-md-6">
-                            <div class="card">
-                                <div class="card-header border-0 pb-1">
-                                    <div class="card-header-title">
-                                        <h4>Sales / Purchase</h4>
-                                    </div>
-                                </div>
-                               
-                            </div>
-                        </div> -->
-                        <!-- Sales / Purchase chart end -->
-
-                        <!-- Sales / Purchase Return star-->
-                        <div class="col-12">
-                            <div class="card o-hidden">
-                                <!-- <div class="card-header border-0 pb-1">
-                                    <div class="card-header-title">
-                                        <h4>Sales / Purchase Return</h4>
-                                    </div>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div id="sales-purchase-return-cart"></div>
-                                </div> -->
-                                <div class="card-header-title">
-                                    <h4>Product / Sales</h4>
-                                </div>
-                                
-                                <div class="align-items-center">
-                                    <button onclick="fetchData('monthly')">Monthly</button>
-                                    <button onclick="fetchData('weekly')">Weekly</button>
-                                    <button onclick="fetchData('yearly')">Yearly</button>
-                                  </div>
-                                  <canvas id="revenueChart" width="400" height="150"></canvas>
-                            </div>
-                        </div>
-                        <!-- Sales / Purchase Return end-->
-
-                        <!-- Booking history start-->
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header border-0 pb-1">
-                                    <div class="card-header-title">
-                                        <h4>Transfer History</h4>
-                                    </div>
-                                </div>
-
-                                <div class="card-body">
-                                    <div>
-                                        <div class="table-responsive">
-                                            <table class="user-table list-table table">
-                                                <thead>
-                                                   
-
-                                                  
-                                                    <tr>
-                                                        <th>Transfer Id</th>
-                                                        <th>Name</th>
-                                                        <th>Date</th>
-                                                        <th>Total</th>
-                                                        <!-- <th>Options</th> -->
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    
-                                                    <% orderData.map((order)=>{ %>
-                                                    <tr>
-                                                        <td><%= order._id.toString().substring(0, 6) %></td>
-                                                        <td><%=order.address.name%></td>
-                                                        <td><%=order.createdAt.toLocaleDateString()%></td>
-                                                        <td>₹<%=order.grandTotal%></td>
-                                                        <td>
-                                                            <ul>
-                                                                <!-- <li>
-                                                                    <a href="order-detail.html">
-                                                                        <span class="ri-eye-line"></span>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:void(0)">
-                                                                        <span class="lnr lnr-pencil"></span>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:void(0)">
-                                                                        <span class="lnr lnr-trash"></span>
-                                                                    </a>
-                                                                </li> -->
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
-                                                    <% }) %>
-                                                </tbody>
-                                               
-                                            </table>
-                                            <!-- Button trigger modal -->
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Booking history  end-->
-                        <div>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Get sales Report
-                              </button>
-                              
-                              <!-- Modal -->
-                              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="exampleModalLabel">get the report pdf or Excel</h5>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body align-items-center">
-                                        <label for="type">filter</label>
-
-                                        <select name="dateType" id="filterdOption">
-                                            <option value="" disabled selected hidden>Choose</option>
-                                            <option value="monthly">Monthly</option>
-                                            <option value="weekly">Weekly</option>
-                                            <option value="yearly">Yearly</option>
-                                          </select>
-                                          
-                                    </div>
-                                    <div class="modal-footer">
-                                      <button onclick="getSalesReport('pdf')" type="button" class="btn btn-warning" >Pdf</button>
-                                      <button onclick="getSalesReport('excel')" type="button" class="btn btn-primary">Excel</button>
-                                    </div>
-                                  </div>
-                                </div>
+                          </div>
+          
+                          <div class="card-body">
+                            <div>
+                              <div class="table-responsive">
+                                <table class="user-table list-table table">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">Billing id</th>
+                                      <th scope="col">Billing Name</th>
+                                      <th scope="col">Ordered Date</th>
+                                      <th scope="col">Total</th>
+                                      <th scope="col"> Status</th>
+                                      <th scope="col">payment Method</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <% orders.forEach((order)=> { %>
+                                      <tr>
+                                        <td>
+                                          <%= String(order._id).substring(0, 12) %>
+                                        </td>
+                                        <td>
+                                          <%= order.address.name %>
+                                        </td>
+                                        <td>
+                                          <%= order.createdAt.toLocaleDateString() %>
+                                        </td>
+                                        <td>
+                                          <%= order.grandTotal %>
+                                        </td>
+                                        <td>
+                                          <%= order.status %>
+                                        </td>
+                                        <td>
+                                          <%= order.paymentMethod %>
+                                        </td>
+          
+                                      </tr>
+                                      <% }); %>
+                                  </tbody>
+                                </table>
                               </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Container-fluid Ends-->
-
-                <!-- footer start-->
-                <div class="container-fluid">
-                    <footer class="footer">
-                        <div class="row">
-                            <div class="col-md-12 footer-copyright text-center">
-                                <p class="mb-0">Copyright 2022 © Fastkart theme by pixelstrap</p>
                             </div>
+                          </div>
                         </div>
-                    </footer>
-                </div>
-            </div>
-            <!-- Reports Section End -->
-        </div>
-        <!-- Page Body End-->
-    </div>
-    <!-- page-wrapper End-->
-
-    <canvas id="monthlyRevenueChart" width="400" height="400"></canvas>
-
-    <!-- Modal Start -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog  modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <h5 class="modal-title" id="staticBackdropLabel">Logging Out</h5>
-                    <p>Are you sure you want to log out?</p>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div class="button-box">
-                        <button type="button" class="btn btn--no" data-bs-dismiss="modal">No</button>
-                        <button type="button" class="btn  btn--yes btn-primary">Yes</button>
-                    </div>
+                      </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Modal End -->
+        <div class="pagination-area mt-30 mb-50">
+          <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-start">
+              <% if (currentPage> 1) { %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= currentPage - 1 %>">
+                    <i class="material-icons md-chevron_left">pre</i>
+                  </a>
+                </li>
+                <% } %>
 
-    <!-- latest js -->
-    <script src="/assetsB/js/jquery-3.6.0.min.js"></script>
+                  <% for (let i=1; i <=totalPages; i++) { %>
+                    <li class="page-item <% if (i === currentPage) { %>active<% } %>">
+                      <a class="page-link" href="?page=<%= i %>">
+                        <%= i %>
+                      </a>
+                    </li>
+                    <% } %>
 
-    <!-- Bootstrap js -->
-    <script src="/assetsB/js/bootstrap/bootstrap.bundle.min.js"></script>
+                      <% if (currentPage < totalPages) { %>
+                        <li class="page-item">
+                          <a class="page-link" href="?page=<%= currentPage + 1 %>">
+                            <i class="material-icons md-chevron_right">Next</i>
+                          </a>
+                        </li>
+                        <% } %>
+            </ul>
+          </nav>
+        </div>
 
-    <!-- feather icon js -->
-    <script src="/assetsB/js/icons/feather-icon/feather.min.js"></script>
-    <script src="/assetsB/js/icons/feather-icon/feather-icon.js"></script>
+      <!-- Reports Section Start -->
+      <div class="page-body">
+        <div class="container-fluid">
+          <div class="row">
+            <p>sales :<%=totalSales%>
+            </p>
+            <p> totalRevenue :<%=totalSales%>
+            </p>
++
+            
+          </div>
+        </div>
+        <!-- Container-fluid Ends-->
 
-    <!-- scrollbar simplebar js -->
-    <script src="/assetsB/js/scrollbar/simplebar.js"></script>
-    <script src="/assetsB/js/scrollbar/custom.js"></script>
 
-    <!-- Sidebar js -->
-    <script src="/assetsB/js/config.js"></script>
 
-    <!-- tooltip init js -->
-    <script src="/assetsB/js/tooltip-init.js"></script>
 
-    <!-- Plugins js -->
-    <script src="/assetsB/js/sidebar-menu.js"></script>
-    <script src="/assetsB/js/notify/bootstrap-notify.min.js"></script>
-    <script src="/assetsB/js/notify/index.js"></script>
 
-    <!-- Apexchar js -->
-    <script src="/assetsB/js/chart/apex-chart/apex-chart1.js"></script>
-    <script src="/assetsB/js/chart/apex-chart/moment.min.js"></script>
-    <script src="/assetsB/js/chart/apex-chart/apex-chart.js"></script>
-    <script src="/assetsB/js/chart/apex-chart/stock-prices.js"></script>
-    <script src="/assetsB/js/chart/apex-chart/chart-custom.js"></script>
 
-    <!-- customizer js -->
-    <script src="/assetsB/js/customizer.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 
-    <!-- ratio js -->
-    <script src="/assetsB/js/ratio.js"></script>
 
-    <!-- sidebar effect -->
-    <script src="/assetsB/js/sidebareffect.js"></script>
 
-    <!-- Theme js -->
-    <script src="/assetsB/js/script.js"></script>
 
-    <!-- chart js -->
+        <script>
+          document.getElementById("pdfButton").addEventListener("click", function () {
+            const salesContainer = document.querySelector(".cardbody");
+            const pdfOptions = {
+              filename: 'SalesReport.pdf',
+              image: { type: 'jpeg', quality: 1.0 },
+              html2canvas: { scale: 3 },
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().from(salesContainer).set(pdfOptions).save();
+          });
 
-    <script>
-       let currentInterval = 'monthly'; // Initial time interval
-
-function fetchData(interval) {
-  currentInterval = interval;
-  fetch(`/admin/${interval}-revenue`)
-    .then(response => response.json())
-    .then(data => {
-      updateChart(data);
-    })
-    .catch(error => {
-      console.error(`Error fetching ${interval} revenue:`, error);
-    });
-}
-
-function updateChart(data) {
-  const ctx = document.getElementById('revenueChart').getContext('2d');
-
-  if (window.myChart) {
-    window.myChart.destroy();
-  }
-
-  const chartColors = [
-    'rgba(255, 99, 132, 0.5)',
-    'rgba(54, 162, 235, 0.5)',
-    'rgba(255, 206, 86, 0.5)',
-    // Add more colors as needed
-  ];
-
-  const borderColor = [
-    'rgba(255, 99, 132, 1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(255, 206, 86, 1)',
-    // Add more colors as needed
-  ];
-
-  const config = {
-    type: 'bar',
-    data: {
-      labels: data.map(item => item._id),
-      datasets: [
-        {
-          label: `${currentInterval.charAt(0).toUpperCase() + currentInterval.slice(1)} Revenue`,
-          data: data.map(item => item.totalRevenue),
-          backgroundColor: chartColors.slice(0, data.length), // Using colors according to data length
-          borderColor: borderColor.slice(0, data.length), // Using border colors according to data length
-          borderWidth: 1
-        }
-      ]
-    },
-    options: {
-      // Customize Chart.js options as needed
-    }
-  };
-
-  window.myChart = new Chart(ctx, config);
-}
-
-fetchData('weekly'); // Initial chart render with 'weekly' data
-
+          
 
   
-let selectedInterval = 'monthly'; // Initial time interval
-let salesChart = null; // Variable to store the chart instance
+          // document.addEventListener("DOMContentLoaded", function () {
+          //   const searchInput = document.getElementById("searchInput");
+          //   const table = document.getElementById("products");
+          //   const rows = table.getElementsByTagName("tr");
 
-function changeInterval(interval) {
-  selectedInterval = interval;
-  retrieveData(interval);
-}
+          //   searchInput.addEventListener("keyup", function () {
+          //     const searchText = searchInput.value.toLowerCase();
 
-function retrieveData(interval) {
-  fetch(`/admin/${interval}-sales-count`)
-    .then(response => response.json())
-    .then(data => {
-      renderSalesChart(data);
-    })
-    .catch(error => {
-      console.error(`Error fetching ${interval} sales count:`, error);
-    });
-}
-
-function renderSalesChart(data) {
-  if (salesChart) {
-    salesChart.destroy(); // Destroy the existing chart if it exists
-  }
-
-  const chartContext = document.getElementById('salesCountChart').getContext('2d');
-  const chartConfig = {
-    type: 'bar',
-    data: {
-      labels: data.map(item => item._id),
-      datasets: [
-        {
-          label: `${selectedInterval.charAt(0).toUpperCase() + selectedInterval.slice(1)} Sales Count`,
-          data: data.map(item => item.orders),
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        }
-      ]
-    },
-    options: {
-      // Customize Chart.js options as needed
-    }
-  };
-
-  salesChart = new Chart(chartContext, chartConfig);
-}
-
-retrieveData(selectedInterval);
-
-
-function fetchProductData(interval) {
-  fetch('/admin/product-count-per-category')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok.');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data); // Log the received data
-      renderProductCountChart(data);
-    })
-    .catch(error => {
-      console.error('Error fetching product count per category:', error);
-    });
-}
-
-  
-
-let userCountChart = null; // Store the chart instance
-
-function fetchUserCountData(interval) {
-  fetch(`/admin/user-counts?interval=${interval}`)
-    .then(response => response.json())
-    .then(data => {
-      renderUserCountChart(data);
-    })
-    .catch(error => {
-      console.error('Error fetching user count:', error);
-    });
-}
-
-function renderUserCountChart(data) {
-  const ctx = document.getElementById('userCountChart').getContext('2d');
-
-  if (userCountChart) {
-    userCountChart.destroy(); // Destroy the existing chart if it exists
-  }
-
-  const chartConfig = {
-    type: 'line',
-    data: {
-      labels: data.map(item => item._id),
-      datasets: [
-        {
-          label: 'Number of Users',
-          data: data.map(item => item.userCount),
-          backgroundColor: 'rgba(54, 162, 235, 0.5)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      // Customize Chart.js options as needed
-    },
-  };
-
-  userCountChart = new Chart(ctx, chartConfig);
-}
-
-// Initial fetch for 'monthly' data
-fetchUserCountData('weekly');
-
-
-////////////////////////////////////////////
-
-
- 
-let selectedValue = '';
-
-const selectElement = document.getElementById('filterdOption');
-selectElement.addEventListener('change', function() {
-  selectedValue = selectElement.value;
-  getSalesReport(selectedValue);
-});
-
-async function getSalesReport(type) {
-  try {
-    
-    const response = await fetch('/admin/getSalesReport', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ type, selectedValue })
-    });
-
-    const data = await response.json();
-    // Handle the data from the response
-    console.log(data);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
+          //     for (let i = 1; i < rows.length; i++) {
+          //       const rowData = rows[i].textContent.toLowerCase();
+          //       if (rowData.includes(searchText)) {
+          //         rows[i].style.display = "";
+          //       } else {
+          //         rows[i].style.display = "none";
+          //       }
+          //     }
+          //   });
+          // });
 
 
 
-</script>
 
-</body>
+          $(document).ready(function () {
+            $('#products').DataTable({
+              "paging": false,
+            });
+          });
 
+          function updateProductList(categoryId) {
+            $.ajax({
+              type: "GET",
+              url: "/products",
+              data: { categoryId: categoryId },
+              success: function (data) {
+                $("#product-list").html(data);
+              },
+              error: function (error) {
+                console.error("Error:", error);
+              }
+            });
+          }
 
-<!-- Mirrored from themes.pixelstrap.com/fastkart/back-end/reports.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 04 Sep 2023 05:49:49 GMT -->
-</html>
+          document.getElementById('category-filter').addEventListener('change', function () {
+            const categoryId = this.value;
+            updateProductList(categoryId);
+          });
+
+          $(document).ready(function () {
+            updateProductList('');
+            
+          });
+
+        </script>
+
+        
+
+        <%- include('../partials/footer') %>

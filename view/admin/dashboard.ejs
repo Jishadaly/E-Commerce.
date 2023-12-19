@@ -1,6 +1,6 @@
 <%- include('../partials/header') %>
 <%- include('../partials/sidebar') %>
-
+<head>  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script></head>
 
             <!-- index body start -->
             <div class="page-body">
@@ -259,11 +259,17 @@
                             <div class="card o-hidden card-hover">
                                 <div class="card-header border-0 pb-1">
                                     <div class="card-header-title">
-                                        <h4>Revenue Report</h4>
+                                        <h4>sales count</h4>
                                     </div>
                                 </div>
                                 <div class="card-body p-0">
-                                    <div id="report-chart"></div>
+                                    <div>
+                                        <button onclick="changeInterval('monthly')">Monthly</button>
+                                        <button onclick="changeInterval('weekly')">Weekly</button>
+                                        <button onclick="changeInterval('yearly')">Yearly</button>
+                                      </div>
+                                      <canvas id="salesCountChart" width="300" height="250"></canvas>
+                               
                                 </div>
                             </div>
                         </div>
@@ -357,10 +363,133 @@
                             </div>
                         </div>
                         <!-- Best Selling Product End -->
+                        <div class="col-12">
+                            <div class="card o-hidden">
+                                <!-- <div class="card-header border-0 pb-1">
+                                    <div class="card-header-title">
+                                        <h4>Sales / Purchase Return</h4>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div id="sales-purchase-return-cart"></div>
+                                </div> -->
+
+                                
+
+
+                                <div class="card-header-title">
+                                    <h4>Users Summary</h4>
+                                </div>
+                                
+                                <div class="align-items-center">
+                                    <button onclick="fetchUserCountData('monthly')">Monthly</button>
+                                    <button onclick="fetchUserCountData('weekly')">Weekly</button>
+                                    <button onclick="fetchUserCountData('yearly')">Yearly</button>
+                                  </div>
+                                  
+                                  <canvas id="userCountChart" width="400" height="150"></canvas>
+                                  
+                        </div>
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <!-- Salery Summy star-->
+                                <!-- <div class="col-xl-8 col-lg-12 col-md-6">
+                                    <div class="card o-hidden">
+                                        <div class="card-header border-0 pb-1">
+                                            <div class="card-header-title">
+                                               
+                                            </div>
+                                        </div>
+                                        
+                                       
+                                         
+                                          
+                                    </div>
+                                </div> -->
+                                <!-- Salery Summy end-->
+        
+                                <!-- Employ Salary  start-->
+                                <!-- <div class="col-xl-4 col-lg-12 col-md-6">
+                                    <div class="h-100">
+                                        <div class="card o-hidden">
+                                            <div class="card-header border-0 pb-1">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <div class="card-header-title">
+                                                        <h4>Sales / Purchase</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body p-0">
+                                                <div class="pie-chart">
+                                                    <div>
+                                                        <button onclick="changeInterval('monthly')">Monthly</button>
+                                                        <button onclick="changeInterval('weekly')">Weekly</button>
+                                                        <button onclick="changeInterval('yearly')">Yearly</button>
+                                                      </div>
+                                                      <canvas id="salesCountChart" width="300" height="250"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <!-- Employ Salary end-->
+        
+                                <!-- Expenses star-->
+                                <!-- <div class="col-xl-4 col-lg-12 col-md-6">
+                                    <div class="card o-hidden">
+                                        <div class="card-header border-0 pb-1">
+                                            <div class="card-header-title">
+                                                <h4>Expenses</h4>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <div id="expenses-cart"></div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <!-- Expenses end-->
+        
+                                <!-- Sales / Purchase chart start -->
+                                <!-- <div class="col-xl-8 col-lg-12 col-md-6">
+                                    <div class="card">
+                                        <div class="card-header border-0 pb-1">
+                                            <div class="card-header-title">
+                                                <h4>Sales / Purchase</h4>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                </div> -->
+                                <!-- Sales / Purchase chart end -->
+        
+                                <!-- Sales / Purchase Return star-->
+                                <div class="col-12">
+                                    <div class="card o-hidden">
+                                        <!-- <div class="card-header border-0 pb-1">
+                                            <div class="card-header-title">
+                                                <h4>Sales / Purchase Return</h4>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <div id="sales-purchase-return-cart"></div>
+                                        </div> -->
+                                        <div class="card-header-title">
+                                            <h4>Product / Sales</h4>
+                                        </div>
+                                        
+                                        <div class="align-items-center">
+                                            <button onclick="fetchData('monthly')">Monthly</button>
+                                            <button onclick="fetchData('weekly')">Weekly</button>
+                                            <button onclick="fetchData('yearly')">Yearly</button>
+                                          </div>
+                                          <canvas id="revenueChart" width="400" height="150"></canvas>
+                                    </div>
+                                </div>
 
 
                         <!-- Recent orders start-->
-                        <div class="col-xl-6">
+                        <!-- <div class="col-xl-6">
                             <div class="card o-hidden card-hover">
                                 <div class="card-header card-header-top card-header--2 px-0 pt-0">
                                     <div class="card-header-title">
@@ -551,11 +680,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Recent orders end-->
+                        </div> -->
+                        <!-- Recent orders end -->
 
                         <!-- Earning chart star-->
-                        <div class="col-xl-6">
+                        <!-- <div class="col-xl-6">
                             <div class="card o-hidden card-hover">
                                 <div class="card-header border-0 mb-0">
                                     <div class="card-header-title">
@@ -566,12 +695,12 @@
                                     <div id="bar-chart-earning"></div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- Earning chart end-->
 
 
                         <!-- Transactions start-->
-                        <div class="col-xxl-4 col-md-6">
+                        <!-- <div class="col-xxl-4 col-md-6">
                             <div class="card o-hidden card-hover">
                                 <div class="card-header border-0">
                                     <div class="card-header-title">
@@ -655,11 +784,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- Transactions end-->
 
                         <!-- visitors chart start-->
-                        <div class="col-xxl-4 col-md-6">
+                        <!-- <div class="col-xxl-4 col-md-6">
                             <div class="h-100">
                                 <div class="card o-hidden card-hover">
                                     <div class="card-header border-0">
@@ -676,12 +805,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- visitors chart end-->
 
 
                         <!-- To Do List start-->
-                        <div class="col-xxl-4 col-md-6">
+                        <!-- <div class="col-xxl-4 col-md-6">
                             <div class="card o-hidden card-hover">
                                 <div class="card-header border-0">
                                     <div class="card-header-title">
@@ -747,7 +876,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- To Do List end-->
 
 
@@ -841,6 +970,191 @@
 
     <!-- Theme js -->
     <script src="/assetsB/js/script.js"></script>
+
+
+    <script>
+  
+  
+
+    
+let currentInterval = 'monthly'; // Initial time interval
+
+function fetchData(interval) {
+  currentInterval = interval;
+  fetch(`/admin/${interval}-revenue`)
+    .then(response => response.json())
+    .then(data => {
+      updateChart(data);
+    })
+    .catch(error => {
+      console.error(`Error fetching ${interval} revenue:`, error);
+    });
+}
+
+function updateChart(data) {
+  const ctx = document.getElementById('revenueChart').getContext('2d');
+
+  if (window.myChart) {
+    window.myChart.destroy();
+  }
+
+  const chartColors = [
+    'rgba(255, 99, 132, 0.5)',
+    'rgba(54, 162, 235, 0.5)',
+    'rgba(255, 206, 86, 0.5)',
+    // Add more colors as needed
+  ];
+
+  const borderColor = [
+    'rgba(255, 99, 132, 1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    // Add more colors as needed
+  ];
+
+  const config = {
+    type: 'bar',
+    data: {
+      labels: data.map(item => item._id),
+      datasets: [
+        {
+          label: `${currentInterval.charAt(0).toUpperCase() + currentInterval.slice(1)} Revenue`,
+          data: data.map(item => item.totalRevenue),
+          backgroundColor: chartColors.slice(0, data.length), // Using colors according to data length
+          borderColor: borderColor.slice(0, data.length), // Using border colors according to data length
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      // Customize Chart.js options as needed
+    }
+  };
+
+  window.myChart = new Chart(ctx, config);
+}
+
+fetchData('weekly'); // Initial chart render with 'weekly' data
+
+
+  
+let selectedInterval = 'monthly'; // Initial time interval
+let salesChart = null; // Variable to store the chart instance
+
+function changeInterval(interval) {
+  selectedInterval = interval;
+  retrieveData(interval);
+}
+
+function retrieveData(interval) {
+  fetch(`/admin/${interval}-sales-count`)
+    .then(response => response.json())
+    .then(data => {
+      renderSalesChart(data);
+    })
+    .catch(error => {
+      console.error(`Error fetching ${interval} sales count:`, error);
+    });
+}
+
+function renderSalesChart(data) {
+  if (salesChart) {
+    salesChart.destroy(); // Destroy the existing chart if it exists
+  }
+
+  const chartContext = document.getElementById('salesCountChart').getContext('2d');
+  const chartConfig = {
+    type: 'bar',
+    data: {
+      labels: data.map(item => item._id),
+      datasets: [
+        {
+          label: `${selectedInterval.charAt(0).toUpperCase() + selectedInterval.slice(1)} Sales Count`,
+          data: data.map(item => item.orders),
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      // Customize Chart.js options as needed
+    }
+  };
+
+  salesChart = new Chart(chartContext, chartConfig);
+}
+
+retrieveData(selectedInterval);
+
+
+function fetchProductData(interval) {
+  fetch('/admin/product-count-per-category')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data); // Log the received data
+      renderProductCountChart(data);
+    })
+    .catch(error => {
+      console.error('Error fetching product count per category:', error);
+    });
+}
+
+  
+
+let userCountChart = null; // Store the chart instance
+
+function fetchUserCountData(interval) {
+  fetch(`/admin/user-counts?interval=${interval}`)
+    .then(response => response.json())
+    .then(data => {
+      renderUserCountChart(data);
+    })
+    .catch(error => {
+      console.error('Error fetching user count:', error);
+    });
+}
+
+function renderUserCountChart(data) {
+  const ctx = document.getElementById('userCountChart').getContext('2d');
+
+  if (userCountChart) {
+    userCountChart.destroy(); // Destroy the existing chart if it exists
+  }
+
+  const chartConfig = {
+    type: 'line',
+    data: {
+      labels: data.map(item => item._id),
+      datasets: [
+        {
+          label: 'Number of Users',
+          data: data.map(item => item.userCount),
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      // Customize Chart.js options as needed
+    },
+  };
+
+  userCountChart = new Chart(ctx, chartConfig);
+}
+
+// Initial fetch for 'monthly' data
+fetchUserCountData('weekly');
+
+    </script>
+
+
 </body>
 
 
