@@ -110,14 +110,29 @@
             					<label for="checkout-discount-input m-0" class="text-truncate">Have a coupon? <span>Click here to enter your code</span></label>
                                -->
                               
-                               <div class="form-group mx-sm-3 mb-2">
+                               <div class="form-group ">
                                 <label for="inputPassword2" class="sr-only">Password</label>
-                                <input type="text" class="form-control" id="inputPassword2" placeholder="Click here to enter your code" name="couponCode" >
+                                <input type="text" class="form-control mb-1 p-0" id="inputPassword2" placeholder="Click here to enter your code" name="couponCode" >
+                                
+                                
                                 <button type="submit" class="btn btn-primary mb-2">Apply</button>
+                                </form>
                             </div>
-                              
-            				</form>
+                            
+                           
+            				
+                            <div id="appliedCouponDiv" class="border p-2 d-flex align-items-center justify-content-between">
+                                <% if (cart.appliedCoupon) { %>
+                                    <p style="margin: 0;"> Applied Coupon:<span> <%= cart.appliedCoupon %> </span></p>
+                                    <a href="/removeCoupon?CouponCode=<%=cart.appliedCoupon%>"><button class="btn-remove"><i class="icon-close"></i></button></a> 
+                                <% } else { %>
+                                    <p>No coupon applied</p>
+                                <% } %>
+                            </div>
+                           
             			</div><!-- End .checkout-discount -->
+
+                        
 
             			
 		                	<div class="row">

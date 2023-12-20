@@ -104,17 +104,19 @@
                                                     <div class="modal-body">
                                                         <div class="row mb-3">
                                                             <div class="col text-center">
-                                                                <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent('http://localhost:3000/register?referel=' + user.referelCode) %>"
+                                                                <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent('http://localhost:3000/register?referel='+user.referelCode) %>"
                                                                     target="_blank" class="btn btn-primary">
                                                                     <i class="fab icon-facebook-f"></i> Facebook
                                                                 </a>
                                                             </div>
+                                                           
                                                             <div class="col text-center">
-                                                                <a href="https://twitter.com/intent/tweet?url=https://yourwebsite.com&text=Check out this website!"
-                                                                    target="_blank" class="btn btn-info"><i class="fab icon-twitter"></i>Twitter</a></i> 
-                                                                     
+                                                                <a href="https://t.me/share/url?url=http://localhost:3000/register?referel=<%=user.referelCode%>"
+                                                                   target="_blank" class="btn btn-info">
+                                                                    <i class="fab icon-telegram"></i>Telegram
                                                                 </a>
                                                             </div>
+                                                            
                                                             <div class="col text-center">
                                                                 <!-- This assumes you're using EJS templating -->
                                                                 <!-- Assuming you're using EJS templating -->

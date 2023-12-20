@@ -107,8 +107,7 @@ async function listUnlist(req, res) {
       console.log(data);
       data.list = !data.list;
       await data.save();
-
-      res.redirect('/admin/productList');
+      res.status(200).json({ message: 'successfully' });
 
     } else {
       res.redirect('/admin/productList');
@@ -219,8 +218,6 @@ async function loadProductDetails(req, res) {
 
 
 
-
-
 async function loadProducts(req, res) {
   try {
     const brands = await productModel.distinct('brand');
@@ -314,10 +311,6 @@ async function deleteImage(req, res) {
       res.status(404).json({ error:'Product not found'});
     }
    
-     
-    
-   
-    
 
 
   } catch (error) {

@@ -393,15 +393,13 @@ async function returnResponse(req, res) {
       }
 
     }
-
     res.status(200).json({ success: true, message: "Operation completed successfully" });
-
     console.log(updatedStatus);
-
   } catch (error) {
     console.log(error);
   }
 }
+
 
 
 async function applyCoupon(req, res) {
@@ -416,6 +414,8 @@ async function applyCoupon(req, res) {
 
       const newTotal = userCart.Total - coupon.discount;
       userCart.Total = newTotal;
+      userCart.appliedCoupon = coupon.Couponcode;
+
       await userCart.save();
 
       console.log(userCart);
@@ -433,6 +433,39 @@ async function applyCoupon(req, res) {
 }
 
 
+async function removeCoupon(req,res){
+  try {
+      const appliedCoupon = req.query.CouponCode0;
+      console.log(req.query);
+      console.log("11111111111"+appliedCoupon);
+      const coupon = await couponModal.findOne({ Couponcode: appliedCoupon });
+      const user = req.session.userId;
+      const userCart = await cartSchema.findOne({ user: user });
+      console.log(userCart);
+    if (coupon) {
+
+      const newTotal = userCart.Total + coupon.discount;
+      userCart.Total = newTotal;
+      userCart.appliedCoupon = '';
+
+      await userCart.save();
+
+      console.log(userCart+"////////////////");
+
+    } else {
+      res.render('checkout', { message: "noooo" })
+    }
+    console.log(coupon);
+
+    res.redirect('/checkout')
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
 
 module.exports = {
 
@@ -440,6 +473,6 @@ module.exports = {
   cancelOrder, orderStatus,
   loadOrderList, loadOrderDetails, updatedPayment,
   returnRequest, loadReturnOrderList, loadReturnOrderDetails,
-  returnResponse, applyCoupon
+  returnResponse, applyCoupon, removeCoupon
 
 }

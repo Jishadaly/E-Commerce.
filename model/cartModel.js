@@ -22,7 +22,8 @@ const cartSchema = new mongoose.Schema({
     },
    
   ],
-  Total :Number
+  Total :Number,
+  appliedCoupon:Number,
   
 })
 

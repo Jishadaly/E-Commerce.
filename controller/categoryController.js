@@ -68,27 +68,31 @@ async function addCategory(req,res) {
    }
 
 
+ 
 
+   async function listingCategory(req, res) {
+    
+    try {
+      
+       const categoryId = req.query.id;
+       console.log(categoryId);
+       if (categoryId) {
+         const foundCat = await category.findById(categoryId);
 
-async function listingCategory (req,res){
-          try{
-          const id = req.query.id;
-          if (id) {
-          const data = await category.findById(id);
-          data.listed = !data.listed;
-          await data.save();
-          res.redirect('/admin/category');
-          } else {
-          res.redirect('/admin/category');
-          console.log("not changed ");
-          }
+         foundCat.listed =!foundCat.listed
+         console.log(foundCat.listed);
 
-
-          }catch(error){
-          console.log(error.message);
-          }
-
+         await foundCat.save();
+         res.status(200).json({ message: 'successfully' });
+       } else {
+        
+       }
+    } catch (error) {
+      console.log(error);
+    }
 }
+
+
 
 
 async function loadEditCategory (req,res){

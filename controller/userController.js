@@ -309,7 +309,7 @@ async function loadCheckout(req, res) {
     const coupon = await couponModal.find({ minimumCartTotal: { $lte: cart.Total }, status: true });
 
 
-    res.render('checkout', { cart, address, coupon })
+    res.render('checkout', { cart, address, coupon ,message:""})
 
 
   } catch (error) {
@@ -333,18 +333,18 @@ async function loadDashboard(req, res) {
   }
 }
 
-async function orderdetails(req, res) {
-  try {
+// async function orderdetails(req, res) {
+//   try {
 
-    const orderId = req.query.orderId;
-    const orderDetails = await orderModel.findById(orderId).populate('address').populate('products.product')
-    res.render('orderDetails', { orderDetails })
+//     const orderId = req.query.orderId;
+//     const orderDetails = await orderModel.findById(orderId).populate('address').populate('products.product')
+//     res.render('orderDetails', { orderDetails })
 
 
-  } catch (error) {
-    console.log(error);
-  }
-}
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 
 // async function canceOrder(req,res){
