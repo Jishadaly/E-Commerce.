@@ -8,6 +8,7 @@ const orderController = require('../controller/orderController')
 const upload = require('../helper/multer');
 const isLogin = require('../middleware/admin_authHandler');
 const report = require('../controller/reportController')
+const excelController = require('../controller/excelController');
 
 adminRoute.set('view engine','ejs')
 adminRoute.set('views','./view/admin');
@@ -59,6 +60,7 @@ adminRoute.get('/weekly-sales-count', report.weeklySales);
 adminRoute.get('/yearly-sales-count', report.yearlySales);
 adminRoute.get('/user-counts',report.userCounts)
 adminRoute.post('/getSalesReport',report.getSalesReport);
+adminRoute.get('/sales-Report-excel',excelController.getExcelSalesReport)
 
 
 module.exports = adminRoute;

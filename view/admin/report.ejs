@@ -8,27 +8,40 @@
       <div class="page-body">
         <!-- Table Start -->
         <div class="container-fluid">
-          <div class="row justify-content-between"> <!-- Align items to the left and right -->
+          <div class="row justify-content-between align-items-center"> <!-- Align items to the left and right -->
+            
+        
             <div class="col-auto"> <!-- Adjust width as needed -->
-              <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                  Select Period
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                  <li><a class="dropdown-item" href="/admin/salesReports?status=Daily">Daily</a></li>
-                  <li><a class="dropdown-item" href="/admin/salesReports?status=Weekly">Weekly</a></li>
-                  <li><a class="dropdown-item" href="/admin/salesReports?status=Yearly">Yearly</a></li>
-                </ul>
+              <div class="d-inline"> <!-- Adjust display property to inline -->
+                <div class="row "> <!-- Create a new row for the PDF button -->
+                  <div class="col-auto">
+                    <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Time Duration
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="/admin/salesReports?status=Daily">Daily</a></li>
+                        <li><a class="dropdown-item" href="/admin/salesReports?status=Weekly">Weekly</a></li>
+                        <li><a class="dropdown-item" href="/admin/salesReports?status=Yearly">Yearly</a></li>
+                      </ul>
+                    </div>
+                    
+                  </div>
+                </div>
+                
               </div>
             </div>
-            
+
             <div class="col-auto"> <!-- Adjust width as needed -->
-              <button id="pdfButton" class="btn btn-secondary print"><i class="icon material-icons md-print"></i> Download PDF</button>
+              <a href="/admin/sales-Report-excel" class="btn btn-outline print"><i class=""></i>Download Excel</a>
+              <button id="pdfButton" class="btn btn-outline print mt-2 mb-5" ><i class=""></i> Download PDF</button>
             </div>
           </div>
-        </div>
         
-       
+          
+        </div>
+                
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
@@ -37,7 +50,7 @@
                         <div class="cardbody">
                           <div class="card-header border-0 pb-1">
                             <div class="card-header-title">
-                              <h4>Transfer History</h4>
+                              <h4>Sales Report</h4>
                             </div>
                           </div>
           
@@ -119,19 +132,7 @@
           </nav>
         </div>
 
-      <!-- Reports Section Start -->
-      <div class="page-body">
-        <div class="container-fluid">
-          <div class="row">
-            <p>sales :<%=totalSales%>
-            </p>
-            <p> totalRevenue :<%=totalSales%>
-            </p>
-+
-            
-          </div>
-        </div>
-        <!-- Container-fluid Ends-->
+    
 
 
 
