@@ -121,7 +121,7 @@
                             
                            
             				
-                            <div id="appliedCouponDiv" class="border p-2 d-flex align-items-center justify-content-between">
+                            <div id="appliedCouponDiv" class="border p-2 d-flex align-items-center justify-content-between" style="border: 1px solid rgb(227, 212, 0);">
                                 <% if (cart.appliedCoupon) { %>
                                     <p style="margin: 0;"> Applied Coupon:<span> <%= cart.appliedCoupon %> </span></p>
                                     <a href="/removeCoupon?CouponCode=<%=cart.appliedCoupon%>"><button class="btn-remove"><i class="icon-close"></i></button></a> 
@@ -138,8 +138,6 @@
 		                	<div class="row">
 		                		<div class="col-lg-9">
                                     <!-- <h4 class="checkout-title"> add New Address?? <a href="/dashBoard">click here..</a></h4>	 -->
-
-
                                     <div id="ModalLoginForm" class="modal fade">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">

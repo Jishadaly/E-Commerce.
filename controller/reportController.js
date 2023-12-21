@@ -174,66 +174,110 @@ async function yearlyRevenue(req, res) {
 
 
 
-async function getSalesCountByInterval(req, res, interval) {
+// async function getSalesCountByInterval(req, res, interval) {
+//   try {
+//     let aggregationPipeline = [];
+
+//     switch (interval) {
+//       case 'monthly':
+//         aggregationPipeline = [
+//           {
+//             $group: {
+//               _id: { $month: '$createdAt' },
+//               orders: { $sum: '$orders' }
+//             }
+//           }
+//         ];
+//         break;
+//       case 'weekly':
+//         aggregationPipeline = [
+//           {
+//             $group: {
+//               _id: { $week: '$createdAt' },
+//               orders: { $sum: '$orders' }
+//             }
+//           }
+//         ];
+//         break;
+//       case 'yearly':
+//         aggregationPipeline = [
+//           {
+//             $group: {
+//               _id: { $year: '$createdAt' },
+//               orders: { $sum: '$orders' }
+//             }
+//           }
+//         ];
+//         break;
+//       default:
+//         return res.status(400).json({ message: 'Invalid interval' });
+//     }
+
+//     const salesCountData = await productModal.aggregate(aggregationPipeline);
+//     res.json(salesCountData);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// }
+
+
+// async function monthlySales(req, res) {
+//   return getSalesCountByInterval(req, res, 'monthly');
+// }
+
+
+// async function weeklySales(req, res) {
+//   return getSalesCountByInterval(req, res, 'weekly');
+// }
+
+
+// async function yearlySales(req, res) {
+//   return getSalesCountByInterval(req, res, 'yearly');
+// }
+
+
+const getDeliveredOrdersData = async () => {
   try {
-    let aggregationPipeline = [];
+    const deliveredMonthly = await Order.aggregate([
+      {
+        $match: { status: 'Delivered' } // Filter by delivered orders
+      },
+      {
+        $group: {
+          _id: { $month: '$createdAt' }, // Group by month
+          count: { $sum: 1 } // Count the number of orders in each month
+        }
+      }
+    ]);
 
-    switch (interval) {
-      case 'monthly':
-        aggregationPipeline = [
-          {
-            $group: {
-              _id: { $month: '$createdAt' },
-              orders: { $sum: '$orders' }
-            }
-          }
-        ];
-        break;
-      case 'weekly':
-        aggregationPipeline = [
-          {
-            $group: {
-              _id: { $week: '$createdAt' },
-              orders: { $sum: '$orders' }
-            }
-          }
-        ];
-        break;
-      case 'yearly':
-        aggregationPipeline = [
-          {
-            $group: {
-              _id: { $year: '$createdAt' },
-              orders: { $sum: '$orders' }
-            }
-          }
-        ];
-        break;
-      default:
-        return res.status(400).json({ message: 'Invalid interval' });
-    }
+    const deliveredYearly = await Order.aggregate([
+      {
+        $match: { status: 'Delivered' } // Filter by delivered orders
+      },
+      {
+        $group: {
+          _id: { $year: '$createdAt' }, // Group by year
+          count: { $sum: 1 } // Count the number of orders in each year
+        }
+      }
+    ]);
 
-    const salesCountData = await productModal.aggregate(aggregationPipeline);
-    res.json(salesCountData);
+    // You'll need to adjust this to fit your schema and logic for weekly data
+    const deliveredWeekly = await Order.aggregate([
+      {
+        $match: { status: 'Delivered' } // Filter by delivered orders
+        // Add your logic to group by week and count orders
+      }
+    ]);
+
+    return { deliveredMonthly, deliveredYearly, deliveredWeekly };
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    throw error;
   }
-}
+};
 
 
-async function monthlySales(req, res) {
-  return getSalesCountByInterval(req, res, 'monthly');
-}
-
-
-async function weeklySales(req, res) {
-  return getSalesCountByInterval(req, res, 'weekly');
-}
-
-
-async function yearlySales(req, res) {
-  return getSalesCountByInterval(req, res, 'yearly');
-}
 
 
 async function userCounts(req, res) {
@@ -370,10 +414,12 @@ module.exports = {
   monthlyRevenue,
   weeklyRevenue,
   yearlyRevenue,
-  monthlySales,
-  weeklySales,
-  yearlySales,
+  // monthlySales,
+  // weeklySales,
+  // yearlySales,
   userCounts,
-  getSalesReport
+  getSalesReport,
+  getDeliveredOrdersData
+  // monthlyDeliveredProducts
 
 };

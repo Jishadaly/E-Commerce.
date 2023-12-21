@@ -13,7 +13,7 @@
                                     <div class="media align-items-center static-top-widget">
                                         <div class="media-body p-0">
                                             <span class="m-0">Total Revenue</span>
-                                            <h4 class="mb-0 counter">$6659
+                                            <h4 class="mb-0 counter">₹<%=totalRevenue%>
                                                 <span class="badge badge-light-primary grow">
                                                     <i data-feather="trending-up"></i>8.5%</span>
                                             </h4>
@@ -32,7 +32,7 @@
                                     <div class="media static-top-widget">
                                         <div class="media-body p-0">
                                             <span class="m-0">Total Orders</span>
-                                            <h4 class="mb-0 counter">9856
+                                            <h4 class="mb-0 counter"><%=totalOrders%>
                                                 <span class="badge badge-light-danger grow">
                                                     <i data-feather="trending-down"></i>8.5%</span>
                                             </h4>
@@ -51,10 +51,12 @@
                                     <div class="media static-top-widget">
                                         <div class="media-body p-0">
                                             <span class="m-0">Total Products</span>
-                                            <h4 class="mb-0 counter">893
+                                            <h4 class="mb-0 counter"><%=totalProducts%>
                                                 <a href="add-new-product.html" class="badge badge-light-secondary grow">
                                                     ADD NEW</a>
                                             </h4>
+                                            
+                                           
                                         </div>
 
                                         <div class="align-self-center text-center">
@@ -71,7 +73,7 @@
                                     <div class="media static-top-widget">
                                         <div class="media-body p-0">
                                             <span class="m-0">Total Customers</span>
-                                            <h4 class="mb-0 counter">4.6k
+                                            <h4 class="mb-0 counter"><%=totalCustomers%>
                                                 <span class="badge badge-light-success grow">
                                                     <i data-feather="trending-down"></i>8.5%</span>
                                             </h4>
@@ -255,7 +257,7 @@
 
 
                         <!-- Earning chart star-->
-                        <div class="col-xl-6">
+                        <!-- <div class="col-xl-6">
                             <div class="card o-hidden card-hover">
                                 <div class="card-header border-0 pb-1">
                                     <div class="card-header-title">
@@ -272,7 +274,7 @@
                                
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- Earning chart  end-->
 
 
@@ -1057,35 +1059,6 @@ function retrieveData(interval) {
     });
 }
 
-function renderSalesChart(data) {
-  if (salesChart) {
-    salesChart.destroy(); // Destroy the existing chart if it exists
-  }
-
-  const chartContext = document.getElementById('salesCountChart').getContext('2d');
-  const chartConfig = {
-    type: 'bar',
-    data: {
-      labels: data.map(item => item._id),
-      datasets: [
-        {
-          label: `${selectedInterval.charAt(0).toUpperCase() + selectedInterval.slice(1)} Sales Count`,
-          data: data.map(item => item.orders),
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        }
-      ]
-    },
-    options: {
-      // Customize Chart.js options as needed
-    }
-  };
-
-  salesChart = new Chart(chartContext, chartConfig);
-}
-
-retrieveData(selectedInterval);
 
 
 function fetchProductData(interval) {

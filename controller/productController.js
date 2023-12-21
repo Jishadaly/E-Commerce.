@@ -158,8 +158,10 @@ async function editProduct(req, res) {
     
     const productOffer = discountPerc;  
     const discountPrice =  price - (price * discountPerc) / 100;
-    const finalPrice = discountPrice - (discountPrice * categoryOffer)/100;
+    // const finalPrice = discountPrice - (discountPrice * categoryOffer)/100;
+    const finalPrice = Number((discountPrice - (discountPrice * categoryOffer) / 100).toFixed(2));
 
+const offerValue = parseFloat(productOffer);
     const data = {
       name: req.body.ProductName,
       brand: req.body.brandName,
@@ -171,7 +173,8 @@ async function editProduct(req, res) {
       description: req.body.description,
       price:price,
       discountPrice: finalPrice,
-      offer:productOffer,
+      // offer:productOffer,
+      offer: Number(offerValue.toFixed(1)),
       featured: req.body.featurdStatus,
       category: req.body.category,
     };

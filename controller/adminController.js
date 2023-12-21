@@ -4,6 +4,8 @@ const  User  = require('../model/userModal')
 const  Admin  = require('../model/adminModel');
 const couponModal = require('../model/couponModal');
 const productModal = require('../model/productModal')
+const orderModal = require('../model/orderModel');
+const userModal = require('../model/userModal');
 
 const loadLogin = async(req,res)=>{
 
@@ -45,21 +47,45 @@ const verifyLogin = async(req,res)=>{
 //   }
 //  }
 
- const loadDashboard = async(req,res)=>{
-                
-            try {
-              if (req.session.admin) {
-                const bestProducts = await productModel.find({list:true}).sort({orders:-1}).limit(4);
-                res.render('dashboard.ejs',{bestProducts});
-              } else {
-                res.redirect('/admin')
-              }
-            } catch (error) {
-              console.log(error.message)
-            }
- } 
+const loadDashboard = async (req, res) => {
+  try {
+    if (req.session.admin) {
+      const bestProducts = await productModal.find({ list: true }).sort({ orders: -1 }).limit(4);
+      
+      // Calculate total revenue
+      const totalRevenue = await orderModal.aggregate([
+        {
+          $match: { status: { $in: ['Shipped', 'Delivered', 'Confirmed'] } }
+        },
+        {
+          $group: { _id: null, totalRevenue: { $sum: "$grandTotal" } }
+        }
+      ]);
 
+      // Calculate total orders
+      const totalOrders = await orderModal.countDocuments();
 
+      // Calculate total products
+      const totalProducts = await productModal.countDocuments();
+
+      // Calculate total customers
+      const totalCustomers = await userModal.countDocuments();
+
+      res.render('dashboard', {
+        bestProducts,
+        totalRevenue: totalRevenue.length > 0 ? totalRevenue[0].totalRevenue : 0,
+        totalOrders,
+        totalProducts,
+        totalCustomers
+      });
+    } else {
+      res.redirect('/admin');
+    }
+  } catch (error) {
+    console.log(error.message);
+   
+  }
+};
 
 // const loadUserlist= async(req,res)=>{
 

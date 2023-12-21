@@ -197,7 +197,7 @@ const verifyOtp = async (req, res) => {
 
       await users.save();
 
-      res.redirect('/')
+      res.redirect('/login')
 
     }else if(enteredOtp == stroredOtp){
 

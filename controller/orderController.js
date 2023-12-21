@@ -434,8 +434,9 @@ async function applyCoupon(req, res) {
 
 
 async function removeCoupon(req,res){
+  
   try {
-      const appliedCoupon = req.query.CouponCode0;
+      const appliedCoupon = req.query.CouponCode;
       console.log(req.query);
       console.log("11111111111"+appliedCoupon);
       const coupon = await couponModal.findOne({ Couponcode: appliedCoupon });
@@ -445,11 +446,11 @@ async function removeCoupon(req,res){
     if (coupon) {
 
       const newTotal = userCart.Total + coupon.discount;
+      // await cartSchema.findOneAndUpdate({user:user},{$set:{Total:newTotal,appliedCoupon:''}});
       userCart.Total = newTotal;
       userCart.appliedCoupon = '';
 
       await userCart.save();
-
       console.log(userCart+"////////////////");
 
     } else {

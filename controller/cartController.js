@@ -32,11 +32,11 @@ const addToCart = async (req, res) => {
     } else {
 
       const product = await Product.findById(productId);
-      
+
       if (product) {
-        userCart.products.push({ product: productId, quantity: 1 ,subTotal: product.discountPrice  });
+        userCart.products.push({ product: productId, quantity: 1, subTotal: product.discountPrice });
         const total = userCart.products.reduce((acc, curr) => acc + (curr.subTotal || 0), 0);
-              userCart.Total = total;
+        userCart.Total = total;
       } else {
         console.log('Product not found');
       }
@@ -47,19 +47,19 @@ const addToCart = async (req, res) => {
 
   } catch (error) {
     console.log(error);
-   
+
   }
 };
 
 
 
 
-async function loadCart(req,res){
+async function loadCart(req, res) {
   try {
-     const userId = req.session.userId;
-     const cart = await cartSchema.findOne({user:userId}).populate('user').populate('products.product')
-     
-    res.render('cart',{cart})
+    const userId = req.session.userId;
+    const cart = await cartSchema.findOne({ user: userId }).populate('user').populate('products.product')
+
+    res.render('cart', { cart })
   } catch (error) {
     console.log(error);
   }
@@ -68,82 +68,82 @@ async function loadCart(req,res){
 
 
 
-async function updateSubTotal(req,res){
-        try {
-          const { productId , quantity ,} = req.body;
-          console.log(`porduct id : ${productId} quantity : ${quantity}`); 
-          const userId = req.session.userId;
-           
+async function updateSubTotal(req, res) {
+  try {
+    const { productId, quantity, } = req.body;
+    console.log(`porduct id : ${productId} quantity : ${quantity}`);
+    const userId = req.session.userId;
 
-            
-          
-            const cart = await cartSchema.findOne({ user: userId }).populate('products.product');
-            const filterdProduct =  cart.products.find((value)=>{ return productId == value.product._id.toString()})
-            
-            if (filterdProduct) {
-              
-              if (quantity > filterdProduct.quantity  ) {
 
-                filterdProduct.quantity = quantity;
-                const subtotal = filterdProduct.product.discountPrice * quantity;
-                filterdProduct.subTotal = subtotal;
 
-              } else {
 
-                filterdProduct.quantity = quantity;
-                const subtotal = filterdProduct.subTotal - filterdProduct.product.discountPrice;
-                filterdProduct.subTotal = subtotal;
+    const cart = await cartSchema.findOne({ user: userId }).populate('products.product');
+    const filterdProduct = cart.products.find((value) => { return productId == value.product._id.toString() })
 
-              }
-              
-              const total = cart.products.reduce((acc, curr) => acc + (curr.subTotal || 0), 0);
-              cart.Total = total;
-              await cart.save();
-              res.status(200).json({message:"success"});
+    if (filterdProduct) {
 
-            } else {
-              console.log("product not found in the cart or product details are missing");
-            }
+      if (quantity > filterdProduct.quantity) {
 
-        } catch (error) {
-          console.log(error);
-        }
+        filterdProduct.quantity = quantity;
+        const subtotal = filterdProduct.product.discountPrice * quantity;
+        filterdProduct.subTotal = subtotal;
+
+      } else {
+
+        filterdProduct.quantity = quantity;
+        const subtotal = filterdProduct.subTotal - filterdProduct.product.discountPrice;
+        filterdProduct.subTotal = subtotal;
+
       }
 
+      const total = cart.products.reduce((acc, curr) => acc + (curr.subTotal || 0), 0);
+      cart.Total = total;
+      await cart.save();
+      res.status(200).json({ message: "success" });
 
-async function removeProduct(req,res){
-        try {
-         
-          const productId  = req.query.id;
-          const user= req.session.userId;
-          
-          const cart = await cartSchema.findOne({user:user});
-                 
-          if(cart){
-           
-              const productIndex = cart.products.findIndex((item)=>
-              item.product.toString()==productId
-              );
+    } else {
+      console.log("product not found in the cart or product details are missing");
+    }
 
-                const removedProduct = cart.products[productIndex];
-                console.log(removeProduct);
-                const removedSubTotal  = removedProduct.subTotal ;
-                console.log(removedSubTotal);
-                cart.products.splice(productIndex,1);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-               cart.Total = cart.Total - removedSubTotal;
- 
-              await cart.save()
 
-              res.redirect('/cartPage');
-             
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      }
+async function removeProduct(req, res) {
+  try {
 
-       
+    const productId = req.query.id;
+    const user = req.session.userId;
+
+    const cart = await cartSchema.findOne({ user: user });
+
+    if (cart) {
+
+      const productIndex = cart.products.findIndex((item) =>
+        item.product.toString() == productId
+      );
+
+      const removedProduct = cart.products[productIndex];
+      console.log(removeProduct);
+      const removedSubTotal = removedProduct.subTotal;
+      console.log(removedSubTotal);
+      cart.products.splice(productIndex, 1);
+
+      cart.Total = cart.Total - removedSubTotal;
+
+      await cart.save()
+
+      res.redirect('/cartPage');
+
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
 
 
 
