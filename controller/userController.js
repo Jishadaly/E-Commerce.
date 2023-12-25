@@ -15,6 +15,7 @@ const { assign } = require('nodemailer/lib/shared');
 const randomstring = require("randomstring");
 const orderModel = require('../model/orderModel');
 const { json } = require('express');
+const session = require('express-session');
 require('dotenv').config()
 
 
@@ -90,14 +91,18 @@ function sendOtp(email, otp) {
 const insertUser = async (req, res) => {
   try {
     const { name, email, mno, password } = req.body;
+    const category = await categories.find({ listed: true })
+    
+    console.log(category);
+   
 
 
     const checkEmail = await userModel.findOne({ email: email });
     console.log(checkEmail);
 
     if (checkEmail && checkEmail.email === email) {
-
-      res.render('registration', { message: "This account id already exists" });
+      res.render('login', { message: "This account id already exists"});
+      
     } else {
       console.log("Entered this block");
 
@@ -150,7 +155,6 @@ const resendOtp = async (req, res) => {
     res.status(500).send("Error resending OTP: Internal Server Error");
   }
 };
-
 
 
 const loadOtpVerification = async (req, res) => {
@@ -217,8 +221,8 @@ const verifyOtp = async (req, res) => {
       })
 
       await users.save();
-
-      res.redirect('/')
+      req.session.destroy();
+      res.redirect('/login')
     } else {
       res.render('otpVerification', { message: "enterd otp is icurrect" })
       console.log();
@@ -265,11 +269,11 @@ const verifyLogin = async (req, res) => {
 
         res.redirect('/')
       } else {
-        res.render('login', { message: "Password is incorrect" });
+        res.render('home', { message: "Password is incorrect" ,user:"",category:"" });
         console.log("User data: Password is incorrect");
       }
     } else {
-      res.render('login', { message: "Sorry, you are not allow to access with this account" });
+      res.render('home ', { message: "Sorry, you are not allow to access with this account" });
     }
 
   } catch (error) {
@@ -285,8 +289,9 @@ const loadHome = async (req, res) => {
     const featuredProduct = await productModel.find({ list: true, featured: "true" });
     const cart = await cartSchema.findOne({ user: req.session.userId });
     const category = await categories.find({ listed: true })
+    const user = req.session.userId;
     console.log(category);
-    res.render('home', { Bestproduct, featuredProduct, cart, category });
+    res.render('home', { Bestproduct, featuredProduct, cart, category , user , message:""});
 
   } catch (error) {
     console.log(error.message);
@@ -302,14 +307,14 @@ const loadHome = async (req, res) => {
 async function loadCheckout(req, res) {
   try {
 
-    const userid = req.session.userId;
-    const cart = await cartSchema.findOne({ user: userid }).populate('products.product');
+    const user = req.session.userId;
+    const cart = await cartSchema.findOne({ user: user }).populate('products.product');
     console.log(cart);
-    const address = await addressModel.find({ user: userid })
+    const address = await addressModel.find({ user: user })
     const coupon = await couponModal.find({ minimumCartTotal: { $lte: cart.Total }, status: true });
 
 
-    res.render('checkout', { cart, address, coupon ,message:""})
+    res.render('checkout', { cart, address, user,coupon ,message:""})
 
 
   } catch (error) {
@@ -332,37 +337,6 @@ async function loadDashboard(req, res) {
     console.log(error);
   }
 }
-
-// async function orderdetails(req, res) {
-//   try {
-
-//     const orderId = req.query.orderId;
-//     const orderDetails = await orderModel.findById(orderId).populate('address').populate('products.product')
-//     res.render('orderDetails', { orderDetails })
-
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-
-// async function canceOrder(req,res){
-//   try {
-//    const orderId = req.body.orderId;
-
-//    const updatedOrder = await orderModel.findByIdAndUpdate(orderId, { $set: { status: "Canceled" } });
-
-//    if(updatedOrder){
-//     res.status(200).json({ success: true, message: 'Order cancelled successfully' ,updatedOrder })
-//    }else{
-//     res.status(404).json({ success: false, message: 'Order not found or could not be cancelled' });
-//    }
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
 
 
 
@@ -468,6 +442,7 @@ async function shareReferel (req,res){
 
 async function successPage(req, res) {
   try {
+
     res.render('successPage')
   } catch (error) {
     console.log(error);

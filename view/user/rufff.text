@@ -1,0 +1,63 @@
+
+//login 
+<body style=" background: linear-gradient(45deg, #000000, rgb(0, 0, 0), #000000);">
+
+    <div class="pt-5">
+        <div class="form-box" style="background-color: #252525;">
+            <div class="form-tab">
+                <ul class="nav nav-pills nav-fill" role="tablist">
+                    <p class="nav-link active align-items-center">Sign In</p>
+                </ul>
+                <div class="tab-content" id="tab-content-5">
+                    <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
+                        <form action="" method="post" onsubmit="return validateForm()">
+                            <div class="form-group">
+                                <label for="singin-email">Username or email address *</label>
+                                <input type="text" class="form-control" id="email" name="email">
+                            </div><!-- End .form-group -->
+
+                            <div class="form-group">
+                                <label for="singin-password">Password *</label>
+                                <input type="password" class="form-control" id="password" name="password">
+                            </div><!-- End .form-group -->
+                            <p style="color: red;"><%= message %></p>
+
+                            <div class="form-footer">
+                                <button type="submit" class="btn btn-outline-primary-2">
+                                    <span>LOG IN</span>
+                                    <i class="icon-long-arrow-right"></i>
+                                </button>
+                            </div><!-- End .form-footer -->
+                            <a href="#" class="forgot-link align-items-center">Forgot Your Password?</a><br>
+                            <a href="#" class="forgot-link align-items-center">If you Haven't a Account?</a> <a href="/register" style="text-decoration: underline;">Register</a>
+                        </form>
+                    </div>
+                </div><!-- End .tab-content -->
+            </div><!-- End .form-tab -->
+        </div><!-- End .form-box -->
+    </div>
+
+    <script>
+        function validateForm() {
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            var errorMessage = document.getElementById('error-message');
+
+            if (!email || email.trim() === '') {
+                errorMessage.innerText = 'Username or email address is required.';
+                return false;
+            }
+
+            if (!password || password.trim() === '') {
+                errorMessage.innerText = 'Password is required.';
+                return false;
+            }
+
+            errorMessage.innerText = ''; // Reset error message if validation succeeds
+            return true;
+        }
+    </script>
+</body>
+
+
+

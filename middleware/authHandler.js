@@ -6,7 +6,7 @@ async function isLogin(req,res,next){
   if (req.session.userId) {
     
   } else {
-    res.redirect('/login')
+    res.redirect('/')
   }
 
   next();

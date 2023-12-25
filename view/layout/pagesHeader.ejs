@@ -33,6 +33,7 @@
 <body>
     <div class="page-wrapper">
         <header class="header">
+            <% if(user) { %>
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
@@ -160,4 +161,131 @@
                     </div><!-- End .header-right -->
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
+            <% } %>
+
+            <% if(!user) { %>
+                <div class="header-top">
+                    <div class="container">
+                        <div class="header-left">
+                            <div class="header-dropdown">
+                                <a href="#">Usd</a>
+                                <div class="header-menu">
+                                    <ul>
+                                        <li><a href="#">Eur</a></li>
+                                        <li><a href="#">Usd</a></li>
+                                    </ul>
+                                </div><!-- End .header-menu -->
+                            </div><!-- End .header-dropdown -->
+    
+                            <div class="header-dropdown">
+                                <a href="#">Eng</a>
+                                <div class="header-menu">
+                                    <ul>
+                                        <li><a href="#">English</a></li>
+                                        <li><a href="#">French</a></li>
+                                        <li><a href="#">Spanish</a></li>
+                                    </ul>
+                                </div><!-- End .header-menu -->
+                            </div><!-- End .header-dropdown -->
+                        </div><!-- End .header-left -->
+    
+                        <div class="header-right">
+                            <ul class="top-menu">
+                                <li>
+                                    <a href="#">Links</a>
+                                    <ul>
+                                        <li><a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a></li>
+                                        <li><a href="wishlist.html"><i class="icon-heart-o"></i>Wishlist <span>(3)</span></a></li>
+                                        
+                                        <li><a href="contact.html">Contact Us</a></li>
+                                        <li><a href="/login" ><i class="icon-user"></i>Login</a></li>
+                                        <li><a href="/register" ><i class="icon-user"></i>Register</a></li>
+    
+                                    </ul>
+                                </li>
+                            </ul><!-- End .top-menu -->
+                        </div><!-- End .header-right -->
+                    </div><!-- End .container -->
+                </div><!-- End .header-top -->
+    
+                <div class="header-middle sticky-header">
+                    <div class="container">
+                        <div class="header-left">
+                            <button class="mobile-menu-toggler">
+                                <span class="sr-only">Toggle mobile menu</span>
+                                <i class="icon-bars"></i>
+                            </button>
+    
+                            <a href="index.html" class="logo">
+                                <img src="assets/images/logo.png" alt="Molla Logo" width="105" height="25">
+                            </a>
+    
+                            <nav class="main-nav">
+                                <ul class="menu sf-arrows">
+                                    <li class="megamenu-container active">
+                                        <a href="/" class="">Home</a>
+    
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="/products">Product</a>
+    
+                                    </li>
+                                    <li>
+                                        <a href="#" class="sf">Contact</a>
+       
+                                    </li>
+    
+                                    <li>
+                                      <a href="category.html" class="sf-with-ul">Shop</a>
+    
+                                      <div class="megamenu megamenu-md">
+                                          <div class="row no-gutters">
+                                              <div class="col-md-8">
+                                                  <div class="menu-col">
+                                                      <div class="row">
+                                                          
+    
+                                                          <div class="col-md-6">
+                                                              <div class="menu-title">Product Category</div><!-- End .menu-title -->
+                                                              <ul>
+                                                                  <li><a href="product-category-boxed.html">Product Category Boxed</a></li>
+                                                                  <li><a href="product-category-fullwidth.html"><span>Product Category Fullwidth<span class="tip tip-new">New</span></span></a></li>
+                                                              </ul>
+                                                            
+                                                          </div><!-- End .col-md-6 -->
+                                                      </div><!-- End .row -->
+                                                  </div><!-- End .menu-col -->
+                                              </div><!-- End .col-md-8 -->
+    
+                                              
+                                          </div><!-- End .row -->
+                                      </div><!-- End .megamenu megamenu-md -->
+                                  </li>
+                                    
+                                </ul><!-- End .menu -->
+                            </nav><!-- End .main-nav -->
+                        </div><!-- End .header-left -->
+    
+                        <div class="header-right">
+                            <div class="header-search">
+                                <a href="" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+                                <form action="/products" method="get">
+                                    <div class="header-search-wrapper">
+                                        <label for="searchedData" class="sr-only">Search</label>
+                                        <input type="search" class="form-control" name="searchedData" id="searchedData" placeholder="Search in..." required>
+                                    </div><!-- End .header-search-wrapper -->
+                                </form>
+                            </div><!-- End .header-search -->
+    
+                          
+    
+                          
+                            
+    
+                        </div><!-- End .header-right -->
+                    </div><!-- End .container -->
+                </div><!-- End .header-middle -->
+                <% } %>
+
         </header><!-- End .header -->

@@ -62,13 +62,9 @@ const loadDashboard = async (req, res) => {
         }
       ]);
 
-      // Calculate total orders
+      
       const totalOrders = await orderModal.countDocuments();
-
-      // Calculate total products
       const totalProducts = await productModal.countDocuments();
-
-      // Calculate total customers
       const totalCustomers = await userModal.countDocuments();
 
       res.render('dashboard', {

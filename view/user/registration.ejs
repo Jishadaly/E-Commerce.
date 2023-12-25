@@ -1,116 +1,116 @@
- <%- include('../layout/header') %>
+<%- include('../layout/header') %>
 
 
-      
 
-<body style="background-color: antiquewhite; padding: 50px;">
-    
 
-    <div class="form-box mb-5">
-        <div class="form-tab">
-            <ul class="nav nav-pills nav-fill" role="tablist">
-                <p class="nav-link active align-items-center">Sign Up</p> 
-        </ul>
-            <!-- ... Other HTML content ... -->
-            <div class="tab-content" id="tab-content-5">
-                <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
-                    <form action="" method="post" onsubmit="return validateForm()">
-                        <div class="form-group">
-                            <label for="name">Username *</label>
-                            <input type="text" class="form-control" id="register-fname" name="name">
-                            <div style="color: red;" id="nameError"></div>
-                        </div><!-- End .form-group -->
-    
-                        <!-- Other form fields -->
-                        <div class="form-group">
-        <label for="email">Email *</label>
-        <input type="email" class="form-control" id="register-email" name="email">
-        <div style="color: red;" id="emailError"></div>
-    </div><!-- End .form-group -->
+    <body style="background-color: antiquewhite; padding: 50px;">
 
-    <div class="form-group">
-        <label for="mno">Mobile *</label>
-        <input type="text" class="form-control" id="register-mobile" name="mno">
-        <!-- Add validation for mobile if needed -->
-    </div><!-- End .form-group -->
 
-    <div class="form-group">
-        <label for="password">Password *</label>
-        <input type="password" class="form-control" id="register-password" name="password">
-        <div style="color: red;" id="passwordError"></div>
-    </div><!-- End .form-group -->
-    
-    
-    
-                        <div class="form-footer">
-                            <button type="submit" class="btn btn-outline-primary-2">
-                                <span>SIGN UP</span>
+        <div class="form-box mb-5">
+            <div class="form-tab">
+                <ul class="nav nav-pills nav-fill" role="tablist">
+                    <p class="nav-link active align-items-center">Sign Up</p>
+                </ul>
+                <!-- ... Other HTML content ... -->
+                <div class="tab-content" id="tab-content-5">
+                    <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
+                        <form action="" method="post" onsubmit="return validateForm()">
+                            <div class="form-group">
+                                <label for="name">Username *</label>
+                                <input type="text" class="form-control" id="register-fname" name="name">
+                                <div style="color: red;" id="nameError"></div>
+                            </div><!-- End .form-group -->
+
+                            <!-- Other form fields -->
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" class="form-control" id="register-email" name="email">
+                                <div style="color: red;" id="emailError"></div>
+                            </div><!-- End .form-group -->
+
+                            <div class="form-group">
+                                <label for="mno">Mobile *</label>
+                                <input type="text" class="form-control" id="register-mobile" name="mno">
+                                <!-- Add validation for mobile if needed -->
+                            </div><!-- End .form-group -->
+
+                            <div class="form-group">
+                                <label for="password">Password *</label>
+                                <input type="password" class="form-control" id="register-password" name="password">
+                                <div style="color: red;" id="passwordError"></div>
+                            </div><!-- End .form-group -->
+
+
+
+                            <div class="form-footer">
+                                <button type="submit" class="btn btn-outline-primary-2">
+                                    <span>SIGN UP</span>
+
+                                    <i class="icon-long-arrow-right"></i>
+
+                                </button>
                                 
-                                <i class="icon-long-arrow-right"></i>
-                                
-                            </button>
-                            <p style="color: orangered;"><%= message %></p>
-                        </div><!-- End .form-footer -->
-                    </form>
-                    <!-- Other content -->
-                    <p>already have an Account..?  <a href="/login" style="text-decoration: underline;">  Login</a></p>
-                   
-                </div>
-            </div><!-- End .tab-content -->
-        </div><!-- End .form-tab -->
-    </div><!-- End .form-box -->
-    
-    <script>
-        function validateForm() {
-            var name = document.getElementById("register-fname").value;
-            var email = document.getElementById("register-email").value;
-            var password = document.getElementById("register-password").value;
-            var cPassword = document.getElementById("")
-    
-            document.getElementById("nameError").textContent = "";
-            document.getElementById("emailError").textContent = "";
-            document.getElementById("passwordError").textContent = "";
-    
-            if (name.trim() === "") {
-                document.getElementById("nameError").textContent = "Please enter your name.";
-                return false;
-            }
-    
-            if (email.trim() === "") {
-                document.getElementById("emailError").textContent = "Please enter your email.";
-                return false;
-            } else if (!isEmailValid(email)) {
-                document.getElementById("emailError").textContent = "Please enter a valid email address.";
-                return false;
-            }
-    
-            if (password.trim() === "") {
-                document.getElementById("passwordError").textContent = "Please enter your password.";
-                return false;
+                                <p style="color: orangered;">
+                                    <%= message %>
+                                </p>
+                            </div><!-- End .form-footer -->
+                        </form>
+                        <!-- Other content -->
+                        <p>already have an Account..? <a href="/login" style="text-decoration: underline;"> Login</a>
+                        </p>
+
+                    </div>
+                </div><!-- End .tab-content -->
+            </div><!-- End .form-tab -->
+        </div><!-- End .form-box -->
+
+        <script>
+            function validateForm() {
+                var name = document.getElementById("register-fname").value;
+                var email = document.getElementById("register-email").value;
+                var password = document.getElementById("register-password").value;
+                var cPassword = document.getElementById("")
+
+                document.getElementById("nameError").textContent = "";
+                document.getElementById("emailError").textContent = "";
+                document.getElementById("passwordError").textContent = "";
+
+                if (name.trim() === "") {
+                    document.getElementById("nameError").textContent = "Please enter your name.";
+                    return false;
+                }
+
+                if (email.trim() === "") {
+                    document.getElementById("emailError").textContent = "Please enter your email.";
+                    return false;
+                } else if (!isEmailValid(email)) {
+                    document.getElementById("emailError").textContent = "Please enter a valid email address.";
+                    return false;
+                }
+
+                if (password.trim() === "") {
+                    document.getElementById("passwordError").textContent = "Please enter your password.";
+                    return false;
+                }
+
+                if (cpassword.trim() === "") {
+                    document.getElementById("cPasswordError").textContent = "Please enter your Confirm password.";
+                    return false;
+                } if (password !== cPassword) {
+
+                    document.getElementById("cPasswordError").textContent = "Password do not match. please enter matching password";
+                    return false;
+                }
+
+                return true;
             }
 
-            if (cpassword.trim() === "") {
-                document.getElementById("cPasswordError").textContent = "Please enter your Confirm password.";
-                return false;
-            }  if(password !== cPassword){
-                 
-                 document.getElementById("cPasswordError").textContent = "Password do not match. please enter matching password";
-                return false;   
+            function isEmailValid(email) {
+                var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return regex.test(email);
             }
-    
-            return true;
-        }
-    
-        function isEmailValid(email) {
-            var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return regex.test(email);
-        }
-    </script>
-    
+        </script>
 
 
-            </body>
-          
-          
 
-         
+    </body>

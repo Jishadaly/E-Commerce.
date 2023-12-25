@@ -30,10 +30,10 @@ user_route.get('/resendOtp',userController.resendOtp)
 user_route.get('/login',userController.loadLogin);
 user_route.get('/logOut',auth.isLogin,auth.isLogOut);
 user_route.post('/login',userController.verifyLogin);
-user_route.get('/',auth.isLogin,auth.isBlocked,userController.loadHome);
+user_route.get('/',userController.loadHome);
 
 //products
-user_route.get('/ProductDetails',auth.isLogin,auth.isBlocked,product.loadProductDetails);
+user_route.get('/ProductDetails',product.loadProductDetails);
 
 //cart -// checkout
 user_route.get('/cartPage',auth.isLogin,auth.isBlocked,cart.loadCart);
@@ -43,7 +43,7 @@ user_route.post('/updateCart',cart.updateSubTotal)
 user_route.get('/checkout',auth.isLogin,auth.isBlocked,userController.loadCheckout)
 user_route.post('/orderConfirm',orderController.confirmOrder)
 user_route.get('/success-page',userController.successPage)
-user_route.get('/products',auth.isLogin,auth.isBlocked,product.loadProducts);
+user_route.get('/products',product.loadProducts);
 user_route.post('/products',product.loadProducts)
 user_route.post('/changePassword',userController.changePassword)
 

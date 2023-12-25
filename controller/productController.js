@@ -206,12 +206,14 @@ async function loadProductDetails(req, res) {
 
 
     const id = req.query.id;
+    const user = req.session.userId;
+
 
     console.log("prodect id /////" + id);
     const productDetails = await productModel.findById(id);
     const productCat = await category.find();
     const favProduct = await productModel.find({ list: true });
-    res.render('productDetails', { productDetails, productCat, favProduct })
+    res.render('productDetails', { productDetails, productCat, favProduct ,user})
 
   } catch (error) {
     console.log(error);
@@ -227,6 +229,7 @@ async function loadProducts(req, res) {
     const categories = await category.find();
     const user = req.session.userId;
     const searchQuery = req.query.searchedData;
+    
     const { sortby, categories: selectedCategories } = req.body; // Retrieve sort and categories from form data
     const filter = {};
 

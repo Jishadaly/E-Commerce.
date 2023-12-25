@@ -56,10 +56,10 @@ const addToCart = async (req, res) => {
 
 async function loadCart(req, res) {
   try {
-    const userId = req.session.userId;
-    const cart = await cartSchema.findOne({ user: userId }).populate('user').populate('products.product')
+    const user = req.session.userId;
+    const cart = await cartSchema.findOne({ user: user }).populate('user').populate('products.product')
 
-    res.render('cart', { cart })
+    res.render('cart', { cart ,user})
   } catch (error) {
     console.log(error);
   }

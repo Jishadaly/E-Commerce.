@@ -12,9 +12,10 @@ require('dotenv').config();
 async function orderdetails(req, res) {
   try {
 
+    const user = req.session.userId;
     const orderId = req.query.orderId;
     const orderDetails = await orderModel.findById(orderId).populate('address').populate('products.product')
-    res.render('orderDetails', { orderDetails })
+    res.render('orderDetails', { orderDetails ,user})
 
   } catch (error) {
     console.log(error);
