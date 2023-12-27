@@ -22,20 +22,20 @@ async function addProductLoad(req, res) {
 
 async function addProduct(req, res) {
   try {
-    
+
     console.log(req.body);
 
-    
-    
-    const { discountPercentage , price , category } = req.body;
-    const filterdCategory = await categoryModal.findOne({category:category})
-    const categoryOffer = filterdCategory.discountPercentage;
-    const productOffer = discountPercentage;  
 
-  
+
+    const { discountPercentage, price, category } = req.body;
+    const filterdCategory = await categoryModal.findOne({ category: category })
+    const categoryOffer = filterdCategory.discountPercentage;
+    const productOffer = discountPercentage;
+
+
     const finaloffer = productOffer + discountPercentage || discountPercentage;
-    const discountPrice =  price - (price * discountPercentage) / 100;
-    const finalPrice = discountPrice - (discountPrice * categoryOffer)/100;
+    const discountPrice = Math.floor(price - (price * discountPercentage) / 100);
+    const finalPrice = Math.floor(discountPrice - (discountPrice * categoryOffer) / 100);
 
     const data = {
       name: req.body.ProductName,
@@ -47,18 +47,18 @@ async function addProduct(req, res) {
       processor: req.body.processor,
       description: req.body.description,
       price: price,
-      offer:finaloffer,
-      discountPrice:finalPrice,
+      offer: finaloffer,
+      discountPrice: finalPrice,
       category: category,
       featured: req.body.featurdStatus,
       productImages: req.files.map((file) => file.filename)
     };
 
     console.log(data);
-    
+
 
     const DBdata = await productModel.insertMany(data);
-    
+
     res.redirect('/admin/productList');
     console.log(DBdata);
   } catch (error) {
@@ -148,20 +148,28 @@ async function editProduct(req, res) {
     const datas = await productModel.findById(id);
     const category = req.body.category;
 
-    
-    const price  = req.body.price;
+
+    const price = req.body.price;
     const discountPerc = req.body.discountPercentage;
-    const filterdCategory = await categoryModal.findOne({category:category})
+    const filterdCategory = await categoryModal.findOne({ category: category })
     console.log(filterdCategory);
     const categoryOffer = filterdCategory.discountPercentage;
-    console.log("//////////////////"+categoryOffer);
-    
-    const productOffer = discountPerc;  
-    const discountPrice =  price - (price * discountPerc) / 100;
-    // const finalPrice = discountPrice - (discountPrice * categoryOffer)/100;
-    const finalPrice = Number((discountPrice - (discountPrice * categoryOffer) / 100).toFixed(2));
+    console.log("//////////////////" + categoryOffer);
 
-const offerValue = parseFloat(productOffer);
+    // const productOffer = discountPerc;  
+    // const discountPrice =  price - (price * discountPerc) / 100;
+
+    // const finalPrice = Number((discountPrice - (discountPrice * categoryOffer) / 100).toFixed(2));
+    const productOffer = discountPerc;
+    const discountPrice = price - (price * discountPerc) / 100;
+
+    const calculatedFinalPrice = discountPrice - (discountPrice * categoryOffer) / 100;
+    const roundedFinalPrice = Math.floor(calculatedFinalPrice * 100) / 100; // Using Math.floor() and maintaining 2 decimal places
+    const finalPrice = Number(roundedFinalPrice.toFixed(2)); // Convert to a number with 2 decimal places
+
+
+
+    const offerValue = parseFloat(productOffer);
     const data = {
       name: req.body.ProductName,
       brand: req.body.brandName,
@@ -171,7 +179,7 @@ const offerValue = parseFloat(productOffer);
       rom: req.body.rom,
       processor: req.body.processor,
       description: req.body.description,
-      price:price,
+      price: price,
       discountPrice: finalPrice,
       // offer:productOffer,
       offer: Number(offerValue.toFixed(1)),
@@ -213,7 +221,7 @@ async function loadProductDetails(req, res) {
     const productDetails = await productModel.findById(id);
     const productCat = await category.find();
     const favProduct = await productModel.find({ list: true });
-    res.render('productDetails', { productDetails, productCat, favProduct ,user})
+    res.render('productDetails', { productDetails, productCat, favProduct, user })
 
   } catch (error) {
     console.log(error);
@@ -229,7 +237,7 @@ async function loadProducts(req, res) {
     const categories = await category.find();
     const user = req.session.userId;
     const searchQuery = req.query.searchedData;
-    
+
     const { sortby, categories: selectedCategories } = req.body; // Retrieve sort and categories from form data
     const filter = {};
 
@@ -310,13 +318,13 @@ async function deleteImage(req, res) {
     const { image, index, productId } = req.body;
     const product = await productModel.findById(productId);
     if (product) {
-      product.productImages.splice(index,1);
+      product.productImages.splice(index, 1);
       await product.save();
       res.status(200).json({ message: 'Image deleted successfully' });
     } else {
-      res.status(404).json({ error:'Product not found'});
+      res.status(404).json({ error: 'Product not found' });
     }
-   
+
 
 
   } catch (error) {
@@ -332,7 +340,7 @@ module.exports = {
   addProductLoad, loadProductList, addProduct, listUnlist,
   loadEditProduct, editProduct, loadProductDetails,
   loadProducts, deleteImage,
-  
+
 }
 
 

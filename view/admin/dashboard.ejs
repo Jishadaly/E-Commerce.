@@ -1,327 +1,144 @@
 <%- include('../partials/header') %>
-<%- include('../partials/sidebar') %>
-<head>  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script></head>
+    <%- include('../partials/sidebar') %>
 
-            <!-- index body start -->
-            <div class="page-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <!-- chart caard section start -->
-                        <div class="col-sm-6 col-xxl-3 col-lg-6">
-                            <div class="main-tiles border-5 border-0  card-hover card o-hidden">
-                                <div class="custome-1-bg b-r-4 card-body">
-                                    <div class="media align-items-center static-top-widget">
-                                        <div class="media-body p-0">
-                                            <span class="m-0">Total Revenue</span>
-                                            <h4 class="mb-0 counter">₹<%=totalRevenue%>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        </head>
+
+        <!-- index body start -->
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- chart caard section start -->
+                    <div class="col-sm-6 col-xxl-3 col-lg-6">
+                        <div class="main-tiles border-5 border-0  card-hover card o-hidden">
+                            <div class="custome-1-bg b-r-4 card-body">
+                                <div class="media align-items-center static-top-widget">
+                                    <div class="media-body p-0">
+                                        <span class="m-0">Total Revenue</span>
+                                        <h4 class="mb-0 counter">₹<%=totalRevenue%>
                                                 <span class="badge badge-light-primary grow">
                                                     <i data-feather="trending-up"></i>8.5%</span>
-                                            </h4>
-                                        </div>
-                                        <div class="align-self-center text-center">
-                                            <i class="ri-database-2-line"></i>
-                                        </div>
+                                        </h4>
+                                    </div>
+                                    <div class="align-self-center text-center">
+                                        <i class="ri-database-2-line"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-sm-6 col-xxl-3 col-lg-6">
-                            <div class="main-tiles border-5 card-hover border-0 card o-hidden">
-                                <div class="custome-2-bg b-r-4 card-body">
-                                    <div class="media static-top-widget">
-                                        <div class="media-body p-0">
-                                            <span class="m-0">Total Orders</span>
-                                            <h4 class="mb-0 counter"><%=totalOrders%>
+                    <div class="col-sm-6 col-xxl-3 col-lg-6">
+                        <div class="main-tiles border-5 card-hover border-0 card o-hidden">
+                            <div class="custome-2-bg b-r-4 card-body">
+                                <div class="media static-top-widget">
+                                    <div class="media-body p-0">
+                                        <span class="m-0">Total Orders</span>
+                                        <h4 class="mb-0 counter">
+                                            <%=totalOrders%>
                                                 <span class="badge badge-light-danger grow">
                                                     <i data-feather="trending-down"></i>8.5%</span>
-                                            </h4>
-                                        </div>
-                                        <div class="align-self-center text-center">
-                                            <i class="ri-shopping-bag-3-line"></i>
-                                        </div>
+                                        </h4>
+                                    </div>
+                                    <div class="align-self-center text-center">
+                                        <i class="ri-shopping-bag-3-line"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-sm-6 col-xxl-3 col-lg-6">
-                            <div class="main-tiles border-5 card-hover border-0  card o-hidden">
-                                <div class="custome-3-bg b-r-4 card-body">
-                                    <div class="media static-top-widget">
-                                        <div class="media-body p-0">
-                                            <span class="m-0">Total Products</span>
-                                            <h4 class="mb-0 counter"><%=totalProducts%>
+                    <div class="col-sm-6 col-xxl-3 col-lg-6">
+                        <div class="main-tiles border-5 card-hover border-0  card o-hidden">
+                            <div class="custome-3-bg b-r-4 card-body">
+                                <div class="media static-top-widget">
+                                    <div class="media-body p-0">
+                                        <span class="m-0">Total Products</span>
+                                        <h4 class="mb-0 counter">
+                                            <%=totalProducts%>
                                                 <a href="add-new-product.html" class="badge badge-light-secondary grow">
                                                     ADD NEW</a>
-                                            </h4>
-                                            
-                                           
-                                        </div>
+                                        </h4>
 
-                                        <div class="align-self-center text-center">
-                                            <i class="ri-chat-3-line"></i>
-                                        </div>
+
+                                    </div>
+
+                                    <div class="align-self-center text-center">
+                                        <i class="ri-chat-3-line"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-sm-6 col-xxl-3 col-lg-6">
-                            <div class="main-tiles border-5 card-hover border-0 card o-hidden">
-                                <div class="custome-4-bg b-r-4 card-body">
-                                    <div class="media static-top-widget">
-                                        <div class="media-body p-0">
-                                            <span class="m-0">Total Customers</span>
-                                            <h4 class="mb-0 counter"><%=totalCustomers%>
+                    <div class="col-sm-6 col-xxl-3 col-lg-6">
+                        <div class="main-tiles border-5 card-hover border-0 card o-hidden">
+                            <div class="custome-4-bg b-r-4 card-body">
+                                <div class="media static-top-widget">
+                                    <div class="media-body p-0">
+                                        <span class="m-0">Total Customers</span>
+                                        <h4 class="mb-0 counter">
+                                            <%=totalCustomers%>
                                                 <span class="badge badge-light-success grow">
                                                     <i data-feather="trending-down"></i>8.5%</span>
-                                            </h4>
-                                        </div>
+                                        </h4>
+                                    </div>
 
-                                        <div class="align-self-center text-center">
-                                            <i class="ri-user-add-line"></i>
-                                        </div>
+                                    <div class="align-self-center text-center">
+                                        <i class="ri-user-add-line"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- <div class="col-12">
-                            <div class="card o-hidden card-hover">
-                                <div class="card-header border-0 pb-1">
-                                    <div class="card-header-title p-0">
-                                        <h4>Category</h4>
-                                    </div>
+
+
+
+
+                    <!-- Best Selling Product Start -->
+
+                    <div class="col-xl-6 col-md-12">
+                        <div class="card o-hidden card-hover">
+                            <div class="card-header card-header-top card-header--2 px-0 pt-0">
+
+                                <div class="card-header-title">
+                                    <h4>Best Selling Product</h4>
                                 </div>
-                                <div class="card-body p-0">
-                                    <div class="category-slider no-arrow">
-                                        <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/vegetable.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Vegetables & Fruit</h6>
-                                                </a>
-                                            </div>
-                                        </div>
 
-                                        <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/cup.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Beverages</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/meats.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Meats & Seafood</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/breakfast.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Breakfast</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/frozen.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Frozen Foods</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/milk.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Milk & Dairies</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/pet.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Pet Food</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/vegetable.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Vegetables & Fruit</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/cup.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Beverages</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/meats.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Meats & Seafood</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/breakfast.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Breakfast</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/frozen.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Frozen Foods</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/milk.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Milk & Dairies</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                         <div>
-                                            <div class="dashboard-category">
-                                                <a href="javascript:void(0)" class="category-image">
-                                                    <img src="/assetsB/svg/pet.svg" class="img-fluid" alt="">
-                                                </a>
-                                                <a href="javascript:void(0)" class="category-name">
-                                                    <h6>Pet Food</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- chart card section End -->
-
-
-                        <!-- Earning chart star-->
-                        <!-- <div class="col-xl-6">
-                            <div class="card o-hidden card-hover">
-                                <div class="card-header border-0 pb-1">
-                                    <div class="card-header-title">
-                                        <h4>sales count</h4>
-                                    </div>
-                                </div>
-                                <div class="card-body p-0">
-                                   <div class="card-header-title">
-                                    <h4>Users Summary</h4>
-                                </div>
-                                
-                                <div class="align-items-center">
-                                    <button onclick="fetchUserCountData('monthly')">Monthly</button>
-                                    <button onclick="fetchUserCountData('weekly')">Weekly</button>
-                                    <button onclick="fetchUserCountData('yearly')">Yearly</button>
-                                  </div>
-                                  
-                                  <canvas id="userCountChart" width="400" height="150"></canvas>
-                            </div>
-                        </div> -->
-                        <!-- Earning chart  end -->
-
-
-                        <!-- Best Selling Product Start -->
-                        
-                        <div class="col-xl-6 col-md-12">
-                            <div class="card o-hidden card-hover">
-                                <div class="card-header card-header-top card-header--2 px-0 pt-0">
-                                    
-                                    <div class="card-header-title">
-                                        <h4>Best Selling Product</h4>
-                                    </div>
-
-                                    <div class="best-selling-box d-sm-flex d-none">
-                                        <!-- <span>Short By:</span> -->
-                                        <div class="dropdown">
-                                            <!-- <button class="btn p-0 dropdown-toggle" type="button"
+                                <div class="best-selling-box d-sm-flex d-none">
+                                    <!-- <span>Short By:</span> -->
+                                    <div class="dropdown">
+                                        <!-- <button class="btn p-0 dropdown-toggle" type="button"
                                                 id="dropdownMenuButton1" data-bs-toggle="dropdown"
                                                 data-bs-auto-close="true">Today</button> -->
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                            </ul>
-                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        </ul>
                                     </div>
                                 </div>
-                                
+                            </div>
 
-                                <div class="card-body p-0">
-                                    <div>
-                                        <div class="table-responsive">
-                                            <table class="best-selling-table w-image
+
+                            <div class="card-body p-0">
+                                <div>
+                                    <div class="table-responsive">
+                                        <table class="best-selling-table w-image
                                             w-image
                                             w-image table border-0">
-                                                <tbody>
-                                                    <tr>
-                                                       <% bestProducts.forEach((product)=>{ %>
+                                            <tbody>
+                                                <tr>
+                                                    <% bestProducts.forEach((product)=>{ %>
 
 
 
-                                                   
 
-                                                     
+
+
                                                         <td>
                                                             <div class="best-product-box">
                                                                 <div class="product-image">
@@ -329,8 +146,12 @@
                                                                         class="img-fluid" alt="Product">
                                                                 </div>
                                                                 <div class="product-name">
-                                                                    <h5><%=product.name%></h5>
-                                                                    <h6><%=product.orderDate.toLocaleDateString()%></h6>
+                                                                    <h5>
+                                                                        <%=product.name%>
+                                                                    </h5>
+                                                                    <h6>
+                                                                        <%=product.orderDate.toLocaleDateString()%>
+                                                                    </h6>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -338,804 +159,324 @@
                                                         <td>
                                                             <div class="product-detail-box">
                                                                 <h6>Price</h6>
-                                                                <h5>$<%=product.discountPrice%></h5>
+                                                                <h5>$<%=product.discountPrice%>
+                                                                </h5>
                                                             </div>
                                                         </td>
-                                                        
+
                                                         <td>
                                                             <div class="product-detail-box">
                                                                 <h6>Stock</h6>
-                                                                <h5><%=product.quantity%></h5>
+                                                                <h5>
+                                                                    <%=product.quantity%>
+                                                                </h5>
                                                             </div>
                                                         </td>
 
                                                         <td>
                                                             <div class="product-detail-box">
                                                                 <h6>Orders</h6>
-                                                                <h5><%=product.orders%></h5>
+                                                                <h5>
+                                                                    <%=product.orders%>
+                                                                </h5>
                                                             </div>
                                                         </td>
 
-                                                        
 
-                                                        
-                                                    </tr>
 
-                                                    <% })%>
+
+                                                </tr>
+                                                <% })%>
                                                     </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Best Selling Product End -->
-                        <div class="col-12">
-                            <div class="card o-hidden">
-                                <!-- <div class="card-header border-0 pb-1">
-                                    <div class="card-header-title">
-                                        <h4>Sales / Purchase Return</h4>
+                    </div>
+                    <!-- Recent orders start-->
+                    <div class="col-xl-6">
+                        <div class="card o-hidden card-hover">
+                            <div class="card-header card-header-top card-header--2 px-0 pt-0">
+                                <div class="card-header-title">
+                                    <h4>Recent Orders</h4>
+                                </div>
+
+
+                            </div>
+
+                            <div class="card-body p-0">
+                                <div>
+                                    <div class="table-responsive">
+                                        <table class="best-selling-table table border-0">
+                                            <tbody>
+                                                <tr>
+                                                    <% orderHistory.forEach((order)=>{ %>
+
+                                                        <td>
+                                                            <div class="best-product-box">
+                                                                <div class="product-name">
+                                                                    <h5>
+                                                                        <%= String(order._id).substring(0, 12) %>
+                                                                    </h5>
+
+                                                                    <h6>
+                                                                        <%= order.createdAt.toLocaleDateString()%>
+                                                                    </h6>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        </td>
+
+                                                        <td>
+                                                            <div class="product-detail-box">
+                                                                <h6>Total</h6>
+                                                                <h5>₹<%=order.grandTotal%>
+                                                                </h5>
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <div class="product-detail-box">
+                                                                <h6>Order Status</h6>
+                                                                <h5>
+                                                                    <%=order.status%>
+                                                                </h5>
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <div class="product-detail-box">
+                                                                <h6>Payment</h6>
+                                                                <h5 class="text-danger">
+                                                                    <%=order.paymentMethod%>
+                                                                </h5>
+                                                            </div>
+                                                        </td>
+                                                </tr>
+
+                                                <% }) %>
+
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                <div class="card-body p-0">
-                                    <div id="sales-purchase-return-cart"></div>
-                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Recent orders end-->
 
-                                
+                    <!-- Best Selling Product End -->
 
+                    <div class="col-12">
+                        <div class="card o-hidden">
 
-                                <div class="card-header-title">
-                                    <h4>Users Summary</h4>
-                                </div>
-                                
-                                <div class="align-items-center">
-                                    <button onclick="fetchUserCountData('monthly')">Monthly</button>
-                                    <button onclick="fetchUserCountData('weekly')">Weekly</button>
-                                    <button onclick="fetchUserCountData('yearly')">Yearly</button>
-                                  </div>
-                                  
-                                  <canvas id="userCountChart" width="400" height="150"></canvas>
-                                  
+                            <div class="card-header-title">
+                                <h4>Users Summary</h4>
+                            </div>
+
+                            <div class="align-items-center">
+                                <button class="btn btn-white shadow border btn-sm mt-2"
+                                    onclick="fetchUserCountData('monthly')">Monthly</button>
+                                <button class="btn btn-white shadow border btn-sm mt-2"
+                                    onclick="fetchUserCountData('weekly')">Weekly</button>
+                                <button class="btn btn-white shadow border btn-sm mt-2"
+                                    onclick="fetchUserCountData('yearly')">Yearly</button>
+                            </div>
+
+                            <canvas id="userCountChart" width="400" height="150"></canvas>
+
                         </div>
 
                         <div class="container-fluid">
                             <div class="row">
                                 <!-- Salery Summy star-->
-                                <!-- <div class="col-xl-8 col-lg-12 col-md-6">
-                                    <div class="card o-hidden">
-                                        <div class="card-header border-0 pb-1">
-                                            <div class="card-header-title">
-                                               
-                                            </div>
-                                        </div>
-                                        
-                                       
-                                         
-                                          
-                                    </div>
-                                </div> -->
-                                <!-- Salery Summy end-->
-        
-                                <!-- Employ Salary  start-->
-                                <!-- <div class="col-xl-4 col-lg-12 col-md-6">
-                                    <div class="h-100">
-                                        <div class="card o-hidden">
-                                            <div class="card-header border-0 pb-1">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="card-header-title">
-                                                        <h4>Sales / Purchase</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-body p-0">
-                                                <div class="pie-chart">
-                                                    <div>
-                                                        <button onclick="changeInterval('monthly')">Monthly</button>
-                                                        <button onclick="changeInterval('weekly')">Weekly</button>
-                                                        <button onclick="changeInterval('yearly')">Yearly</button>
-                                                      </div>
-                                                      <canvas id="salesCountChart" width="300" height="250"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
-                                <!-- Employ Salary end-->
-        
-                                <!-- Expenses star-->
-                                <!-- <div class="col-xl-4 col-lg-12 col-md-6">
-                                    <div class="card o-hidden">
-                                        <div class="card-header border-0 pb-1">
-                                            <div class="card-header-title">
-                                                <h4>Expenses</h4>
-                                            </div>
-                                        </div>
-                                        <div class="card-body p-0">
-                                            <div id="expenses-cart"></div>
-                                        </div>
-                                    </div>
-                                </div> -->
-                                <!-- Expenses end-->
-        
-                                <!-- Sales / Purchase chart start -->
-                                <!-- <div class="col-xl-8 col-lg-12 col-md-6">
-                                    <div class="card">
-                                        <div class="card-header border-0 pb-1">
-                                            <div class="card-header-title">
-                                                <h4>Sales / Purchase</h4>
-                                            </div>
-                                        </div>
-                                       
-                                    </div>
-                                </div> -->
+
                                 <!-- Sales / Purchase chart end -->
-        
+
                                 <!-- Sales / Purchase Return star-->
                                 <div class="col-12">
                                     <div class="card o-hidden">
-                                        <!-- <div class="card-header border-0 pb-1">
-                                            <div class="card-header-title">
-                                                <h4>Sales / Purchase Return</h4>
-                                            </div>
-                                        </div>
-                                        <div class="card-body p-0">
-                                            <div id="sales-purchase-return-cart"></div>
-                                        </div> -->
+
                                         <div class="card-header-title">
                                             <h4>Product / Sales</h4>
                                         </div>
-                                        
-                                        <div class="align-items-center">
-                                            <button onclick="fetchData('monthly')">Monthly</button>
-                                            <button onclick="fetchData('weekly')">Weekly</button>
-                                            <button onclick="fetchData('yearly')">Yearly</button>
-                                          </div>
-                                          <canvas id="revenueChart" width="400" height="150"></canvas>
-                                    </div>
-                                </div>
 
-
-                        <!-- Recent orders start-->
-                        <!-- <div class="col-xl-6">
-                            <div class="card o-hidden card-hover">
-                                <div class="card-header card-header-top card-header--2 px-0 pt-0">
-                                    <div class="card-header-title">
-                                        <h4>Recent Orders</h4>
-                                    </div>
-
-                                    <div class="best-selling-box d-sm-flex d-none">
-                                        <span>Short By:</span>
-                                        <div class="dropdown">
-                                            <button class="btn p-0 dropdown-toggle" type="button"
-                                                id="dropdownMenuButton2" data-bs-toggle="dropdown"
-                                                data-bs-auto-close="true">Today</button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                            </ul>
+                                        <div class="align-items-center graph-options ml-3">
+                                            <button class="btn btn-white shadow border btn-sm mt-2"
+                                                onclick="fetchData('monthly')">Monthly</button>
+                                            <button class="btn btn-white shadow border btn-sm mt-2"
+                                                onclick="fetchData('weekly')">Weekly</button>
+                                            <button class="btn btn-white shadow border btn-sm mt-2"
+                                                onclick="fetchData('yearly')">Yearly</button>
                                         </div>
+                                        <canvas id="revenueChart" width="400" height="150"></canvas>
                                     </div>
                                 </div>
 
-                                <div class="card-body p-0">
-                                    <div>
-                                        <div class="table-responsive">
-                                            <table class="best-selling-table table border-0">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="best-product-box">
-                                                                <div class="product-name">
-                                                                    <h5>Aata Buscuit</h5>
-                                                                    <h6>#64548</h6>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Date Placed</h6>
-                                                                <h5>5/1/22</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Price</h6>
-                                                                <h5>$250.00</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Order Status</h6>
-                                                                <h5>Completed</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Payment</h6>
-                                                                <h5 class="text-danger">Unpaid</h5>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>
-                                                            <div class="best-product-box">
-                                                                <div class="product-name">
-                                                                    <h5>Aata Buscuit</h5>
-                                                                    <h6>26-08-2022</h6>
-                                                                </div>
-                                                            </div>
-                                                        </td>
 
 
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Date Placed</h6>
-                                                                <h5>5/1/22</h5>
-                                                            </div>
-                                                        </td>
 
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Price</h6>
-                                                                <h5>$250.00</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Order Status</h6>
-                                                                <h5>Completed</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Payment</h6>
-                                                                <h5 class="theme-color">Paid</h5>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>
-                                                            <div class="best-product-box">
-                                                                <div class="product-name">
-                                                                    <h5>Aata Buscuit</h5>
-                                                                    <h6>26-08-2022</h6>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Date Placed</h6>
-                                                                <h5>5/1/22</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Price</h6>
-                                                                <h5>$250.00</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Order Status</h6>
-                                                                <h5>Completed</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Payment</h6>
-                                                                <h5 class="theme-color">Paid</h5>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>
-                                                            <div class="best-product-box">
-                                                                <div class="product-name">
-                                                                    <h5>Aata Buscuit</h5>
-                                                                    <h6>26-08-2022</h6>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Date Placed</h6>
-                                                                <h5>5/1/22</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Price</h6>
-                                                                <h5>$250.00</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Order Status</h6>
-                                                                <h5>Completed</h5>
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div class="product-detail-box">
-                                                                <h6>Payment</h6>
-                                                                <h5 class="theme-color">Paid</h5>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- Recent orders end -->
-
-                        <!-- Earning chart star-->
-                        <!-- <div class="col-xl-6">
-                            <div class="card o-hidden card-hover">
-                                <div class="card-header border-0 mb-0">
-                                    <div class="card-header-title">
-                                        <h4>Earning</h4>
-                                    </div>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div id="bar-chart-earning"></div>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- Earning chart end-->
-
-
-                        <!-- Transactions start-->
-                        <!-- <div class="col-xxl-4 col-md-6">
-                            <div class="card o-hidden card-hover">
-                                <div class="card-header border-0">
-                                    <div class="card-header-title">
-                                        <h4>Transactions</h4>
-                                    </div>
-                                </div>
-
-                                <div class="card-body pt-0">
-                                    <div>
-                                        <div class="table-responsive">
-                                            <table class="user-table transactions-table table border-0">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="transactions-icon">
-                                                                <i class="ri-shield-line"></i>
-                                                            </div>
-                                                            <div class="transactions-name">
-                                                                <h6>Wallets</h6>
-                                                                <p>Starbucks</p>
-                                                            </div>
-                                                        </td>
-
-                                                        <td class="lost">-$74</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="td-color-1">
-                                                            <div class="transactions-icon">
-                                                                <i class="ri-check-line"></i>
-                                                            </div>
-                                                            <div class="transactions-name">
-                                                                <h6>Bank Transfer</h6>
-                                                                <p>Add Money</p>
-                                                            </div>
-                                                        </td>
-
-                                                        <td class="success">+$125</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="td-color-2">
-                                                            <div class="transactions-icon">
-                                                                <i class="ri-exchange-dollar-line"></i>
-                                                            </div>
-                                                            <div class="transactions-name">
-                                                                <h6>Paypal</h6>
-                                                                <p>Add Money</p>
-                                                            </div>
-                                                        </td>
-
-                                                        <td class="lost">-$50</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="td-color-3">
-                                                            <div class="transactions-icon">
-                                                                <i class="ri-bank-card-line"></i>
-                                                            </div>
-                                                            <div class="transactions-name">
-                                                                <h6>Mastercard</h6>
-                                                                <p>Ordered Food</p>
-                                                            </div>
-                                                        </td>
-
-                                                        <td class="lost">-$40</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="td-color-4 pb-0">
-                                                            <div class="transactions-icon">
-                                                                <i class="ri-bar-chart-grouped-line"></i>
-                                                            </div>
-                                                            <div class="transactions-name">
-                                                                <h6>Transfer</h6>
-                                                                <p>Refund</p>
-                                                            </div>
-                                                        </td>
-
-                                                        <td class="success pb-0">+$90</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- Transactions end-->
-
-                        <!-- visitors chart start-->
-                        <!-- <div class="col-xxl-4 col-md-6">
-                            <div class="h-100">
-                                <div class="card o-hidden card-hover">
-                                    <div class="card-header border-0">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="card-header-title">
-                                                <h4>Visitors</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body pt-0">
-                                        <div class="pie-chart">
-                                            <div id="pie-chart-visitors"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- visitors chart end-->
-
-
-                        <!-- To Do List start-->
-                        <!-- <div class="col-xxl-4 col-md-6">
-                            <div class="card o-hidden card-hover">
-                                <div class="card-header border-0">
-                                    <div class="card-header-title">
-                                        <h4>To Do List</h4>
-                                    </div>
-                                </div>
-
-                                <div class="card-body pt-0">
-                                    <ul class="to-do-list">
-                                        <li class="to-do-item">
-                                            <div class="form-check user-checkbox">
-                                                <input class="checkbox_animated check-it" type="checkbox" value=""
-                                                    id="flexCheckDefault">
-                                            </div>
-                                            <div class="to-do-list-name">
-                                                <strong>Pick up kids from school</strong>
-                                                <p>8 Hours</p>
-                                            </div>
-                                        </li>
-                                        <li class="to-do-item">
-                                            <div class="form-check user-checkbox">
-                                                <input class="checkbox_animated check-it" type="checkbox" value=""
-                                                    id="flexCheckDefault1">
-                                            </div>
-                                            <div class="to-do-list-name">
-                                                <strong>Prepare or presentation.</strong>
-                                                <p>8 Hours</p>
-                                            </div>
-                                        </li>
-                                        <li class="to-do-item">
-                                            <div class="form-check user-checkbox">
-                                                <input class="checkbox_animated check-it" type="checkbox" value=""
-                                                    id="flexCheckDefault2">
-                                            </div>
-                                            <div class="to-do-list-name">
-                                                <strong>Create invoice</strong>
-                                                <p>8 Hours</p>
-                                            </div>
-                                        </li>
-                                        <li class="to-do-item">
-                                            <div class="form-check user-checkbox">
-                                                <input class="checkbox_animated check-it" type="checkbox" value=""
-                                                    id="flexCheckDefault3">
-                                            </div>
-                                            <div class="to-do-list-name">
-                                                <strong>Meeting with Alisa</strong>
-                                                <p>8 Hours</p>
-                                            </div>
-                                        </li>
-
-                                        <li class="to-do-item">
-                                            <form class="row g-2">
-                                                <div class="col-8">
-                                                    <input type="text" class="form-control" id="name"
-                                                        placeholder="Enter Task Name">
-                                                </div>
-                                                <div class="col-4">
-                                                    <button type="submit" class="btn btn-primary w-100 h-100">Add
-                                                        task</button>
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- To Do List end-->
-
-
-                    </div>
-                </div>
-                <!-- Container-fluid Ends-->
-
-                <!-- footer start-->
-                <div class="container-fluid">
-                    <footer class="footer">
-                        <div class="row">
-                            <div class="col-md-12 footer-copyright text-center">
-                                <p class="mb-0">Copyright 2022 © Fastkart theme by pixelstrap</p>
                             </div>
                         </div>
-                    </footer>
-                </div>
-                <!-- footer End-->
-            </div>
-            <!-- index body end -->
-
-        </div>
-        <!-- Page Body End -->
-    </div>
-    <!-- page-wrapper End-->
-
-    <!-- Modal Start -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog  modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <h5 class="modal-title" id="staticBackdropLabel">Logging Out</h5>
-                    <p>Are you sure you want to log out?</p>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div class="button-box">
-                        <button type="button" class="btn btn--no" data-bs-dismiss="modal">No</button>
-                        <button type="button" class="btn  btn--yes btn-primary">Yes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal End -->
-
-    <!-- latest js -->
-    <script src="/assetsB/js/jquery-3.6.0.min.js"></script>
-
-    <!-- Bootstrap js -->
-    <script src="/assetsB/js/bootstrap/bootstrap.bundle.min.js"></script>
-
-    <!-- feather icon js -->
-    <script src="/assetsB/js/icons/feather-icon/feather.min.js"></script>
-    <script src="/assetsB/js/icons/feather-icon/feather-icon.js"></script>
-
-    <!-- scrollbar simplebar js -->
-    <script src="/assetsB/js/scrollbar/simplebar.js"></script>
-    <script src="/assetsB/js/scrollbar/custom.js"></script>
-
-    <!-- Sidebar jquery -->
-    <script src="/assetsB/js/config.js"></script>
-
-    <!-- tooltip init js -->
-    <script src="/assetsB/js/tooltip-init.js"></script>
-
-    <!-- Plugins JS -->
-    <script src="/assetsB/js/sidebar-menu.js"></script>
-    <script src="/assetsB/js/notify/bootstrap-notify.min.js"></script>
-    <script src="/assetsB/js/notify/index.js"></script>
-
-    <!-- Apexchar js -->
-    <script src="/assetsB/js/chart/apex-chart/apex-chart1.js"></script>
-    <script src="/assetsB/js/chart/apex-chart/moment.min.js"></script>
-    <script src="/assetsB/js/chart/apex-chart/apex-chart.js"></script>
-    <script src="/assetsB/js/chart/apex-chart/stock-prices.js"></script>
-    <script src="/assetsB/js/chart/apex-chart/chart-custom1.js"></script>
-
-
-    <!-- slick slider js -->
-    <script src="/assetsB/js/slick.min.js"></script>
-    <script src="/assetsB/js/custom-slick.js"></script>
-
-    <!-- customizer js -->
-    <script src="/assetsB/js/customizer.js"></script>
-
-    <!-- ratio js -->
-    <script src="/assetsB/js/ratio.js"></script>
-
-    <!-- sidebar effect -->
-    <script src="/assetsB/js/sidebareffect.js"></script>
-
-    <!-- Theme js -->
-    <script src="/assetsB/js/script.js"></script>
-
-
-    <script>
-  
-  
-
-    
-let currentInterval = 'monthly'; // Initial time interval
-
-function fetchData(interval) {
-  currentInterval = interval;
-  fetch(`/admin/${interval}-revenue`)
-    .then(response => response.json())
-    .then(data => {
-      updateChart(data);
-    })
-    .catch(error => {
-      console.error(`Error fetching ${interval} revenue:`, error);
-    });
-}
-
-function updateChart(data) {
-  const ctx = document.getElementById('revenueChart').getContext('2d');
-
-  if (window.myChart) {
-    window.myChart.destroy();
-  }
-
-  const chartColors = [
-    'rgba(255, 99, 132, 0.5)',
-    'rgba(54, 162, 235, 0.5)',
-    'rgba(255, 206, 86, 0.5)',
-    // Add more colors as needed
-  ];
-
-  const borderColor = [
-    'rgba(255, 99, 132, 1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(255, 206, 86, 1)',
-    // Add more colors as needed
-  ];
-
-  const config = {
-    type: 'bar',
-    data: {
-      labels: data.map(item => item._id),
-      datasets: [
-        {
-          label: `${currentInterval.charAt(0).toUpperCase() + currentInterval.slice(1)} Revenue`,
-          data: data.map(item => item.totalRevenue),
-          backgroundColor: chartColors.slice(0, data.length), // Using colors according to data length
-          borderColor: borderColor.slice(0, data.length), // Using border colors according to data length
-          borderWidth: 1
-        }
-      ]
-    },
-    options: {
-      // Customize Chart.js options as needed
-    }
-  };
-
-  window.myChart = new Chart(ctx, config);
-}
-
-fetchData('weekly'); // Initial chart render with 'weekly' data
-
-
-  
-let selectedInterval = 'monthly'; // Initial time interval
-let salesChart = null; // Variable to store the chart instance
-
-function changeInterval(interval) {
-  selectedInterval = interval;
-  retrieveData(interval);
-}
-
-function retrieveData(interval) {
-  fetch(`/admin/${interval}-sales-count`)
-    .then(response => response.json())
-    .then(data => {
-      renderSalesChart(data);
-    })
-    .catch(error => {
-      console.error(`Error fetching ${interval} sales count:`, error);
-    });
-}
+                        <!-- Container-fluid Ends-->
 
 
 
-function fetchProductData(interval) {
-  fetch('/admin/product-count-per-category')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok.');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data); // Log the received data
-      renderProductCountChart(data);
-    })
-    .catch(error => {
-      console.error('Error fetching product count per category:', error);
-    });
-}
 
-  
-
-let userCountChart = null; // Store the chart instance
-
-function fetchUserCountData(interval) {
-  fetch(`/admin/user-counts?interval=${interval}`)
-    .then(response => response.json())
-    .then(data => {
-      renderUserCountChart(data);
-    })
-    .catch(error => {
-      console.error('Error fetching user count:', error);
-    });
-}
-
-function renderUserCountChart(data) {
-  const ctx = document.getElementById('userCountChart').getContext('2d');
-
-  if (userCountChart) {
-    userCountChart.destroy(); // Destroy the existing chart if it exists
-  }
-
-  const chartConfig = {
-    type: 'line',
-    data: {
-      labels: data.map(item => item._id),
-      datasets: [
-        {
-          label: 'Number of Users',
-          data: data.map(item => item.userCount),
-          backgroundColor: 'rgba(54, 162, 235, 0.5)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      // Customize Chart.js options as needed
-    },
-  };
-
-  userCountChart = new Chart(ctx, chartConfig);
-}
-
-// Initial fetch for 'monthly' data
-fetchUserCountData('weekly');
-
-    </script>
+                        <script>
 
 
-</body>
 
 
-<!-- Mirrored from themes.pixelstrap.com/fastkart/back-end/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 04 Sep 2023 05:49:24 GMT -->
-</html>
+                            let currentInterval = 'monthly'; // Initial time interval
+
+                            function fetchData(interval) {
+                                currentInterval = interval;
+                                fetch(`/admin/${interval}-revenue`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        updateChart(data);
+                                    })
+                                    .catch(error => {
+                                        console.error(`Error fetching ${interval} revenue:`, error);
+                                    });
+                            }
+
+                            function updateChart(data) {
+                                const ctx = document.getElementById('revenueChart').getContext('2d');
+
+                                if (window.myChart) {
+                                    window.myChart.destroy();
+                                }
+
+                                const chartColors = [
+                                    'rgba(255, 99, 132, 0.5)',
+                                    'rgba(54, 162, 235, 0.5)',
+                                    'rgba(255, 206, 86, 0.5)',
+                                    // Add more colors as needed
+                                ];
+
+                                const borderColor = [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    // Add more colors as needed
+                                ];
+
+                                const config = {
+                                    type: 'bar',
+                                    data: {
+                                        labels: data.map(item => item._id),
+                                        datasets: [
+                                            {
+                                                label: `${currentInterval.charAt(0).toUpperCase() + currentInterval.slice(1)} Revenue`,
+                                                data: data.map(item => item.totalRevenue),
+                                                backgroundColor: chartColors.slice(0, data.length), // Using colors according to data length
+                                                borderColor: borderColor.slice(0, data.length), // Using border colors according to data length
+                                                borderWidth: 1
+                                            }
+                                        ]
+                                    },
+                                    options: {
+                                        // Customize Chart.js options as needed
+                                    }
+                                };
+
+                                window.myChart = new Chart(ctx, config);
+                            }
+
+                            fetchData('weekly'); // Initial chart render with 'weekly' data
+
+
+
+                            let selectedInterval = 'monthly'; // Initial time interval
+                            let salesChart = null; // Variable to store the chart instance
+
+                            function changeInterval(interval) {
+                                selectedInterval = interval;
+                                retrieveData(interval);
+                            }
+
+                            function retrieveData(interval) {
+                                fetch(`/admin/${interval}-sales-count`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        renderSalesChart(data);
+                                    })
+                                    .catch(error => {
+                                        console.error(`Error fetching ${interval} sales count:`, error);
+                                    });
+                            }
+
+
+
+                            function fetchProductData(interval) {
+                                fetch('/admin/product-count-per-category')
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error('Network response was not ok.');
+                                        }
+                                        return response.json();
+                                    })
+                                    .then(data => {
+                                        console.log(data); // Log the received data
+                                        renderProductCountChart(data);
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching product count per category:', error);
+                                    });
+                            }
+
+
+
+                            let userCountChart = null; // Store the chart instance
+
+                            function fetchUserCountData(interval) {
+                                fetch(`/admin/user-counts?interval=${interval}`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        renderUserCountChart(data);
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching user count:', error);
+                                    });
+                            }
+
+                            function renderUserCountChart(data) {
+                                const ctx = document.getElementById('userCountChart').getContext('2d');
+
+                                if (userCountChart) {
+                                    userCountChart.destroy(); // Destroy the existing chart if it exists
+                                }
+
+                                const chartConfig = {
+                                    type: 'line',
+                                    data: {
+                                        labels: data.map(item => item._id),
+                                        datasets: [
+                                            {
+                                                label: 'Number of Users',
+                                                data: data.map(item => item.userCount),
+                                                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                                                borderColor: 'rgba(54, 162, 235, 1)',
+                                                borderWidth: 1,
+                                            },
+                                        ],
+                                    },
+                                    options: {
+                                        // Customize Chart.js options as needed
+                                    },
+                                };
+
+                                userCountChart = new Chart(ctx, chartConfig);
+                            }
+
+                            // Initial fetch for 'monthly' data
+                            fetchUserCountData('weekly');
+
+                        </script>
+                        <%- include('../partials/footer') %>

@@ -21,6 +21,7 @@ adminRoute.use(express.json());
 //calling the API
 adminRoute.get('/',adminController.loadLogin);
 adminRoute.post('/',adminController.verifyLogin);
+adminRoute.get('/logout',adminController.logout)
 adminRoute.get('/dashboard',isLogin,adminController.loadDashboard);
 adminRoute.get('/users',isLogin,adminController.loadUserlist);
 adminRoute.get('/blockUser',adminController.blockUser);
@@ -28,9 +29,9 @@ adminRoute.get('/category',isLogin,category.loadCategory);
 adminRoute.get('/addCategory',category.loadAddCategory);
 adminRoute.post('/addCategory',upload.single('image'),category.addCategory);
 adminRoute.get('/listingCat',isLogin,category.listingCategory);
-adminRoute.get('/editCategory', category.loadEditCategory);
+adminRoute.get('/editCategory',isLogin, category.loadEditCategory);
 adminRoute.post('/editCategory',upload.single('image'),category.updateCategory);
-adminRoute.get('/addProduct',product.addProductLoad);
+adminRoute.get('/addProduct',isLogin,product.addProductLoad);
 adminRoute.post('/addProduct',upload.array('productImages',4),product.addProduct)
 adminRoute.get('/productList',isLogin,product.loadProductList);
 adminRoute.get('/productList/:id',product.listUnlist);
@@ -41,12 +42,12 @@ adminRoute.get('/orderDetails',isLogin,orderController.loadOrderDetails);
 adminRoute.post('/ChangeOrderStatus',orderController.orderStatus);
 adminRoute.post('/deleteImage',product.deleteImage)
 adminRoute.post('/returnRequest',orderController.returnRequest);
-adminRoute.get('/returnOrderList',orderController.loadReturnOrderList)
+adminRoute.get('/returnOrderList',isLogin,orderController.loadReturnOrderList)
 adminRoute.get('/returnOrder_Details',isLogin,orderController.loadReturnOrderDetails)
 adminRoute.post('/returnResponse',orderController.returnResponse);
 adminRoute.get('/createCoupon',isLogin,adminController.loadAddCoupon);
 adminRoute.post('/createCoupon',adminController.addCoupon);
-adminRoute.get('/listCoupon',adminController.couponList);
+adminRoute.get('/listCoupon',isLogin,adminController.couponList);
 adminRoute.get('/editCoupon',isLogin,adminController.loadEdiCoupon);
 adminRoute.post('/editCoupon',adminController.ediCoupon);
 adminRoute.get('/deleteCoupon',adminController.deleteCoupon);

@@ -36,7 +36,7 @@ const loadRegister = async (req, res) => {
 
   try {
     if (req.query) {
-        req.session.referel = req.query.referel;
+      req.session.referel = req.query.referel;
     }
     res.render('registration', { message: "" })
   } catch (error) {
@@ -92,17 +92,17 @@ const insertUser = async (req, res) => {
   try {
     const { name, email, mno, password } = req.body;
     const category = await categories.find({ listed: true })
-    
+
     console.log(category);
-   
+
 
 
     const checkEmail = await userModel.findOne({ email: email });
     console.log(checkEmail);
 
     if (checkEmail && checkEmail.email === email) {
-      res.render('login', { message: "This account id already exists"});
-      
+      res.render('login', { message: "This account id already exists" });
+
     } else {
       console.log("Entered this block");
 
@@ -173,19 +173,19 @@ const verifyOtp = async (req, res) => {
     const stroredOtp = req.session.otp;
     console.log(stroredOtp);
 
-    if (enteredOtp == stroredOtp  && req.session.referel) {
+    if (enteredOtp == stroredOtp && req.session.referel) {
 
       delete req.session.otp;
       const generetedCode = generateOtp();
       const userData = req.session.userData;
-      const refferdUser = await userModel.findOne({referelCode:req.session.referel})
+      const refferdUser = await userModel.findOne({ referelCode: req.session.referel })
       if (refferdUser) {
         refferdUser.walletAmount = 200;
         await refferdUser.save();
       }
-      
+
       console.log(refferdUser);
-      
+
       const spassword = await securePassword(userData.password);
 
       const users = userModel({
@@ -195,7 +195,7 @@ const verifyOtp = async (req, res) => {
         password: spassword,
         referelCode: generetedCode,
         is_verified: is_verified = true,
-        walletAmount : 150,
+        walletAmount: 150,
 
       })
 
@@ -203,7 +203,7 @@ const verifyOtp = async (req, res) => {
 
       res.redirect('/login')
 
-    }else if(enteredOtp == stroredOtp){
+    } else if (enteredOtp == stroredOtp) {
 
       delete req.session.otp;
       const generetedCode = generateOtp();
@@ -269,7 +269,7 @@ const verifyLogin = async (req, res) => {
 
         res.redirect('/')
       } else {
-        res.render('home', { message: "Password is incorrect" ,user:"",category:"" });
+        res.render('home', { message: "Password is incorrect", user: "", category: "" });
         console.log("User data: Password is incorrect");
       }
     } else {
@@ -291,7 +291,7 @@ const loadHome = async (req, res) => {
     const category = await categories.find({ listed: true })
     const user = req.session.userId;
     console.log(category);
-    res.render('home', { Bestproduct, featuredProduct, cart, category , user , message:""});
+    res.render('home', { Bestproduct, featuredProduct, cart, category, user, message: "" });
 
   } catch (error) {
     console.log(error.message);
@@ -314,7 +314,7 @@ async function loadCheckout(req, res) {
     const coupon = await couponModal.find({ minimumCartTotal: { $lte: cart.Total }, status: true });
 
 
-    res.render('checkout', { cart, address, user,coupon ,message:""})
+    res.render('checkout', { cart, address, user, coupon, message: "" })
 
 
   } catch (error) {
@@ -420,10 +420,10 @@ async function changePassword(req, res) {
 }
 
 
-async function shareReferel (req,res){
+async function shareReferel(req, res) {
 
   try {
-    
+
     const userId = req.session.userId;
     console.log(userId);
     const user = await userModel.findById(userId);
@@ -443,11 +443,33 @@ async function shareReferel (req,res){
 async function successPage(req, res) {
   try {
 
-    res.render('successPage')
+    const user = req.session.userId;
+    res.render('successPage', { user })
   } catch (error) {
     console.log(error);
   }
 }
+
+async function aboutUs(req, res) {
+  try {
+
+    const user = req.session.userId;
+    res.render('aboutUs', { user })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function contactUs(req, res) {
+  try {
+
+    const user = req.session.userId;
+    res.render('contactUs', { user })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 
 
@@ -465,14 +487,12 @@ module.exports = {
   loadCheckout,
   addNewAddress,
   loadDashboard,
-  // confirmOrder,
   successPage,
   changePassword,
   resendOtp,
-  // orderdetails,
-  // canceOrder,
   editAddress,
-  shareReferel
+  shareReferel,
+  aboutUs,contactUs
 
 
 

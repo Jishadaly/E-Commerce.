@@ -1,300 +1,142 @@
 <%- include('../partials/header')%>
-<%- include('../partials/sidebar')%>
+    <%- include('../partials/sidebar')%>
 
-            <!-- Order section Start -->
-            <div class="page-body">
-                <!-- Table Start -->
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card card-table">
-                                <div class="card-body">
-                                    <div class="title-header option-title">
-                                        <h5>Order List</h5>
-                                        <a href="#" class="btn btn-solid">Download all orders</a>
-                                    </div>
-                                    <div>
-                                        <div class="table-responsive">
-                                            <table class="table all-package order-table theme-table" id="table_id">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Order Code</th>
-                                                        <th>Phone</th>
-                                                        <th>Date</th>
-                                                        <th>Payment Method</th>
-                                                        <th>Delivery Status</th>
-                                                        <th>Amount</th>
-                                                        <th>Option</th>
+        <!-- Order section Start -->
+        <div class="page-body">
+            <!-- Table Start -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card card-table">
+                            <div class="card-body">
+                                <div class="title-header option-title">
+                                    <h5>Order List</h5>
+
+                                </div>
+                                <div>
+                                    <div class="table-responsive">
+                                        <table class="table all-package order-table theme-table" id="table_id">
+                                            <thead>
+                                                <tr>
+                                                    <th>Order Code</th>
+                                                    <th>Phone</th>
+                                                    <th>Date</th>
+                                                    <th>Payment Method</th>
+                                                    <th>Delivery Status</th>
+                                                    <th>Amount</th>
+                                                    <th>Option</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+
+                                                <% orderData.map((items)=>{ %>
+
+
+                                                    <td>
+                                                        <%= String(items._id).substring(0, 12) %>
+                                                    </td>
+
+
+                                                    <td>
+                                                        <%= items.address.phone%>
+                                                    </td>
+
+                                                    <td>
+                                                        <%= items.createdAt.toLocaleDateString()%>
+                                                    </td>
+
+                                                    <td>
+                                                        <%= items.paymentMethod%>
+                                                    </td>
+
+                                                    <td class="Order-succes">
+                                                        <span>
+                                                            <%= items.status%>
+                                                        </span>
+                                                    </td>
+
+                                                    <td>₹<%=items.grandTotal%>
+                                                    </td>
+
+                                                    <td>
+                                                        <ul>
+                                                            <li>
+                                                                <a href="/admin/orderDetails?orderId=<%= items._id%>">
+                                                                    <i class="ri-eye-line"></i>
+                                                                </a>
+                                                            </li>
+
+
+                                                        </ul>
+                                                    </td>
                                                     </tr>
-                                                </thead>
-
-                                                <tbody>
-
-                                                    <% orderData.map((items)=>{  %>
-
-                                                 
-                                                        <td><%=items._id%></td>
-
-                                                        <td> <%= items.address.phone%></td>
-
-                                                        <td> <%= items.createdAt.toLocaleDateString()%></td>
-
-                                                        <td> <%= items.paymentMethod%></td>
-
-                                                        <td class="Order-succes">
-                                                            <span> <%= items.status%></span>
-                                                        </td>
-
-                                                        <td>₹<%=items.grandTotal%></td>
-
-                                                        <td>
-                                                            <ul>
-                                                                <li>
-                                                                    <a href="/admin/orderDetails?orderId=<%= items._id%>">
-                                                                        <i class="ri-eye-line"></i>
-                                                                    </a>
-                                                                </li>
-
-                                                                <!-- <li>
-                                                                    <a href="javascript:void(0)">
-                                                                        <i class="ri-pencil-line"></i>
-                                                                    </a>
-                                                                </li>
-
-                                                                <li>
-                                                                    <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModalToggle">
-                                                                        <i class="ri-delete-bin-line"></i>
-                                                                    </a>
-                                                                </li> -->
-                                                                <!-- <li>
-                                                                    <a class="btn btn-sm btn-solid text-white"
-                                                                        href="order-tracking.html">
-                                                                        Tracking
-                                                                    </a>
-                                                                </li> -->
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
-                                                    <%  }) %>   
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                    <% }) %>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Table End -->
-
-               <!-- orderList.ejs -->
-
-<!-- Your order list rendering code -->
-
-<!-- Pagination -->
-<nav aria-label="Page navigation">
-    <ul class="pagination">
-        <% if (currentPage > 1) { %>
-            <li class="page-item">
-                <a class="page-link page-link-prev" href="/admin/orderList?page=<%= currentPage - 1 %>" aria-label="Previous">
-                    <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
-                </a>
-            </li>
-        <% } else { %>
-            <li class="page-item disabled">
-                <span class="page-link page-link-prev" aria-disabled="true">
-                    <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
-                </span>
-            </li>
-        <% } %>
-
-        <% for (let i = 1; i <= totalPages; i++) { %>
-            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                <a class="page-link" href="/admin/orderList?page=<%= i %>"><%= i %></a>
-            </li>
-        <% } %>
-
-        <!-- <li class="page-item-total">of <%= totalPages %></li> -->
-
-        <% if (currentPage < totalPages) { %>
-            <li class="page-item">
-                <a class="page-link page-link-next" href="/admin/orderList?page=<%= currentPage + 1 %>" aria-label="Next">
-                    Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
-                </a>
-            </li>
-        <% } else { %>
-            <li class="page-item disabled">
-                <span class="page-link page-link-next" aria-disabled="true">
-                    Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
-                </span>
-            </li>
-        <% } %>
-    </ul>
-</nav>
-
-
-
-                <!-- footer start-->
-                <div class="container-fluid">
-                    <footer class="footer">
-                        <div class="row">
-                            <div class="col-md-12 footer-copyright text-center">
-                                <p class="mb-0">Copyright 2022 © Fastkart theme by pixelstrap</p>
-                            </div>
-                        </div>
-                    </footer>
-                </div>
             </div>
-            <!-- Order section End -->
-        </div>
-        <!-- Page Body End-->
-    </div>
-    <!-- page-wrapper End -->
+            <!-- Table End -->
 
-    <!-- Modal start -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog  modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <h5 class="modal-title" id="staticBackdropLabel">Logging Out</h5>
-                    <p>Are you sure you want to log out?</p>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div class="button-box">
-                        <button type="button" class="btn btn--no" data-bs-dismiss="modal">No</button>
-                        <button type="button" class="btn  btn--yes btn-primary">Yes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal end -->
+            <!-- orderList.ejs -->
 
-    <!-- Delete Modal Box Start -->
-    <div class="modal fade theme-modal remove-coupon" id="exampleModalToggle" aria-hidden="true" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header d-block text-center">
-                    <h5 class="modal-title w-100" id="exampleModalLabel22">Are You Sure ?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="remove-box">
-                        <p>The permission for the use/group, preview is inherited from the object, object will create a
-                            new permission for this object</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-animation btn-md fw-bold" data-bs-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-animation btn-md fw-bold" data-bs-target="#exampleModalToggle2"
-                        data-bs-toggle="modal" data-bs-dismiss="modal">Yes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+            <!-- Your order list rendering code -->
 
-    <div class="modal fade theme-modal remove-coupon" id="exampleModalToggle2" aria-hidden="true" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-center" id="exampleModalLabel12">Done!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="remove-box text-center">
-                        <div class="wrapper">
-                            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
-                                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-                            </svg>
-                        </div>
-                        <h4 class="text-content">It's Removed.</h4>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Delete Modal Box End -->
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <% if (currentPage> 1) { %>
+                        <li class="page-item">
+                            <a class="page-link page-link-prev" href="/admin/orderList?page=<%= currentPage - 1 %>"
+                                aria-label="Previous">
+                                <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                            </a>
+                        </li>
+                        <% } else { %>
+                            <li class="page-item disabled">
+                                <span class="page-link page-link-prev" aria-disabled="true">
+                                    <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                </span>
+                            </li>
+                            <% } %>
 
-    <!-- Offcanvas Box Start -->
-    <div class="offcanvas offcanvas-end order-offcanvas" tabindex="-1" id="order-details"
-        aria-labelledby="offcanvasExampleLabel" aria-expanded="false">
-        <div class="offcanvas-header">
-            <h4 class="offcanvas-title" id="offcanvasExampleLabel">#573-685572</h4>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="order-date">
-                <h6>September 17, 2022 <span class="ms-3">8:12 PM</span></h6>
-                <a href="javascript:void(0)" class="d-block mt-1">Cancel Order</a>
-            </div>
+                                <% for (let i=1; i <=totalPages; i++) { %>
+                                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                        <a class="page-link" href="/admin/orderList?page=<%= i %>">
+                                            <%= i %>
+                                        </a>
+                                    </li>
+                                    <% } %>
 
-            <div class="accordion accordion-flush custome-accordion" id="accordionFlushExample">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingOne">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                            Status
-                        </button>
-                    </h2>
-                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
-                        data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">
-                            <ul class="status-list">
-                                <li>
-                                    <a href="javascript:void(0)">Shipped</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Pending</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                            Accordion Item #2
-                        </button>
-                    </h2>
-                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
-                        data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">Placeholder content for this accordion, which is intended to
-                            demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion
-                            body. Let's imagine this being filled with some actual content.</div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingThree">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseThree" aria-expanded="false"
-                            aria-controls="flush-collapseThree">
-                            Accordion Item #3
-                        </button>
-                    </h2>
-                    <div id="flush-collapseThree" class="accordion-collapse collapse"
-                        aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">Placeholder content for this accordion, which is intended to
-                            demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion
-                            body. Nothing more exciting happening here in terms of content, but just filling up the
-                            space to make it look, at least at first glance, a bit more representative of how this would
-                            look in a real-world application.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Offcanvas Box End -->
+                                        <!-- <li class="page-item-total">of <%= totalPages %></li> -->
 
-    <%- include('../partials/footer')%>
+                                        <% if (currentPage < totalPages) { %>
+                                            <li class="page-item">
+                                                <a class="page-link page-link-next"
+                                                    href="/admin/orderList?page=<%= currentPage + 1 %>"
+                                                    aria-label="Next">
+                                                    Next <span aria-hidden="true"><i
+                                                            class="icon-long-arrow-right"></i></span>
+                                                </a>
+                                            </li>
+                                            <% } else { %>
+                                                <li class="page-item disabled">
+                                                    <span class="page-link page-link-next" aria-disabled="true">
+                                                        Next <span aria-hidden="true"><i
+                                                                class="icon-long-arrow-right"></i></span>
+                                                    </span>
+                                                </li>
+                                                <% } %>
+                </ul>
+            </nav>
+
+
+
+
+
+            <%- include('../partials/footer')%>

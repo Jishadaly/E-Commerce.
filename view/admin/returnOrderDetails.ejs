@@ -1,126 +1,134 @@
- 
- <%- include('../partials/header')%>
- <%- include('../partials/sidebar')%>
- 
- <!-- tracking section start -->
- <div class="page-body">
-  <!-- tracking table start -->
-  <div class="container-fluid">
-      <div class="row">
-          <div class="col-sm-12">
-              <div class="card">
-                  <div class="card-body">
-                      <div class="title-header title-header-block package-card">
-                          <div>
-                              <h5>Order #36648</h5>
-                          </div>
-                          <div class="card-order-section">
-                              <ul>
-                                  <li>October 21, 2021 at 9:08 pm</li>
-                                  <li>6 items</li>
-                                  <li>Total $5,882.00</li>
-                              </ul>
-                          </div>
-                      </div>
-                      <div class="bg-inner cart-section order-details-table">
-                          <div class="row g-4">
-                              <div class="col-xl-8">
-                                  <div class="table-responsive table-details">
-                                      <table class="table cart-table table-borderless">
-                                          <thead>
-                                              <tr>
-                                                  <th colspan="2">Items</th>
-                                                  <th class="text-end" colspan="2">
-                                                      <a href="javascript:void(0)"
-                                                          class="theme-color">Edit
-                                                          Items</a>
-                                                  </th>
-                                              </tr>
-                                          </thead>
+<%- include('../partials/header')%>
+    <%- include('../partials/sidebar')%>
 
-                                          <tbody>
-                                            <% order.products.map((item)=>{ %>
+        <!-- tracking section start -->
+        <div class="page-body">
+            <!-- tracking table start -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="title-header title-header-block package-card">
+                                    <div>
+                                        <h5>Order #36648</h5>
+                                    </div>
+                                    <div class="card-order-section">
+                                        <ul>
+                                            <li>October 21, 2021 at 9:08 pm</li>
+                                            <li>6 items</li>
+                                            <li>Total $5,882.00</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="bg-inner cart-section order-details-table">
+                                    <div class="row g-4">
+                                        <div class="col-xl-8">
+                                            <div class="table-responsive table-details">
+                                                <table class="table cart-table table-borderless">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="2">Items</th>
+                                                            <th class="text-end" colspan="2">
+                                                                <a href="javascript:void(0)" class="theme-color">Edit
+                                                                    Items</a>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
 
-                                              <tr class="table-order">
-                                                  <td>
-                                                      <a href="javascript:void(0)">
-                                                          <img src="/public/images/<%=item.product.productImages[0]%>"
-                                                              class="img-fluid blur-up lazyload" alt="">
-                                                      </a>
-                                                  </td>
-                                                  <td>
-                                                    <p><%= item.product.name%></p>
-                                                    <h5></h5>
-                                                </td>
-                                                <td>
-                                                    <p>Quantity</p>
-                                                    <h5><%= item.quantity%></h5>
-                                                </td>
-                                                <td>
-                                                    <p>Price</p>
-                                                    <h5>₹<%= item.product.price%></h5>
-                                                </td>
-                                              </tr>
+                                                    <tbody>
+                                                        <% order.products.map((item)=>{ %>
 
-                                              
-                                              <%  }) %> 
-                                          </tbody>
+                                                            <tr class="table-order">
+                                                                <td>
+                                                                    <a href="javascript:void(0)">
+                                                                        <img src="/public/images/<%=item.product.productImages[0]%>"
+                                                                            class="img-fluid blur-up lazyload" alt="">
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <p>
+                                                                        <%= item.product.name%>
+                                                                    </p>
+                                                                    <h5></h5>
+                                                                </td>
+                                                                <td>
+                                                                    <p>Quantity</p>
+                                                                    <h5>
+                                                                        <%= item.quantity%>
+                                                                    </h5>
+                                                                </td>
+                                                                <td>
+                                                                    <p>Price</p>
+                                                                    <h5>₹<%= item.product.price%>
+                                                                    </h5>
+                                                                </td>
+                                                            </tr>
 
-                                          <tfoot>
-                                              <tr class="table-order">
-                                                  <td colspan="3">
-                                                      <h5>Subtotal :</h5>
-                                                  </td>
-                                                  <td>
-                                                      <h4>$55.00</h4>
-                                                  </td>
-                                              </tr>
 
-                                              <tr class="table-order">
-                                                  <td colspan="3">
-                                                      <h5>Shipping :</h5>
-                                                  </td>
-                                                  <td>
-                                                      <h4>$12.00</h4>
-                                                  </td>
-                                              </tr>
+                                                            <% }) %>
+                                                    </tbody>
 
-                                              <tr class="table-order">
-                                                  <td colspan="3">
-                                                      <h5>Tax(GST) :</h5>
-                                                  </td>
-                                                  <td>
-                                                      <h4>$10.00</h4>
-                                                  </td>
-                                              </tr>
+                                                    <tfoot>
+                                                        <tr class="table-order">
+                                                            <td colspan="3">
+                                                                <h5>Subtotal :</h5>
+                                                            </td>
+                                                            <td>
+                                                                <h4>$55.00</h4>
+                                                            </td>
+                                                        </tr>
 
-                                              <tr class="table-order">
-                                                  <td colspan="3">
-                                                      <h4 class="theme-color fw-bold">Total Price :</h4>
-                                                  </td>
-                                                  <td>
-                                                    <h4 class="theme-color fw-bold">₹<%=order.grandTotal%></h4>
-                                                  </td>
-                                              </tr>
-                                          </tfoot>
-                                      </table>
-                                  </div>
-                              </div>
+                                                        <tr class="table-order">
+                                                            <td colspan="3">
+                                                                <h5>Shipping :</h5>
+                                                            </td>
+                                                            <td>
+                                                                <h4>$12.00</h4>
+                                                            </td>
+                                                        </tr>
 
-                                <div class="col-xl-4">
-                               
-                                    <div class="order-success">
-                                    
-                                        <div class="row g-4">
-                                          <h4>Returning order Request?</h4>
-                                          <div class="container align-items-center " style="display: flex; ">
-                                      
-                                        <button onclick="returnStatus('accepted','<%=order._id%>')" style=" width: 80%;"  class="btn-solid btn m-1 " >Accept</button>
-                                        <button onclick="returnStatus('rejected','<%=order._id%>')" style="background-color: rgb(198, 36, 36); color: white; width: 80%;"  class="btn " >Reject</button>
-                                         
-                                         
-                                         </div>
-                                          <!-- <h4>summery</h4>
+                                                        <tr class="table-order">
+                                                            <td colspan="3">
+                                                                <h5>Tax(GST) :</h5>
+                                                            </td>
+                                                            <td>
+                                                                <h4>$10.00</h4>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr class="table-order">
+                                                            <td colspan="3">
+                                                                <h4 class="theme-color fw-bold">Total Price :</h4>
+                                                            </td>
+                                                            <td>
+                                                                <h4 class="theme-color fw-bold">₹<%=order.grandTotal%>
+                                                                </h4>
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-4">
+
+                                            <div class="order-success">
+
+                                                <div class="row g-4">
+                                                    <h4>Returning order Request?</h4>
+                                                    <div class="container align-items-center " style="display: flex; ">
+
+                                                        <button onclick="returnStatus('accepted','<%=order._id%>')"
+                                                            style=" width: 80%;"
+                                                            class="btn-solid btn m-1 ">Accept</button>
+                                                        <button onclick="returnStatus('rejected','<%=order._id%>')"
+                                                            style="background-color: rgb(198, 36, 36); color: white; width: 80%;"
+                                                            class="btn ">Reject</button>
+
+
+                                                    </div>
+                                                    <!-- <h4>summery</h4>
                                           <ul class="order-details">
                                               <li>Order ID:<%=order._id %> </li>
                                               <li>Order ID:<%=order._id %> </li>
@@ -128,123 +136,103 @@
                                               <li>Order Total: <%=order.grandTotal %></li>
                                           </ul> -->
 
-                                          <h4>shipping address</h4>
-                                          <ul class="order-details">
-                                              <li><%=order.address.name %></li>
-                                              <li><%=order.address.houseNo%>, <%=order.address.street %>.</li>
-                                              <li><%=order.address.country %>, <%=order.address.pincode %> Contact No. <%=order.address.phone %></li>
-                                          </ul>
+                                                    <h4>shipping address</h4>
+                                                    <ul class="order-details">
+                                                        <li>
+                                                            <%=order.address.name %>
+                                                        </li>
+                                                        <li>
+                                                            <%=order.address.houseNo%>, <%=order.address.street %>.
+                                                        </li>
+                                                        <li>
+                                                            <%=order.address.country %>, <%=order.address.pincode %>
+                                                                    Contact No. <%=order.address.phone %>
+                                                        </li>
+                                                    </ul>
 
-                                          <div class="payment-mode">
-                                              <h4>payment method</h4>
-                                              <p><%=order.paymentMethod%></p>
-                                          </div>
+                                                    <div class="payment-mode">
+                                                        <h4>payment method</h4>
+                                                        <p>
+                                                            <%=order.paymentMethod%>
+                                                        </p>
+                                                    </div>
 
-                                          <div class="payment-mode">
-                                            <h4>Return Reason</h4>
-                                            <p><%=order.reason%></p>
-                                        </div>
+                                                    <div class="payment-mode">
+                                                        <h4>Return Reason</h4>
+                                                        <p>
+                                                            <%=order.reason%>
+                                                        </p>
+                                                    </div>
 
 
-                                          <!-- <div class="delivery-sec">
+                                                    <!-- <div class="delivery-sec">
                                               <h3>expected date of delivery: <span>october 22, 2018</span>
                                               </h3>
                                               <a href="order-tracking.html">track order</a>
                                           </div> -->
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <!-- section end -->
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- section end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-  <!-- SweetAlert JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <!-- SweetAlert JavaScript -->
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <script>
-    
-   
-    async function returnStatus(status, orderId) {
-      
-      
-      
-      const confirmed = await Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#  3085d6",
-        confirmButtonText: "Yes"
-      })
+            <script>
 
-      if(confirmed.isConfirmed){
-        
-        const response = await fetch('/admin/returnResponse',{
-        method:'POST',
-        headers:{
-          'Content-Type' : 'application/json'
-        },
-        body: JSON.stringify({orderId ,status})
-      });
 
-      if (response.ok) {
-        await Swal.fire({
-          title: "Success!",
-          text: "Order return request is successful.",
-          icon: "success"
-        });
-
-        
-        // Redirect to another page after successful request
-        window.location.href = "/admin/returnOrderList";
-      } 
-      
-    }
-
-   }
-
-      
-
-//    async function returnRejected(status) {
-//       rejected= status
-//       alert(rejected)
-
-//       const confirmed = await Swal.fire({
-//         title: "Are you sure?",
-//         text: "You won't be able to revert this!",
-//         icon: "warning",
-//         showCancelButton: true,
-//         confirmButtonColor: "#d33",
-//         cancelButtonColor: "#  3085d6",
-//         confirmButtonText: "Yes, delete it!"
-//       })
-
-//       if(confirmed.isConfirmed){
-//        console.log('called');
-//         alert('called')
-//         const response = fetch('/admin/returnResponse',{
-//         method:'POST',
-//         headers:{
-//           'Content-Type' : 'application/json'
-//         },
-//         body: JSON.stringify({orderId ,rejected})
-//       });
-    
-//     //   }
-//       }
-
-//     }
+                async function returnStatus(status, orderId) {
 
 
 
-    
+                    const confirmed = await Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won't be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#  3085d6",
+                        confirmButtonText: "Yes"
+                    })
 
-  </script>
-  <!-- tracking table end -->
-  <%- include('../partials/footer')%>
+                    if (confirmed.isConfirmed) {
+
+                        const response = await fetch('/admin/returnResponse', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ orderId, status })
+                        });
+
+                        if (response.ok) {
+                            await Swal.fire({
+                                title: "Success!",
+                                text: "Order return request is successful.",
+                                icon: "success"
+                            });
+
+
+                            // Redirect to another page after successful request
+                            window.location.href = "/admin/returnOrderList";
+                        }
+
+                    }
+
+                }
+
+
+
+
+
+
+            </script>
+            <!-- tracking table end -->
+            <%- include('../partials/footer')%>

@@ -5,17 +5,15 @@ const Razorpay = require('razorpay');
 const userModal = require('../model/userModal');
 const transactionModal = require('../model/transactionModal');
 const couponModal = require('../model/couponModal');
-
 require('dotenv').config();
-
 
 async function orderdetails(req, res) {
   try {
 
     const user = req.session.userId;
     const orderId = req.query.orderId;
-    const orderDetails = await orderModel.findById(orderId).populate('address').populate('products.product')
-    res.render('orderDetails', { orderDetails ,user})
+    const orderDetails = await orderModel.findById(orderId).populate('address').populate('products.product');
+    res.render('orderDetails', { orderDetails ,user })
 
   } catch (error) {
     console.log(error);
@@ -25,28 +23,16 @@ async function orderdetails(req, res) {
 
 
 
-
-// async function loadOrderList(req,res){
-//   try {
-
-//     const orderData =  await orderModel.find().populate('address').sort({createdAt:-1})
-
-//      res.render('orderList',{orderData})
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
 async function loadOrderList(req, res) {
   try {
     const page = parseInt(req.query.page, 10) || 1;
-    const ordersPerPage = 10; // Number of orders per page
+    const ordersPerPage = 10; 
 
-    const totalCount = await orderModel.countDocuments(); // Total count of orders
+    const totalCount = await orderModel.countDocuments(); 
 
-    const totalPages = Math.ceil(totalCount / ordersPerPage); // Total pages
+    const totalPages = Math.ceil(totalCount / ordersPerPage); 
 
-    const skip = (page - 1) * ordersPerPage; // Number of documents to skip
+    const skip = (page - 1) * ordersPerPage; 
 
     const orderData = await orderModel.find()
       .populate('address')
@@ -64,7 +50,6 @@ async function loadOrderList(req, res) {
     res.status(500).send('Internal Server Error');
   }
 }
-
 
 
 
@@ -90,7 +75,6 @@ async function orderStatus(req, res) {
 
     console.log('orderID::::' + orderId);
     console.log("status " + status);
-    // console.log(status,orderId);
     if (!status || !orderId) {
       return res.status(400).json({ error: 'Invalid input parameters' });
     }
@@ -142,16 +126,17 @@ async function confirmOrder(req, res) {
 
   try {
 
-
     const userId = req.session.userId;
     const addressId = req.body.addressId;
     const paymentMethod = req.body.PaymentMethod;
     console.log(paymentMethod);
-
+    const userData = await userModal.findById(userId)
+    const walletAmount = userData.walletAmount;
 
     const cart = await cartSchema.findOne({ user: userId }).populate('products.product')
 
     if (paymentMethod === 'Pay on Delivery (Cash/Card).') {
+
       const order = {
         user: req.session.userId,
         address: addressId,
@@ -197,6 +182,47 @@ async function confirmOrder(req, res) {
         console.log(error);
       }
 
+    }else if(paymentMethod === 'wallet'){
+       if(walletAmount >= cart.Total){
+        
+        const order = {
+          user: req.session.userId,
+          address: addressId,
+          paymentMethod: paymentMethod,
+          products: cart.products.map((item) => {
+            return {
+              product: item.product,
+              quantity: item.quantity,
+              price: item.product.price,
+              total: item.subTotal,
+  
+            }
+          }),
+          grandTotal: cart.Total
+        }
+  
+        await orderModel.insertMany(order);
+
+        const newWalletAmount = walletAmount - cart.Total;
+        console.log("///////////"+newWalletAmount);
+        userData.walletAmount = newWalletAmount;
+        await userData.save();
+  
+        for (const item of cart.products) {
+          const product = item.product;
+  
+          const updatedQuantity = product.quantity - item.quantity;
+          const updatedOrders = product.orders + item.quantity;
+          console.log(updatedOrders);
+          console.log("//////////" + product.product);
+          await productModel.findByIdAndUpdate(product._id, { quantity: updatedQuantity, orders: updatedOrders });
+        }
+        await cartSchema.findOneAndUpdate({ user: userId }, { $set: { products: [], Total: 0 } });
+        res.status(200).json({ message: "success" });
+
+       }else{
+        res.status(204).json({ message: "Insufficient Balance" });
+       }
     } else {
       console.log("not");
     }
@@ -283,7 +309,7 @@ async function cancelOrder(req, res) {
     let updatedOrder = await orderModel.findByIdAndUpdate(orderId, { $set: { status: "Canceled" } }).populate('products.product');
     const userData = await userModal.findById(req.session.userId);
 
-    if (updatedOrder.paymentMethod === 'razorPay') {
+    if (updatedOrder.paymentMethod === 'razorPay'  ) {
 
       console.log("000000" + userData);
       const walletUpdating = updatedOrder.grandTotal + userData.walletAmount;
@@ -298,12 +324,30 @@ async function cancelOrder(req, res) {
         paymentMethod: PaymentMethod,
         type: "credited",
         orderId: orderId
+        
+      }
+      await transactionModal.insertMany(transfer)
 
+    }else{
+      console.log("444444" + userData);
+      const walletUpdating = updatedOrder.grandTotal + userData.walletAmount;
+      console.log("555555" + walletUpdating);
+      userData.walletAmount = walletUpdating;
+      await userData.save();
+      console.log("6666" + userData);
+
+      const transfer = {
+        user: userData._id,
+        amount: updatedOrder.grandTotal,
+        paymentMethod: updatedOrder.paymentMethod,
+        type: "credited",
+        orderId: orderId
+        
       }
       await transactionModal.insertMany(transfer)
 
     }
-    console.log("333333 " + userData);
+    console.log("99999 " + userData);
 
     for (const item of updatedOrder.products) {
       const product = item.product;
@@ -326,11 +370,10 @@ async function cancelOrder(req, res) {
 }
 
 
+
 async function returnRequest(req, res) {
   try {
     const { orderId, reason } = req.body;
-    console.log("/////|  return requesy  |/////////////" + orderId);
-    console.log("/////|  return reson  |/////////////" + reason);
     const order = await orderModel.findByIdAndUpdate(orderId, { $set: { returnRequest: 'requested', reason: reason } });
 
     res.status(200).json({ success: true, message: 'Return request submitted successfully.' });
@@ -352,6 +395,7 @@ async function loadReturnOrderList(req, res) {
   }
 }
 async function loadReturnOrderDetails(req, res) {
+
   try {
     const orderId = req.query.orderId;
     const order = await orderModel.findById(orderId).populate('address').populate('products.product')
@@ -361,6 +405,7 @@ async function loadReturnOrderDetails(req, res) {
     console.log(error);
   }
 }
+
 async function returnResponse(req, res) {
   try {
 
@@ -400,7 +445,6 @@ async function returnResponse(req, res) {
     console.log(error);
   }
 }
-
 
 
 async function applyCoupon(req, res) {

@@ -28,7 +28,6 @@ const verifyLogin = async(req,res)=>{
             const admin = await Admin.findOne({email:email});
             if (admin.password == password) {
                req.session.admin = admin;
-              //  console.log(req.session.admin);
                res.redirect('admin/dashboard');
             }else{
               res.render('login',{message:"invalid admin"})
@@ -39,20 +38,26 @@ const verifyLogin = async(req,res)=>{
             }
 }
 
-//  const logout = async function(req,res){
-//   try {
-     
-//   } catch (error) {
-//     console.log(error);
-//   }
-//  }
+ const logout = async function(req,res){
+  try {
+     req.session.admin = null;
+     res.redirect('/admin');
+  } catch (error) {
+    console.log(error);
+  }
+ }
+
 
 const loadDashboard = async (req, res) => {
   try {
-    if (req.session.admin) {
-      const bestProducts = await productModal.find({ list: true }).sort({ orders: -1 }).limit(4);
+    const admin = req.session.admin;
+    if (admin) {
       
-      // Calculate total revenue
+      const bestProducts = await productModal.find({ list: true }).sort({ orders: -1 }).limit(4);
+      const orderHistory = await orderModal.find().sort({createdAt:-1}).limit(5);
+      const adminName = admin.name;
+      console.log(orderHistory);
+
       const totalRevenue = await orderModal.aggregate([
         {
           $match: { status: { $in: ['Shipped', 'Delivered', 'Confirmed'] } }
@@ -72,7 +77,9 @@ const loadDashboard = async (req, res) => {
         totalRevenue: totalRevenue.length > 0 ? totalRevenue[0].totalRevenue : 0,
         totalOrders,
         totalProducts,
-        totalCustomers
+        totalCustomers,
+        orderHistory,
+        adminName
       });
     } else {
       res.redirect('/admin');
@@ -83,32 +90,17 @@ const loadDashboard = async (req, res) => {
   }
 };
 
-// const loadUserlist= async(req,res)=>{
 
-//             try {
-//             if(req.session.admin){
-//             const datas = await User.find().sort({date:-1});
-//             res.render('usersList',{datas});
-//             }else{
-//             res.redirect('/admin');
-//             }
-//             } catch (error) {
-//             console.log(error);
-//             }
-//   }
 
 
 
   async function loadUserlist(req, res) {
     try {
         const page = parseInt(req.query.page, 10) || 1;
-        const ordersPerPage = 10; // Number of orders per page
-
-        const totalCount = await User.countDocuments(); // Total count of orders
-
-        const totalPages = Math.ceil(totalCount / ordersPerPage); // Total pages
-
-        const skip = (page - 1) * ordersPerPage; // Number of documents to skip
+        const ordersPerPage = 10; 
+        const totalCount = await User.countDocuments(); 
+        const totalPages = Math.ceil(totalCount / ordersPerPage); 
+        const skip = (page - 1) * ordersPerPage; 
 
         const datas = await User.find()
             
@@ -273,5 +265,5 @@ module.exports = {
   loadLogin, verifyLogin, loadDashboard,
   loadUserlist,blockUser,loadAddCoupon,
   addCoupon,couponList,loadEdiCoupon,ediCoupon,
-  deleteCoupon,couponlistAndUnlist
+  deleteCoupon,couponlistAndUnlist,logout
 }

@@ -31,6 +31,8 @@ user_route.get('/login',userController.loadLogin);
 user_route.get('/logOut',auth.isLogin,auth.isLogOut);
 user_route.post('/login',userController.verifyLogin);
 user_route.get('/',userController.loadHome);
+user_route.get('/about',userController.aboutUs);
+user_route.get('/contact',userController.contactUs);
 
 //products
 user_route.get('/ProductDetails',product.loadProductDetails);

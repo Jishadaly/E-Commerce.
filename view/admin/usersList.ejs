@@ -13,11 +13,7 @@
                                 <div class="card-body">
                                     <div class="title-header option-title">
                                         <h5>All Users</h5>
-                                        <form class="d-inline-flex">
-                                            <a href="add-new-user.html" class="align-items-center btn btn-theme d-flex">
-                                                <i data-feather="plus"></i>Add New
-                                            </a>
-                                        </form>
+                                        <!--  -->
                                     </div>
 
                                     <div class="table-responsive table-product">
@@ -83,24 +79,14 @@
 
                                                     <td>
                                                         <ul>
-                                                            <!-- <li>
-                                                                <a href="order-detail.html">
-                                                                    <i class="ri-eye-line"></i>
-                                                                </a>
-                                                            </li> -->
-
+                                                          
                                                             <li>
                                                                 <a href="javascript:void(0)">
                                                                     <i class="ri-pencil-line"></i>
                                                                 </a>
                                                             </li>
 
-                                                            <!-- <li>
-                                                                <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModalToggle">
-                                                                    <i class="ri-delete-bin-line"></i>
-                                                                </a>
-                                                            </li> -->
+                                                          
                                                         </ul>
                                                     </td>
                                                 </tr>
@@ -117,7 +103,7 @@
                                             <ul class="pagination">
                                             <% if (currentPage > 1) { %>
                                                 <li class="page-item">
-                                                <a class="page-link page-link-prev" href="/admin/productList?page=<%= currentPage - 1 %>" aria-label="Previous">
+                                                <a class="page-link page-link-prev" href="/admin/users?page=<%= currentPage - 1 %>" aria-label="Previous">
                                                     <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
                                                 </a>
                                                 </li>
@@ -131,7 +117,7 @@
                                         
                                             <% for (let i = 1; i <= totalPages; i++) { %>
                                                 <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                                                <a class="page-link" href="/admin/productList?page=<%= i %>"><%= i %></a>
+                                                <a class="page-link" href="/admin/users?page=<%= i %>"><%= i %></a>
                                                 </li>
                                             <% } %>
                                         
@@ -139,7 +125,7 @@
                                         
                                             <% if (currentPage < totalPages) { %>
                                                 <li class="page-item">
-                                                <a class="page-link page-link-next" href="/admin/productList?page=<%= currentPage + 1 %>" aria-label="Next">
+                                                <a class="page-link page-link-next" href="/admin/users?page=<%= currentPage + 1 %>" aria-label="Next">
                                                     Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
                                                 </a>
                                                 </li>
@@ -163,26 +149,6 @@
 
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                 <script>
-
-                    // function fetchingUserId(id){
-
-
-                        
-                    //     const userId =  id;
-                    //     try {
-                    //         const response =  fetch(`/admin/blockUser?id=${id}`,{
-                    //             method:'GET',
-                    //             headers:{
-                    //                 'Content-Type' : 'application/json'
-                    //             },
-                                
-                    //         })
-                    //     } catch (error) {
-                    //         console.log(error);
-                    //     }
-                        
-                    // }
-                    
 
                     async function fetchingUserId(id) {
 
