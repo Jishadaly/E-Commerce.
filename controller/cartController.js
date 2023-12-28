@@ -79,32 +79,32 @@ async function updateSubTotal(req, res) {
 
     const cart = await cartSchema.findOne({ user: userId }).populate('products.product');
     const filterdProduct = cart.products.find((value) => { return productId == value.product._id.toString() })
-
+    const stock = filterdProduct.product.quantity;
+    console.log(stock);
+    console.log("////"+filterdProduct);
     if (filterdProduct) {
-
       if (quantity > filterdProduct.quantity) {
-
-        filterdProduct.quantity = quantity;
-        const subtotal = filterdProduct.product.discountPrice * quantity;
-        filterdProduct.subTotal = subtotal;
-
+        if (quantity > stock) {
+          res.status(200).json({ message: "no stock" });
+        } else {
+          filterdProduct.quantity = quantity;
+          const subtotal = (filterdProduct.product.discountPrice * quantity).toFixed(2);
+          filterdProduct.subTotal = parseFloat(subtotal);
+        }
       } else {
-
         filterdProduct.quantity = quantity;
-        const subtotal = filterdProduct.subTotal - filterdProduct.product.discountPrice;
-        filterdProduct.subTotal = subtotal;
-
+        const subtotal = (filterdProduct.subTotal - filterdProduct.product.discountPrice).toFixed(2);
+        filterdProduct.subTotal = parseFloat(subtotal);
       }
-
+    
       const total = cart.products.reduce((acc, curr) => acc + (curr.subTotal || 0), 0);
-      cart.Total = total;
+      cart.Total = parseFloat(total.toFixed(2));
       await cart.save();
       res.status(200).json({ message: "success" });
-
     } else {
-      console.log("product not found in the cart or product details are missing");
+      console.log("Product not found in the cart or product details are missing");
     }
-
+    
   } catch (error) {
     console.log(error);
   }

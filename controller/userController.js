@@ -375,7 +375,7 @@ async function editAddress(req, res) {
   try {
 
     const addressId = req.query.addressId;
-    console.log(addressId);
+    console.log("address id"+addressId);
 
   } catch (error) {
     console.log(error);

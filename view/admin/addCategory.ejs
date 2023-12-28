@@ -1,82 +1,201 @@
 <%- include('../partials/header')%>
-<%- include('../partials/sidebar')%>
+    <%- include('../partials/sidebar')%>
 
-                <div class="page-body">
-                    <div class="container-fluid">
+        <head>
+            <style>
+                .error-message {
+                    display: block;
+                    color: red;
+                    font-size: 0.8em;
+                    margin-top: 5px;
+                }
+            </style>
+        </head>
+
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
                         <div class="row">
-                            <div class="col-12">
-                              <div class="row">
-                                    <div class="col-sm-8 m-auto">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="card-header-2">
-                                                    <h5>Category Information</h5>
+                            <div class="col-sm-8 m-auto">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-header-2">
+                                            <h5>Category Information</h5>
+                                        </div>
+                                        <form id="categoryForm" class="theme-form theme-form-2 mega-form"
+                                            action="/admin/addCategory" method="post" enctype="multipart/form-data">
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-sm-3 mb-0">Category Name</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="text" placeholder="Category Name"
+                                                        name="categoryName" id="categoryName"
+                                                        oninput="clearErrorMessage('categoryNameError')">
+                                                    <span class="error-message" id="categoryNameError"></span>
                                                 </div>
+                                            </div>
 
-                                            <form class="theme-form theme-form-2 mega-form" action="/admin/addCategory" method="post" enctype="multipart/form-data" >
-                                                <div class="mb-4 row align-items-center">
-                                                    <label class="form-label-title col-sm-3 mb-0">Category Name</label>
-                                                    <div class="col-sm-9">
-                                                        <input class="form-control" type="text"
-                                                            placeholder="Category Name" name="categoryName">
-                                                    </div>
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="col-sm-3 col-form-label form-label-title">Images</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control form-choose" type="file" id="formFile"
+                                                        name="image" onchange="clearErrorMessage('imageError')">
+                                                    <span class="error-message" id="imageError"></span>
                                                 </div>
+                                            </div>
 
-                                                <!-- <div class="mb-4 row align-items-center">
-                                                    <label class="col-sm-3 col-form-label form-label-title" >Category Image</label>
-                                                    <div class="form-group col-sm-9">
-                                                        <div class="dropzone-wrapper">
-                                                            <div class="dropzone-desc">
-                                                                <i class="ri-upload-2-line"></i>
-                                                                <p>Choose an image file or drag it here.</p>
-                                                            </div>
-                                                            <input type="file" class="dropzone" name="image" >
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-
-                                                <div class="mb-4 row align-items-center">
-                                                    <label
-                                                        class="col-sm-3 col-form-label form-label-title">Images</label>
-                                                        
-                                                    <div class="col-sm-9">
-                                                        <input class="form-control form-choose" type="file"
-                                                            id="formFile" name="image" >
-                                                    </div>
-                                                   
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-sm-3 mb-0">Description</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="text" name="description"
+                                                        placeholder="Write Here...." id="description"
+                                                        oninput="clearErrorMessage('descriptionError')">
+                                                    <span class="error-message" id="descriptionError"></span>
                                                 </div>
+                                            </div>
 
-                                                <div class="mb-4 row align-items-center">
-                                                  <label class="form-label-title col-sm-3 mb-0">description</label>
-                                                  <div class="col-sm-9">
-                                                      <input class="form-control" type="text" name="description"
-                                                          placeholder="Write Here....">
-                                                  </div>
-                                              </div>
 
-                                              <div class="mb-4 row align-items-center">
+                                            <div class="mb-4 row align-items-center">
                                                 <label class="col-sm-3 form-label-title">Discount offer</label>
                                                 <div class="col-sm-9">
-                                                    <input class="form-control" type="number" placeholder="0" name="discountPercentage">
+                                                    <input class="form-control" type="number" placeholder="0"
+                                                        name="discountPercentage" oninput="validateDiscount(this)">
+                                                    <span class="error-message" id="discountError"></span>
                                                 </div>
                                             </div>
 
-                                              <div class="col-4">
-                                                <button type="submit" class="btn btn-primary w-70  h-100 ">Add
+
+
+                                            <div class="col-4">
+                                                <button type="submit" onclick="validateForm()"
+                                                    class="btn btn-primary w-70  h-100 ">Add
                                                     Category</button>
                                             </div>
-                                            </form>
-
-                                            
-
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <p style="text-align: center; color: red;"><%=message%></p>
                         </div>
+                        <p style="text-align: center; color: red;">
+                            <%=message%>
+                        </p>
                     </div>
                 </div>
-                <!-- New Product Add End -->
-              
-<%- include('../partials/footer')%>
+            </div>
+            <!-- New Product Add End -->
+
+
+            <script>
+
+
+
+                function clearErrorMessage(inputId) {
+                    const errorElement = document.getElementById(inputId);
+                    errorElement.style.display = 'none'; // Hide error message when input is provided
+                }
+
+                function validateDiscount(discountInput) {
+                    const discountError = document.getElementById('discountError');
+                    const discountValue = parseInt(discountInput.value);
+
+                    if (discountValue < 0 || discountValue > 100) {
+                        discountError.textContent = 'Discount percentage must be between 0 and 100';
+                        discountError.style.display = 'block'; // Show error message for Discount
+                    } else {
+                        discountError.textContent = ''; // Clear error message for Discount when valid
+                        discountError.style.display = 'none'; // Hide error message for Discount
+                    }
+                }
+
+
+                function validateForm() {
+                    const categoryName = document.getElementById('categoryName');
+                    const categoryNameError = document.getElementById('categoryNameError');
+
+
+                    const description = document.getElementById('description');
+                    const descriptionError = document.getElementById('descriptionError');
+
+                    const imageInput = document.getElementById('formFile');
+                    const imageError = document.getElementById('imageError');
+
+                    const discount = document.getElementsByName('discountPercentage')[0];
+                    const discountError = document.getElementById('discountError');
+
+
+                    if (categoryName.value.trim() === '') {
+                        categoryNameError.textContent = 'Category Name is required';
+                        categoryNameError.style.display = 'block';
+                        categoryName.classList.add('is-invalid');
+                    } else {
+                        categoryNameError.textContent = '';
+                        categoryNameError.style.display = 'none';
+                        categoryName.classList.remove('is-invalid');
+
+
+
+                    }
+
+                    if (description.value.trim() === '') {
+
+                        descriptionError.textContent = 'Description is required';
+                        descriptionError.style.display = 'block';
+                        description.classList.add('is-invalid');
+                    } else {
+
+                        descriptionError.textContent = '';
+                        descriptionError.style.display = 'none';
+                        description.classList.remove('is-invalid');
+
+
+                    }
+
+                    if (!imageInput.files || imageInput.files.length === 0) {
+                        imageError.textContent = 'Please select an image';
+                        imageError.style.display = 'block';
+                    } else {
+                        imageError.textContent = '';
+                        imageError.style.display = 'none';
+                    }
+
+                    if (discount.value.trim() === '') {
+                        discountError.textContent = 'Discount is required';
+                        discountError.style.display = 'block';
+                        discount.classList.add('is-invalid');
+                    } else {
+                        const discountValue = parseInt(discount.value);
+                        if (discountValue < 0 || discountValue > 100) {
+                            discountError.textContent = 'Discount must be between 0 and 100';
+                            discountError.style.display = 'block';
+                            discount.classList.add('is-invalid');
+                        } else {
+                            discountError.textContent = '';
+                            discountError.style.display = 'none';
+                            discount.classList.remove('is-invalid');
+                        }
+                    }
+
+
+                    if (
+                        categoryName.value.trim() === '' ||
+                        description.value.trim() === '' ||
+                        !imageInput.files ||
+                        imageInput.files.length === 0 ||
+                        discount.value.trim() === '' ||
+                        parseInt(discount.value) < 0 ||
+                        parseInt(discount.value) > 100
+                    ) {
+                        // Form is invalid, do not submit
+                        return false;
+                    } else {
+                        // Form is valid, you can submit the form
+                        document.getElementById('categoryForm').submit();
+                    }
+                }
+
+
+
+
+            </script>
+
+            <%- include('../partials/footer')%>

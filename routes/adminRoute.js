@@ -53,13 +53,10 @@ adminRoute.post('/editCoupon',adminController.ediCoupon);
 adminRoute.get('/deleteCoupon',adminController.deleteCoupon);
 adminRoute.get('/couponlistAndUnlist/:id',adminController.couponlistAndUnlist)
 adminRoute.get('/salesReports',isLogin,report.loadReportPage);
-adminRoute.get('/monthly-revenue',report.monthlyRevenue)
-adminRoute.get('/weekly-revenue',report.weeklyRevenue)
-adminRoute.get('/yearly-revenue',report.yearlyRevenue)
-// adminRoute.get('/monthly-sales-count',report.monthlySales)
-// adminRoute.get('/weekly-sales-count', report.weeklySales);
-// adminRoute.get('/yearly-sales-count', report.yearlySales);
-adminRoute.get('/user-counts',report.userCounts)
+adminRoute.get('/monthly-revenue',report.monthlyRevenue);
+adminRoute.get('/weekly-revenue',report.weeklyRevenue);
+adminRoute.get('/yearly-revenue',report.yearlyRevenue);
+adminRoute.get('/user-counts',report.userCounts);
 adminRoute.post('/getSalesReport',report.getSalesReport);
 adminRoute.get('/sales-Report-excel',excelController.getExcelSalesReport)
 
