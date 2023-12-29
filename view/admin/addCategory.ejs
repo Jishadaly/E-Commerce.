@@ -123,18 +123,21 @@
                     const discountError = document.getElementById('discountError');
 
 
+                    // Your existing validation logic
                     if (categoryName.value.trim() === '') {
                         categoryNameError.textContent = 'Category Name is required';
+                        categoryNameError.style.display = 'block';
+                        categoryName.classList.add('is-invalid');
+                    } else if (!containsOnlyLetters(categoryName.value.trim())) {
+                        categoryNameError.textContent = 'Category Name should only contain letters';
                         categoryNameError.style.display = 'block';
                         categoryName.classList.add('is-invalid');
                     } else {
                         categoryNameError.textContent = '';
                         categoryNameError.style.display = 'none';
                         categoryName.classList.remove('is-invalid');
-
-
-
                     }
+
 
                     if (description.value.trim() === '') {
 
@@ -158,11 +161,11 @@
                         imageError.style.display = 'none';
                     }
 
-                    if (discount.value.trim() === '') {
-                        discountError.textContent = 'Discount is required';
-                        discountError.style.display = 'block';
-                        discount.classList.add('is-invalid');
-                    } else {
+                    // if (discount.value.trim() === '') {
+                    //     discountError.textContent = 'Discount is required';
+                    //     discountError.style.display = 'block';
+                    //     discount.classList.add('is-invalid');
+                    // } else {
                         const discountValue = parseInt(discount.value);
                         if (discountValue < 0 || discountValue > 100) {
                             discountError.textContent = 'Discount must be between 0 and 100';
@@ -173,7 +176,7 @@
                             discountError.style.display = 'none';
                             discount.classList.remove('is-invalid');
                         }
-                    }
+                    // }
 
 
                     if (
@@ -185,12 +188,16 @@
                         parseInt(discount.value) < 0 ||
                         parseInt(discount.value) > 100
                     ) {
-                        // Form is invalid, do not submit
-                        return false;
+                        event.preventDefault();
+
                     } else {
                         // Form is valid, you can submit the form
                         document.getElementById('categoryForm').submit();
                     }
+                }
+
+                function containsOnlyLetters(input) {
+                    return /^[a-zA-Z]+$/.test(input);
                 }
 
 

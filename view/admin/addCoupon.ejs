@@ -17,7 +17,7 @@
 
                               <div class="tab-content" id="pills-tabContent">
                                   <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
-                                      <form class="theme-form theme-form-2 mega-form" method="post" action="/admin/createCoupon">
+                                      <form id="couponForm" return onsubmit="validateForm()" class="theme-form theme-form-2 mega-form" method="post" action="/admin/createCoupon">
                                           
 
                                           <div class="row">
@@ -26,7 +26,8 @@
                                                       class="form-label-title col-lg-2 col-md-3 mb-0">Coupon
                                                       Title</label>
                                                   <div class="col-md-9 col-lg-10">
-                                                      <input class="form-control" type="text" name="name" required  >
+                                                      <input class="form-control" type="text" name="name" id="couponTitle"  >
+                                                      <span id="couponTitleError" class="text-danger"></span>
                                                   </div>
                                               </div>
 
@@ -35,7 +36,8 @@
                                                       class="col-lg-2 col-md-3 col-form-label form-label-title">Coupon
                                                       Code</label>
                                                   <div class="col-md-9 col-lg-10">
-                                                      <input class="form-control" type="number" name="code" required>
+                                                      <input class="form-control" type="number" name="code" id="couponCode">
+                                                      <span id="couponCodeError" class="text-danger"></span>
                                                   </div>
                                               </div>
 
@@ -43,7 +45,8 @@
                                                 <label
                                                     class="col-lg-2 col-md-3 col-form-label form-label-title" >Discount Amount</label>
                                                 <div class="col-md-9 col-lg-10">
-                                                    <input class="form-control" type="number" name="discountAmount" required>
+                                                    <input class="form-control" type="number" name="discountAmount" id="discountAmount">
+                                                    <span id="discountAmountError" class="text-danger"></span>
                                                 </div>
                                             </div>
 
@@ -54,7 +57,7 @@
                                                       class="col-lg-2 col-md-3 col-form-label form-label-title">Expire
                                                       Date</label>
                                                   <div class="col-md-9 col-lg-10">
-                                                      <input class="form-control" type="date" name="expireDate" required>
+                                                      <input class="form-control" type="date" name="expireDate" >
                                                   </div>
                                               </div>
 
@@ -77,12 +80,9 @@
                                             </div>
 
                                             
-                                              <button type="submit"  class="btn btn-primary w-40  h-100 " fdprocessedid="9x9s8g">Add
+                                              <button type="submit"   class="btn btn-primary w-40  h-100 " fdprocessedid="9x9s8g">Add
                                                 Coupon</button>
                                         
-
-                                           
-                                              
                                           </div>
                                       </form>
                                   </div>
@@ -95,6 +95,68 @@
   </div>
 </div>
 <!-- Create Coupon Table End -->
+
+<script>
+
+
+function validateCouponTitle() {
+    const couponTitle = document.getElementById('couponTitle').value.trim();
+    const couponTitleError = document.getElementById('couponTitleError');
+
+    if (couponTitle === '') {
+        couponTitleError.textContent = 'Coupon title is required'; // Display error message
+        document.getElementById('couponTitle').classList.add('is-invalid'); // Apply validation style
+        return false;
+    } else {
+        couponTitleError.textContent = ''; // Clear error message if valid
+        document.getElementById('couponTitle').classList.remove('is-invalid'); // Remove validation style
+        return true;
+    }
+}
+
+function validateCouponCode() {
+    const couponCode = document.getElementById('couponCode').value.trim();
+    const couponCodeError = document.getElementById('couponCodeError');
+
+    if (couponCode === '' || isNaN(couponCode)) {
+        couponCodeError.textContent = 'Coupon code is required and must be a number'; // Display error message
+        document.getElementById('couponCode').classList.add('is-invalid'); // Apply validation style
+        return false;
+    } else {
+        couponCodeError.textContent = ''; // Clear error message if valid
+        document.getElementById('couponCode').classList.remove('is-invalid'); // Remove validation style
+        return true;
+    }
+}
+
+function validateDiscountAmount() {
+    const discountAmount = document.getElementById('discountAmount').value.trim();
+    const discountAmountError = document.getElementById('discountAmountError');
+
+    if (discountAmount === '' || isNaN(discountAmount) || parseFloat(discountAmount) <= 0) {
+        discountAmountError.textContent = 'Discount is required and must be a number greater than 0'; // Display error message
+        document.getElementById('discountAmount').classList.add('is-invalid'); // Apply validation style
+        return false;
+    } else {
+        discountAmountError.textContent = ''; // Clear error message if valid
+        document.getElementById('discountAmount').classList.remove('is-invalid'); // Remove validation style
+        return true;
+    }
+}
+
+function validateForm() {
+    const isCouponName = validateCouponTitle();
+    const isCouponCode = validateCouponCode();
+    const isDiscountAmount = validateDiscountAmount();
+
+    if (isCouponName && isCouponCode && isDiscountAmount /* Add other field validations here if needed */) {
+        return true; // Proceed with form submission
+    } else {
+        event.preventDefault(); // Prevent form submission if validation fails
+    }
+}
+
+</script>
 
 
 <%- include('../partials/footer')%>

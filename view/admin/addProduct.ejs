@@ -1,11 +1,14 @@
 <%- include('../partials/header')%>
     <%- include('../partials/sidebar')%>
 
+        <head>
+
+        </head>
 
 
         <div class="page-body">
             <!-- New Product Add Start -->
-            <form action="/admin/addProduct/" method="post" enctype="multipart/form-data">
+            <form id="productForm" action="/admin/addProduct/" method="post" enctype="multipart/form-data">
 
                 <div class="container-fluid">
                     <div class="row theme-form theme-form-2 mega-form">
@@ -14,20 +17,22 @@
                                 <div class="col-sm-8 m-auto">
                                     <div class="card">
                                         <div class="card-body">
+
                                             <div class="card-header-2">
                                                 <h5>Product Information</h5>
                                             </div>
 
 
                                             <div class="mb-4 row align-items-center">
-                                                <label class="form-label-title col-sm-3 mb-0">Product
-                                                    Name</label>
+                                                <label class="form-label-title col-sm-3 mb-0">Product Name</label>
                                                 <div class="col-sm-9">
                                                     <input class="form-control" type="text" placeholder="Product Name"
-                                                        name="ProductName">
+                                                        name="ProductName" id="productName"
+                                                        oninput="clearErrorMessage('productNameError')">
+                                                    <span id="productNameError" class="text-danger"></span>
+
                                                 </div>
                                             </div>
-
 
 
                                             <div class="mb-4 row align-items-center">
@@ -47,22 +52,26 @@
                                             </div>
 
 
-
-
-
                                             <div class="mb-4 row align-items-center">
                                                 <label class="form-label-title col-sm-3 mb-0">Brand</label>
                                                 <div class="col-sm-9">
                                                     <input class="form-control" type="text" placeholder="Brand Name"
-                                                        name="brandName">
+                                                        name="brandName" id="brandName"
+                                                        oninput="clearErrorMessage('brandNameError')">
+                                                    <span id="brandNameError" class="text-danger"></span>
+                                                    <!-- Error message element for Brand Name -->
                                                 </div>
                                             </div>
+
 
                                             <div class="mb-4 row align-items-center">
                                                 <label class="form-label-title col-sm-3 mb-0">Quantity</label>
                                                 <div class="col-sm-9">
                                                     <input class="form-control" type="text"
-                                                        placeholder=" Product Quantity" name="quantity">
+                                                        placeholder="Product Quantity" name="quantity" id="quantity"
+                                                        oninput="clearErrorMessage('brandNameError')">
+                                                    <span id="quantityError" class="text-danger"></span>
+                                                    <!-- Error message element for Quantity -->
                                                 </div>
                                             </div>
 
@@ -137,13 +146,6 @@
                                         </div>
                                     </div>
 
-
-
-
-
-
-
-
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="card-header-2">
@@ -154,10 +156,11 @@
                                                     <div class="row">
                                                         <label class="form-label-title col-sm-3 mb-0 ">Product
                                                             Description</label>
-                                                            
+
                                                         <div class="col-sm-9">
                                                             <!-- <div> <input type="text" id="editor"> </div> -->
-                                                            <textarea class="form-control" name="description" required></textarea>
+                                                            <textarea class="form-control"
+                                                                name="description"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -165,7 +168,6 @@
 
                                         </div>
                                     </div>
-
 
 
                                     <div class="card">
@@ -177,14 +179,15 @@
 
                                             <div class="mb-4 row align-items-center">
                                                 <label class="col-sm-3 col-form-label form-label-title">Images</label>
-
                                                 <div class="col-sm-9">
                                                     <input class="form-control form-choose" type="file" id="formFile"
-                                                        name="productImages" multiple accept="image/jpeg, image/png">
+                                                        name="productImages" multiple accept="image/*"
+                                                        oninput="clearErrorMessage('errorMessage')">
                                                 </div>
-                                                <span>(upto - 4 images)</span>
+                                                <span>(up to 4 images)</span>
                                                 <div id="errorMessage" style="display: none; color: red;"></div>
                                             </div>
+
 
 
                                             <div class="card">
@@ -195,17 +198,24 @@
 
 
                                                     <div class="mb-4 row align-items-center">
-                                                        <label class="col-sm-3 form-label-title">price</label>
+                                                        <label class="col-sm-3 form-label-title">Price</label>
                                                         <div class="col-sm-9">
                                                             <input class="form-control" type="number" placeholder="0"
-                                                                name="price">
+                                                                name="price" id="price"
+                                                                oninput="clearErrorMessage('priceError')">
+                                                            <span id="priceError" class="text-danger"></span>
+                                                            <!-- Error message for price validation -->
                                                         </div>
                                                     </div>
+
                                                     <div class="mb-4 row align-items-center">
-                                                        <label class="col-sm-3 form-label-title">Discount offer</label>
+                                                        <label class="col-sm-3 form-label-title">Discount Offer</label>
                                                         <div class="col-sm-9">
                                                             <input class="form-control" type="number" placeholder="0"
-                                                                name="discountPercentage">
+                                                                name="discountPercentage" id="discountPercentage"
+                                                                oninput="clearErrorMessage('discountError')">
+                                                            <span id="discountError" class="text-danger"></span>
+                                                            <!-- Error message for discountPercentage validation -->
                                                         </div>
                                                     </div>
 
@@ -213,16 +223,13 @@
                                                 </div>
                                             </div>
 
-
-
                                             <div class="col-4 col-3 ">
-                                                <button type="submit" class="btn btn-primary w-70  h-100 ">Add
+                                                <button type="submit" onclick="validateForm()"
+                                                    class="btn btn-primary w-70  h-100 ">Add
                                                     Product</button>
                                             </div>
 
                                             <br>
-
-
 
                                         </div>
                                     </div>
@@ -242,24 +249,120 @@
         <script>
 
             document.getElementById('formFile').addEventListener('change', function () {
-                const input = this;
-                const allowedTypes = ['image/jpeg', 'image/png'];
+                const files = this.files;
                 const errorMessage = document.getElementById('errorMessage');
+                let validFiles = true;
 
-                for (let i = 0; i < input.files.length; i++) {
-                    if (!allowedTypes.includes(input.files[i].type)) {
-                        errorMessage.textContent = 'Please select only JPEG or PNG images.';
-                        errorMessage.style.display = 'block';
-                        input.value = ''; // Clear the input to remove the invalid files
-                        return;
+                for (let i = 0; i < files.length; i++) {
+                    const fileType = files[i].type;
+
+                    if (!fileType.startsWith('image/')) {
+                        validFiles = false;
+                        break;
                     }
                 }
 
-                // If all files are valid, hide the error message
-                errorMessage.style.display = 'none';
+                if (!validFiles) {
+                    errorMessage.textContent = 'Please select only image files.';
+                    errorMessage.style.display = 'block';
+                    this.value = ''; // Clear the selected files
+                    this.focus(); // Focus on the file input field
+                } else {
+                    errorMessage.textContent = '';
+                    errorMessage.style.display = 'none';
+                }
             });
 
 
+
+            // Function to clear error messages
+            function clearErrorMessage(inputId) {
+                const errorElement = document.getElementById(inputId);
+                errorElement.textContent = '';
+            }
+
+            // Function to validate input using regex
+            function validateInput(inputId, regexPattern, errorMessage) {
+                const inputValue = document.getElementById(inputId).value.trim();
+                const errorElement = document.getElementById(inputId + 'Error');
+
+                if (!regexPattern.test(inputValue)) {
+                    errorElement.textContent = errorMessage;
+                    document.getElementById(inputId).classList.add('is-invalid');
+                    return false;
+                } else {
+                    errorElement.textContent = '';
+                    document.getElementById(inputId).classList.remove('is-invalid');
+                    return true;
+                }
+            }
+
+           
+
+            // Function to validate Quantity
+            function validateQuantity() {
+                const quantityValue = document.getElementById('quantity').value.trim();
+                const quantityError = document.getElementById('quantityError');
+
+                if (quantityValue === '') {
+                    quantityError.textContent = 'Quantity is required';
+                    document.getElementById('quantity').classList.add('is-invalid');
+                    return false;
+                } else if (isNaN(quantityValue) || parseInt(quantityValue) <= 0) {
+                    quantityError.textContent = 'Please enter a valid number greater than zero';
+                    document.getElementById('quantity').classList.add('is-invalid');
+                    return false;
+                } else {
+                    quantityError.textContent = '';
+                    document.getElementById('quantity').classList.remove('is-invalid');
+                    return true;
+                }
+            }
+
+
+            function validatePositiveNumber(inputId, errorId, errorMessage) {
+                const inputValue = document.getElementById(inputId).value.trim();
+                const errorElement = document.getElementById(errorId);
+                const numberValue = parseFloat(inputValue); // Convert input to a number
+
+                if (inputValue === '' || isNaN(numberValue) || numberValue <= 0) {
+                    errorElement.textContent = errorMessage;
+                    document.getElementById(inputId).classList.add('is-invalid');
+                    return false;
+                } else {
+                    errorElement.textContent = '';
+                    document.getElementById(inputId).classList.remove('is-invalid');
+                    return true;
+                }
+            }
+
+
+             // Function to validate form
+             function validateForm() {
+                const productNameRegex = /^[a-zA-Z\s]+$/; // Regular expression for Product Name
+                const brandNameRegex = /^[a-zA-Z\s]+$/; // Regular expression for Brand Name
+
+                // Validate Product Name
+                const isProductNameValid = validateInput('productName', productNameRegex, 'Product Name is required and should only contain letters');
+                // Validate Brand Name
+                const isBrandNameValid = validateInput('brandName', brandNameRegex, 'Brand Name is required and should only contain letters');
+                // Validate Quantity
+                const isQuantityValid = validateQuantity();
+
+                const isPriceValid = validatePositiveNumber('price', 'priceError', 'Price is required and should be a valid number greater than zero');
+                // Validate Discount Price
+                const isDiscountPriceValid = validatePositiveNumber('discountPercentage', 'discountError', 'Discount Price is required and should be a valid number greater than zero');
+
+
+                // Check overall form validity
+                if (isProductNameValid && isBrandNameValid && isQuantityValid && isPriceValid && isDiscountPriceValid) {
+                    document.getElementById('productForm').submit();
+                } else {
+                    event.preventDefault();
+                }
+            }
+
         </script>
+
 
         <%- include('../partials/footer')%>
