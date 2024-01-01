@@ -15,7 +15,12 @@ const couponSchema = new mongoose.Schema({
       type: Boolean,
       default: false,
   },
-  minimumCartTotal:Number
+  minimumCartTotal:Number,
+  usedBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User' 
+  }]
+
 });
 
 module.exports = mongoose.model('Coupon',couponSchema);

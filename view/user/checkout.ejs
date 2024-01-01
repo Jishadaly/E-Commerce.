@@ -5,6 +5,7 @@
         <head>
             <!-- Other meta tags and stylesheets -->
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+           
 
         </head>
 
@@ -101,13 +102,12 @@
                                                                         <%=coupon.Couponcode%>
                                                                     </td>
                                                                     <td>$<%=coupon.discount%> off</td>
-                                                                    <td><%=coupon.expiry.toLocaleDateString('en-US') %>
-                                                                    </td>
+                                                                    <td><%= new Date(coupon.expiry).toDateString() %></td>
+
                                                                 </tr>
 
                                                                 <!-- Add more coupon details as needed -->
                                                                 <% })%>
-
                                                 </tbody>
                                             </table>
 
@@ -281,8 +281,9 @@
                                                                         <%=item.pincode%><br>
                                                                             <%=item.city%> <br>
                                                                                 <%=item.country%><br>
-                                                                                    <a href="#">Edit <i
-                                                                                            class="icon-edit"></i></a>
+                                                                                    <a class="text-danger "
+                                                                                        onclick="deleteAddress('<%=item._id%>')">Remove
+                                                                                        <i class="icon-close"></i></a>
                                                 </p>
                                             </div><!-- End .card-body -->
                                         </div><!-- End .card-dashboard -->
@@ -670,6 +671,54 @@
 
     <script>
 
+        
+async function deleteAddress(addresId) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const response = await fetch(`/deleteAddress?address=${addresId}`, {
+                    method: 'GET'
+                });
+
+                if (response.ok) {
+                    await Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                    window.location.reload();
+                } else {
+                    await Swal.fire({
+                        title: "Failed to delete!",
+                        text: "Your file is not deleted.",
+                        icon: "error"
+                    });
+                    // Optionally handle response message here
+                    const data = await response.json();
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error occurred:', error);
+                Swal.fire({
+                    title: "Error",
+                    text: "An error occurred while deleting the address.",
+                    icon: "error"
+                });
+            }
+        }
+    });
+
+   
+}
+
         document.getElementById('addressForm').addEventListener('submit', function (event) {
             event.preventDefault();
 
@@ -724,7 +773,7 @@
         }
 
         function selectPeyment(payment) {
-          
+
             PaymentMethod = payment;
 
         }
@@ -798,7 +847,7 @@
                                 console.error(error);
                             }
                         } else if (response.status === 204) {
-                             
+
                             swal.fire({
                                 title: 'Insufficient Balance',
                                 text: 'You do not have enough funds in your wallet.',

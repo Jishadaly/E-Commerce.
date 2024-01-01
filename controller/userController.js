@@ -1,7 +1,7 @@
-// const { userModel , productModel , categories} = require('../model/dataBaseModel');
-const { userModel: User } = require('../model/userModal')
+
+
 const productModel = require('../model/productModal')
-const categories = require('../model/cartModel');
+const categories = require('../model/categoryModal');
 const cartSchema = require('../model/cartModel');
 const addressModel = require('../model/addressModel');
 const addAddressModel = require('../model/addressModel')
@@ -38,6 +38,7 @@ const loadRegister = async (req, res) => {
     if (req.query) {
       req.session.referel = req.query.referel;
     }
+
     res.render('registration', { message: "" })
   } catch (error) {
     console.log(error.message);
@@ -179,6 +180,7 @@ const verifyOtp = async (req, res) => {
       const generetedCode = generateOtp();
       const userData = req.session.userData;
       const refferdUser = await userModel.findOne({ referelCode: req.session.referel })
+      
       if (refferdUser) {
         refferdUser.walletAmount = 200;
         await refferdUser.save();
@@ -254,7 +256,7 @@ const loadLogin = async (req, res) => {
 const verifyLogin = async (req, res) => {
 
   try {
-    console.log("enterd")
+   
     const email = req.body.email;
     const password = req.body.password;
     const userData = await userModel.findOne({ email: email });
@@ -263,13 +265,11 @@ const verifyLogin = async (req, res) => {
 
     if (userData.is_verified === true && userData.is_blocked === false) {
       if (passwordmatch) {
-        console.log("auth is succes");
-        console.log(userData.password);
         req.session.userId = userData._id;
 
         res.redirect('/')
       } else {
-        res.render('home', { message: "Password is incorrect", user: "", category: "" });
+        res.render('home', { message: "Password is incorrect"});
         console.log("User data: Password is incorrect");
       }
     } else {
@@ -285,23 +285,20 @@ const verifyLogin = async (req, res) => {
 
 const loadHome = async (req, res) => {
   try {
+
     const Bestproduct = await productModel.find({ list: true }).sort({ orders: -1 }).limit(4);
     const featuredProduct = await productModel.find({ list: true, featured: "true" });
     const cart = await cartSchema.findOne({ user: req.session.userId });
-    const category = await categories.find({ listed: true })
+    const category = await categories.find({ listed: true });
+  
     const user = req.session.userId;
-    console.log(category);
+    
     res.render('home', { Bestproduct, featuredProduct, cart, category, user, message: "" });
 
   } catch (error) {
     console.log(error.message);
   }
 }
-
-
-
-
-
 
 
 async function loadCheckout(req, res) {
@@ -371,11 +368,19 @@ async function addNewAddress(req, res) {
 }
 
 
-async function editAddress(req, res) {
+async function deleteAddress(req, res) {
   try {
 
-    const addressId = req.query.addressId;
+    const addressId = req.query.address;
     console.log("address id"+addressId);
+    const address = await addAddressModel.findByIdAndDelete(addressId);
+
+    if (address) {
+      res.status(200).json({message:"address deletion is successed"})
+    }else{
+      res.status(400).json({message:"address deletion is failed"})
+    }
+   
 
   } catch (error) {
     console.log(error);
@@ -490,7 +495,7 @@ module.exports = {
   successPage,
   changePassword,
   resendOtp,
-  editAddress,
+  deleteAddress,
   shareReferel,
   aboutUs,contactUs
 

@@ -13,7 +13,7 @@ async function orderdetails(req, res) {
     const user = req.session.userId;
     const orderId = req.query.orderId;
     const orderDetails = await orderModel.findById(orderId).populate('address').populate('products.product');
-    res.render('orderDetails', { orderDetails ,user })
+    res.render('orderDetails', { orderDetails, user })
 
   } catch (error) {
     console.log(error);
@@ -26,13 +26,13 @@ async function orderdetails(req, res) {
 async function loadOrderList(req, res) {
   try {
     const page = parseInt(req.query.page, 10) || 1;
-    const ordersPerPage = 10; 
+    const ordersPerPage = 10;
 
-    const totalCount = await orderModel.countDocuments(); 
+    const totalCount = await orderModel.countDocuments();
 
-    const totalPages = Math.ceil(totalCount / ordersPerPage); 
+    const totalPages = Math.ceil(totalCount / ordersPerPage);
 
-    const skip = (page - 1) * ordersPerPage; 
+    const skip = (page - 1) * ordersPerPage;
 
     const orderData = await orderModel.find()
       .populate('address')
@@ -170,7 +170,7 @@ async function confirmOrder(req, res) {
     } else if (paymentMethod === 'razorPay') {
       try {
         const rezorpayOrder = await createRazorpayOrder(cart.Total);
-        
+
         res.status(201).json({
           message: "success",
           orderId: rezorpayOrder.id,
@@ -182,9 +182,9 @@ async function confirmOrder(req, res) {
         console.log(error);
       }
 
-    }else if(paymentMethod === 'wallet'){
-       if(walletAmount >= cart.Total){
-        
+    } else if (paymentMethod === 'wallet') {
+      if (walletAmount >= cart.Total) {
+
         const order = {
           user: req.session.userId,
           address: addressId,
@@ -195,22 +195,22 @@ async function confirmOrder(req, res) {
               quantity: item.quantity,
               price: item.product.price,
               total: item.subTotal,
-  
+
             }
           }),
           grandTotal: cart.Total
         }
-  
+
         await orderModel.insertMany(order);
 
         const newWalletAmount = walletAmount - cart.Total;
-        console.log("///////////"+newWalletAmount);
+        console.log("///////////" + newWalletAmount);
         userData.walletAmount = newWalletAmount;
         await userData.save();
-  
+
         for (const item of cart.products) {
           const product = item.product;
-  
+
           const updatedQuantity = product.quantity - item.quantity;
           const updatedOrders = product.orders + item.quantity;
           console.log(updatedOrders);
@@ -220,9 +220,9 @@ async function confirmOrder(req, res) {
         await cartSchema.findOneAndUpdate({ user: userId }, { $set: { products: [], Total: 0 } });
         res.status(200).json({ message: "success" });
 
-       }else{
+      } else {
         res.status(204).json({ message: "Insufficient Balance" });
-       }
+      }
     } else {
       console.log("not");
     }
@@ -309,7 +309,7 @@ async function cancelOrder(req, res) {
     let updatedOrder = await orderModel.findByIdAndUpdate(orderId, { $set: { status: "Canceled" } }).populate('products.product');
     const userData = await userModal.findById(req.session.userId);
 
-    if (updatedOrder.paymentMethod === 'razorPay'  ) {
+    if (updatedOrder.paymentMethod === 'razorPay') {
 
       console.log("000000" + userData);
       const walletUpdating = updatedOrder.grandTotal + userData.walletAmount;
@@ -324,11 +324,11 @@ async function cancelOrder(req, res) {
         paymentMethod: PaymentMethod,
         type: "credited",
         orderId: orderId
-        
+
       }
       await transactionModal.insertMany(transfer)
 
-    }else{
+    } else {
       console.log("444444" + userData);
       const walletUpdating = updatedOrder.grandTotal + userData.walletAmount;
       console.log("555555" + walletUpdating);
@@ -342,7 +342,7 @@ async function cancelOrder(req, res) {
         paymentMethod: updatedOrder.paymentMethod,
         type: "credited",
         orderId: orderId
-        
+
       }
       await transactionModal.insertMany(transfer)
 
@@ -447,56 +447,117 @@ async function returnResponse(req, res) {
 }
 
 
+
+// async function applyCoupon(req, res) {
+//   try {
+//     const enteredCode = req.body.couponCode;
+//     const coupon = await couponModal.findOne({ Couponcode: enteredCode });
+//     const user = req.session.userId;
+//     const userCart = await cartSchema.findOne({ user: user });
+
+//     if (coupon) {
+//       if (isUsed) {
+//         res.render('checkout', { message: " you already applied this coupon ",user })
+//       } else {
+//         const newTotal = userCart.Total - coupon.discount;
+//         userCart.Total = newTotal;
+//         userCart.appliedCoupon = coupon.Couponcode;
+
+//         await userCart.save();
+
+//         await couponModal.findByIdAndUpdate(
+//           coupon._id,
+//           { $push: { usedBy: user } },
+//           { new: true }
+//         );
+//       }
+
+//     } else {
+//       return res.render('checkout', { message: "Coupon not found or user cart not available" ,user});
+//     }
+//     return res.redirect('/checkout');
+//   } catch (error) {
+//     console.log(error);
+//     return res.render('checkout', { message: "An error occurred" ,user});
+//   }
+// }
+
 async function applyCoupon(req, res) {
   try {
-
     const enteredCode = req.body.couponCode;
     const coupon = await couponModal.findOne({ Couponcode: enteredCode });
     const user = req.session.userId;
     const userCart = await cartSchema.findOne({ user: user });
-    console.log(userCart);
+
     if (coupon) {
+      // Check if the current user has used this coupon
+      const isCouponUsedByUser = await couponModal.aggregate([
+        {
+          $match: { _id: coupon._id }
+        },
+        {
+          $project: {
+            isUsedByUser: {
+              $in: [userCart._id, "$usedBy"]
+            }
+          }
+        }
+      ]);
 
-      const newTotal = userCart.Total - coupon.discount;
-      userCart.Total = newTotal;
-      userCart.appliedCoupon = coupon.Couponcode;
+      if (isCouponUsedByUser.length > 0 && isCouponUsedByUser[0].isUsedByUser) {
+        return res.render('checkout', { message: "You have already applied this coupon", user });
+      } else {
+        const newTotal = userCart.Total - coupon.discount;
+        userCart.Total = newTotal;
+        userCart.appliedCoupon = coupon.Couponcode;
 
-      await userCart.save();
+        await userCart.save();
 
-      console.log(userCart);
+        // Mark the coupon as used by this user
+        await couponModal.findByIdAndUpdate(
+          coupon._id,
+          { $push: { usedBy: userCart._id } },
+          { new: true }
+        );
+      }
 
     } else {
-      res.render('checkout', { message: "noooo" })
+      return res.render('checkout', { message: "Coupon not found or user cart not available", user });
     }
-    console.log(coupon);
-
-    res.redirect('/checkout')
-
+    return res.redirect('/checkout');
   } catch (error) {
     console.log(error);
+    return res.render('checkout', { message: "An error occurred", user });
   }
 }
 
 
-async function removeCoupon(req,res){
-  
-  try {
-      const appliedCoupon = req.query.CouponCode;
-      console.log(req.query);
-      console.log("11111111111"+appliedCoupon);
-      const coupon = await couponModal.findOne({ Couponcode: appliedCoupon });
-      const user = req.session.userId;
-      const userCart = await cartSchema.findOne({ user: user });
-      console.log(userCart);
-    if (coupon) {
 
+async function removeCoupon(req, res) {
+
+  try {
+    const appliedCoupon = req.query.CouponCode;
+    console.log(req.query);
+    const coupon = await couponModal.findOne({ Couponcode: appliedCoupon });
+    const user = req.session.userId;
+    const userCart = await cartSchema.findOne({ user: user });
+    
+
+    if (coupon) {
       const newTotal = userCart.Total + coupon.discount;
       // await cartSchema.findOneAndUpdate({user:user},{$set:{Total:newTotal,appliedCoupon:''}});
       userCart.Total = newTotal;
       userCart.appliedCoupon = '';
 
       await userCart.save();
-      console.log(userCart+"////////////////");
+      console.log(userCart + "////////////////");
+
+      await couponModal.findByIdAndUpdate(
+        coupon._id,
+        { $pull: { usedBy: user } },
+        { new: true }
+      );
+
 
     } else {
       res.render('checkout', { message: "noooo" })

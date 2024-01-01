@@ -8,8 +8,8 @@ require('dotenv').config()
 
 
 //Setting the database.
-const dbUrl = 'mongodb://127.0.0.1:27017/E-commerce';
-mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+mongoose.connect(process.env.dbUrl);
 const db = mongoose.connection;
 if(db)
 {console.log('db set');}

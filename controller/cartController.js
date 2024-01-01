@@ -2,8 +2,7 @@ const session = require('express-session');
 const cartSchema = require('../model/cartModel');
 // const { userModel: User , productModel:Product , categories, productModel} = require('../model/dataBaseModel');
 const Product = require('../model/productModal')
-// const mongoose = require('mongoose');
-const { subscribe } = require('../routes/userRoute');
+
 
 
 
@@ -36,7 +35,7 @@ const addToCart = async (req, res) => {
       if (product) {
         userCart.products.push({ product: productId, quantity: 1, subTotal: product.discountPrice });
         const total = userCart.products.reduce((acc, curr) => acc + (curr.subTotal || 0), 0);
-        userCart.Total = total;
+        userCart.Total = Math.round(total);
       } else {
         console.log('Product not found');
       }
@@ -111,6 +110,7 @@ async function updateSubTotal(req, res) {
 }
 
 
+
 async function removeProduct(req, res) {
   try {
 
@@ -142,8 +142,6 @@ async function removeProduct(req, res) {
     console.log(error);
   }
 }
-
-
 
 
 
