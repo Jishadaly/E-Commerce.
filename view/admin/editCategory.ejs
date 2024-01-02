@@ -1,157 +1,167 @@
 <%- include('../partials/header')%>
-<%- include('../partials/sidebar')%>
-<head>
-    <style>
-        .error-message {
-            display: block;
-            color: red;
-            font-size: 0.8em;
-            margin-top: 5px;
-        }
-    </style>
-</head>
+    <%- include('../partials/sidebar')%>
 
-            <div class="page-body">
+        <head>
+            <style>
+                .error-message {
+                    display: block;
+                    color: red;
+                    font-size: 0.8em;
+                    margin-top: 5px;
+                }
+            </style>
+        </head>
 
-                <!-- New Product Add Start -->
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-sm-8 m-auto">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="card-header-2">
-                                                <h5>Edit Category Information</h5>
-                                            </div>           
-                                            
-                                            <form class="theme-form theme-form-2 mega-form" action="/admin/editCategory?id=<%= value._id %>" method="post" onsubmit="return validateForm()">
-                                                <div class="mb-4 row align-items-center">
-                                                    <label class="form-label-title col-sm-3 mb-0">Category Name</label>
-                                                    <div class="col-sm-9">
-                                                        <input class="form-control" type="text" placeholder="Category Name" name="categoryname" value="<%= value.category %>">
-                                                        <span class="error-message" id="categoryNameError"></span>
-                                                    </div>
+        <div class="page-body">
+
+            <!-- New Product Add Start -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-sm-8 m-auto">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-header-2">
+                                            <h5>Edit Category Information</h5>
+                                        </div>
+
+                                        <form class="theme-form theme-form-2 mega-form"
+                                            action="/admin/editCategory?id=<%= value._id %>" method="post"
+                                            onsubmit="return validateForm()">
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-sm-3 mb-0">Category Name</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="text" placeholder="Category Name"
+                                                        name="categoryname" value="<%= value.category %>">
+                                                    <span class="error-message" id="categoryNameError"></span>
                                                 </div>
-                                            
-                                                <div class="mb-4 row align-items-center">
-                                                    <label class="col-sm-3 col-form-label form-label-title">Category Image</label>
-                                                    <div class="form-group col-sm-9">
-                                                        <img src="/images/<%= value.image %>" class="img-fluid  " style="width: 100%;" >
-                                                       
-                                                        <div class="dropzone-wrapper">
-                                                            
-                                                            <div class="dropzone-desc">
-                                                                                                                               
-                                                                <i class="ri-upload-2-line"></i>
-                                                                 
-                                                                <p>Choose an image file or drag it here.</p>
-                                                                
+                                            </div>
 
-                                                            </div>
-                                                            <input type="file" class="dropzone" name="image" >
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="col-sm-3 col-form-label form-label-title">Category
+                                                    Image</label>
+                                                <div class="form-group col-sm-9">
+                                                    <img src="/images/<%= value.image %>" class="img-fluid  "
+                                                        style="width: 100%;">
+
+                                                    <div class="dropzone-wrapper">
+
+                                                        <div class="dropzone-desc">
+
+                                                            <i class="ri-upload-2-line"></i>
+
+                                                            <p>Choose an image file or drag it here.</p>
+
 
                                                         </div>
+                                                        <input type="file" class="dropzone" name="image">
+
                                                     </div>
                                                 </div>
-                                            
-                                                <div class="mb-4 row align-items-center">
-                                                    <label class="form-label-title col-sm-3 mb-0">Description</label>
-                                                    <div class="col-sm-9">
-                                                        <input class="form-control" type="text" name="description" placeholder="Write Here...." value="<%= value.description %>">
-                                                        <span class="error-message" id="descriptionError"></span>
-                                                    </div>
+                                            </div>
+
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-sm-3 mb-0">Description</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="text" name="description"
+                                                        placeholder="Write Here...." value="<%= value.description %>">
+                                                    <span class="error-message" id="descriptionError"></span>
                                                 </div>
-                                            
-                                                <div class="mb-4 row align-items-center">
-                                                    <label class="col-sm-3 form-label-title">Discount offer</label>
-                                                    <div class="col-sm-9">
-                                                        <input class="form-control" type="number" placeholder="0" value="<%= value.discountPercentage %>" name="discountPercentage" oninput="validateDiscount(this.value)">
-                                                        <span class="error-message" id="discountError"></span>
-                                                    </div>
+                                            </div>
+
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="col-sm-3 form-label-title">Discount offer</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="number" placeholder="0"
+                                                        value="<%= value.discountPercentage %>"
+                                                        name="discountPercentage"
+                                                        oninput="validateDiscount(this.value)">
+                                                    <span class="error-message" id="discountError"></span>
                                                 </div>
-                                            
-                                                <div class="col-4">
-                                                    <button type="submit" class="btn btn-primary w-70 h-100">Edit Category</button>
-                                                </div>
-                                            </form>
-                                            
-                                        </div>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <button type="submit" class="btn btn-primary w-70 h-100"> Save</button>
+                                            </div>
+                                        </form>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- New Product Add End -->
+            </div>
+            <!-- New Product Add End -->
 
-                <script>
-                    function validateForm() {
-    const categoryName = document.querySelector('input[name="categoryname"]');
-    const description = document.querySelector('input[name="description"]');
-    const discount = document.querySelector('input[name="discountPercentage"]');
-    
-    const categoryNameError = document.getElementById('categoryNameError');
-    const descriptionError = document.getElementById('descriptionError');
-    const discountError = document.getElementById('discountError');
+            <script>
+                function validateForm() {
+                    const categoryName = document.querySelector('input[name="categoryname"]');
+                    const description = document.querySelector('input[name="description"]');
+                    const discount = document.querySelector('input[name="discountPercentage"]');
 
-    // Reset previous error messages
-    categoryNameError.textContent = '';
-    descriptionError.textContent = '';
-    discountError.textContent = '';
-    
-    let isValid = true;
+                    const categoryNameError = document.getElementById('categoryNameError');
+                    const descriptionError = document.getElementById('descriptionError');
+                    const discountError = document.getElementById('discountError');
 
-    if (categoryName.value.trim() === '') {
-        categoryNameError.textContent = 'Category Name is required';
-        isValid = false;
-    }
+                    // Reset previous error messages
+                    categoryNameError.textContent = '';
+                    descriptionError.textContent = '';
+                    discountError.textContent = '';
 
-    if (description.value.trim() === '') {
-        descriptionError.textContent = 'Description is required';
-        isValid = false;
-    }
+                    let isValid = true;
 
-    if (discount.value.trim() === '') {
-        discountError.textContent = 'Discount is required';
-        isValid = false;
-    } else {
-        const discountValue = parseInt(discount.value);
-        if (isNaN(discountValue) || discountValue < 0 || discountValue > 100) {
-            discountError.textContent = 'Discount must be a number between 0 and 100';
-            isValid = false;
-        }
-    }
+                    if (categoryName.value.trim() === '') {
+                        categoryNameError.textContent = 'Category Name is required';
+                        isValid = false;
+                    }
 
-    return isValid;
-}
+                    if (description.value.trim() === '') {
+                        descriptionError.textContent = 'Description is required';
+                        isValid = false;
+                    }
 
-function clearAllErrorMessages() {
-        const errorMessages = document.querySelectorAll('.error-message');
-        errorMessages.forEach(errorMessage => {
-            errorMessage.textContent = '';
-        });
-    }
-
-                </script>
-                <script>
-                    function validateDiscount(value) {
-                        const discountError = document.getElementById('discountError');
-                
-                        if (value.trim() === '') {
-                            discountError.textContent = 'Discount is required';
-                            discountError.style.display = 'block';
-                        } else {
-                            const discountValue = parseInt(value);
-                            if (isNaN(discountValue) || discountValue < 0 || discountValue > 100) {
-                                discountError.textContent = 'Discount must be between 0 and 100';
-                                discountError.style.display = 'block';
-                            } else {
-                                discountError.style.display = 'none';
-                            }
+                    if (discount.value.trim() === '') {
+                        discountError.textContent = 'Discount is required';
+                        isValid = false;
+                    } else {
+                        const discountValue = parseInt(discount.value);
+                        if (isNaN(discountValue) || discountValue < 0 || discountValue > 100) {
+                            discountError.textContent = 'Discount must be a number between 0 and 100';
+                            isValid = false;
                         }
                     }
-                </script>
 
-       
-  <%- include('../partials/footer')%>
+                    return isValid;
+                }
+
+                function clearAllErrorMessages() {
+                    const errorMessages = document.querySelectorAll('.error-message');
+                    errorMessages.forEach(errorMessage => {
+                        errorMessage.textContent = '';
+                    });
+                }
+
+            </script>
+            <script>
+                function validateDiscount(value) {
+                    const discountError = document.getElementById('discountError');
+
+                    if (value.trim() === '') {
+                        discountError.textContent = 'Discount is required';
+                        discountError.style.display = 'block';
+                    } else {
+                        const discountValue = parseInt(value);
+                        if (isNaN(discountValue) || discountValue < 0 || discountValue > 100) {
+                            discountError.textContent = 'Discount must be between 0 and 100';
+                            discountError.style.display = 'block';
+                        } else {
+                            discountError.style.display = 'none';
+                        }
+                    }
+                }
+            </script>
+
+
+            <%- include('../partials/footer')%>

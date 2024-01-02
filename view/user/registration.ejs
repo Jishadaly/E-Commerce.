@@ -1,116 +1,216 @@
-<%- include('../layout/header') %>
+<%- include('../layout/pagesHeader') %>
 
+<head>
+    
+</head>
 
+    <main class="main">
+        <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Login</li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                       
+                    </li>
 
+                </ol>
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
 
-    <body style="background-color: antiquewhite; padding: 50px;">
+        <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17"
+            style="background-image: url('assets/images/baner/photo-1530893609608-32a9af3aa95cgggggg.webp')">
+            <div class="container">
+                <div class="form-box">
+                    <div class="form-tab">
+                        <ul class="nav nav-pills nav-fill" role="tablist">
 
+                            <li class="nav-item">
+                                <a class="nav-link active" id="register-tab-2" data-toggle="tab" href="#register-2"
+                                    role="tab" aria-controls="register-2" aria-selected="true">Signup</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
 
-        <div class="form-box mb-5">
-            <div class="form-tab">
-                <ul class="nav nav-pills nav-fill" role="tablist">
-                    <p class="nav-link active align-items-center">Sign Up</p>
-                </ul>
-                <!-- ... Other HTML content ... -->
-                <div class="tab-content" id="tab-content-5">
-                    <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
-                        <form action="" method="post" onsubmit="return validateForm()">
-                            <div class="form-group">
-                                <label for="name">Username *</label>
-                                <input type="text" class="form-control" id="register-fname" name="name">
-                                <div style="color: red;" id="nameError"></div>
-                            </div><!-- End .form-group -->
-
-                            <!-- Other form fields -->
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" class="form-control" id="register-email" name="email">
-                                <div style="color: red;" id="emailError"></div>
-                            </div><!-- End .form-group -->
-
-                            <div class="form-group">
-                                <label for="mno">Mobile *</label>
-                                <input type="text" class="form-control" id="register-mobile" name="mno">
-                                <!-- Add validation for mobile if needed -->
-                            </div><!-- End .form-group -->
-
-                            <div class="form-group">
-                                <label for="password">Password *</label>
-                                <input type="password" class="form-control" id="register-password" name="password">
-                                <div style="color: red;" id="passwordError"></div>
-                            </div><!-- End .form-group -->
-
-
-
-                            <div class="form-footer">
-                                <button type="submit" class="btn btn-outline-primary-2">
-                                    <span>SIGN UP</span>
-
-                                    <i class="icon-long-arrow-right"></i>
-
-                                </button>
+                            <div class="tab-pane fade show active" id="register-2" role="tabpanel"
+                                aria-labelledby="register-tab-2">
+                                <style>
+                                    .error-message {
+                                        color: red;
+                                        font-size: 12px;
+                                        margin-top: 5px;
+                                        display: block;
+                                    }
+                                </style>
                                 
-                                <p style="color: orangered;">
-                                    <%= message %>
-                                </p>
-                            </div><!-- End .form-footer -->
-                        </form>
-                        <!-- Other content -->
-                        <p>already have an Account..? <a href="/login" style="text-decoration: underline;"> Login</a>
-                        </p>
+                                <form action="" method="post" id="registrationForm">
+                                    <div class="form-group">
+                                        <label for="name">Username *</label>
+                                        <input type="text" class="form-control" id="name" name="name">
+                                        <span id="nameError" class="error-message"></span>
+                                    </div>
+                                
+                                    <!-- Other form fields -->
+                                    <!-- Add error message spans for each input field -->
+                                    <div class="form-group">
+                                        <label for="email">Email *</label>
+                                        <input type="email" class="form-control" id="email" name="email">
+                                        <span id="emailError" class="error-message"></span>
+                                    </div>
+                                
+                                    <div class="form-group">
+                                        <label for="mno">Mobile *</label>
+                                        <input type="text" class="form-control" id="mno" name="mno">
+                                        <span id="mobileError" class="error-message"></span>
+                                    </div>
+                                
+                                    <div class="form-group">
+                                        <label for="password">Password *</label>
+                                        <input type="password" class="form-control" id="Firstpassword" name="Firstpassword">
+                                        <span id="passwordError" class="error-message"></span>
+                                    </div>
+                                
+                                    <div class="form-group">
+                                        <label for="password">Confirm Password *</label>
+                                        <input type="password" class="form-control" id="password" name="password">
+                                        <span id="confirmPasswordError" class="error-message"></span>
+                                    </div>
+                                
+                                    <p style="color: orangered;">
+                                        <%= message %>
+                                    </p>
+                                
+                                    <div class="form-footer">
+                                        <button type="submit" class="btn btn-outline-primary-2">
+                                            <span>SIGN UP</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                                
+                                <div class="form-choice">
+                                    <p class="text-center"> If you already have a account? <a href="/login">Signin</a></p>
 
-                    </div>
-                </div><!-- End .tab-content -->
-            </div><!-- End .form-tab -->
-        </div><!-- End .form-box -->
+                                </div><!-- End .form-choice -->
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+                    </div><!-- End .form-tab -->
+                </div><!-- End .form-box -->
+            </div><!-- End .container -->
+        </div><!-- End .login-page section-bg -->
+    </main><!-- End .main -->
 
-        <script>
-            function validateForm() {
-                var name = document.getElementById("register-fname").value;
-                var email = document.getElementById("register-email").value;
-                var password = document.getElementById("register-password").value;
-                var cPassword = document.getElementById("")
 
-                document.getElementById("nameError").textContent = "";
-                document.getElementById("emailError").textContent = "";
-                document.getElementById("passwordError").textContent = "";
 
-                if (name.trim() === "") {
-                    document.getElementById("nameError").textContent = "Please enter your name.";
-                    return false;
-                }
 
-                if (email.trim() === "") {
-                    document.getElementById("emailError").textContent = "Please enter your email.";
-                    return false;
-                } else if (!isEmailValid(email)) {
-                    document.getElementById("emailError").textContent = "Please enter a valid email address.";
-                    return false;
-                }
 
-                if (password.trim() === "") {
-                    document.getElementById("passwordError").textContent = "Please enter your password.";
-                    return false;
-                }
 
-                if (cpassword.trim() === "") {
-                    document.getElementById("cPasswordError").textContent = "Please enter your Confirm password.";
-                    return false;
-                } if (password !== cPassword) {
 
-                    document.getElementById("cPasswordError").textContent = "Password do not match. please enter matching password";
-                    return false;
-                }
 
-                return true;
+
+    <script>
+
+        document.getElementById('registrationForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+    
+            var name = document.getElementById('name').value;
+           
+            var email = document.getElementById('email').value;
+            
+            var mobile = document.getElementById('mno').value;
+          
+            var password = document.getElementById('Firstpassword').value;
+            
+            var confirmPassword = document.getElementById('password').value; 
+            
+    
+            var inputFields = document.querySelectorAll('#registrationForm input');
+            inputFields.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    var errorId = input.id + 'Error';
+                    document.getElementById(errorId).innerText = '';
+                });
+    
+                input.addEventListener('focus', function () {
+                    var errorId = input.id + 'Error';
+                    document.getElementById(errorId).innerText = '';
+                });
+            });
+    
+            document.getElementById('nameError').innerText = '';
+            document.getElementById('emailError').innerText = '';
+            document.getElementById('mobileError').innerText = '';
+            document.getElementById('passwordError').innerText = '';
+            document.getElementById('confirmPasswordError').innerText = '';
+    
+            var isValid = true;
+    
+            var nameRegex = /^[A-Za-z]+$/;
+            if (name.trim() === '') {
+                document.getElementById('nameError').innerText = 'Please enter your name';
+                isValid = false;
+            } else if (!nameRegex.test(name)) {
+                document.getElementById('nameError').innerText = 'Name must contain only letters';
+                isValid = false;
             }
-
-            function isEmailValid(email) {
-                var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return regex.test(email);
+    
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email.trim() === '') {
+                document.getElementById('emailError').innerText = 'Please enter your email';
+                isValid = false;
+            } else if (!emailRegex.test(email)) {
+                document.getElementById('emailError').innerText = 'Please enter a valid email address';
+                isValid = false;
             }
-        </script>
+    
+            var phoneRegex = /^\d{10}$/;
+            if (mobile.trim() === '') {
+                document.getElementById('mobileError').innerText = 'Please enter your mobile number';
+                isValid = false;
+            } else if (!phoneRegex.test(mobile)) {
+                document.getElementById('mobileError').innerText = 'Please enter a valid mobile number';
+                isValid = false;
+            }
+    
+            // var usernameRegex = /^[A-Za-z]+$/;
+            // if (username.trim() === '') {
+            //     document.getElementById('usernameError').innerText = 'Please enter your username';
+            //     isValid = false;
+            // } else if (!usernameRegex.test(username)) {
+            //     document.getElementById('usernameError').innerText = 'Username must contain only letters';
+            //     isValid = false;
+            // }
+    
+            var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (password.trim() === '') {
+                document.getElementById('passwordError').innerText = 'Please enter your password';
+                isValid = false;
+            } else if (!passwordRegex.test(password)) {
+                document.getElementById('passwordError').innerText = 'Your password must be at least 8 characters long and include a combination of uppercase letters, numbers, and special characters.';
+                isValid = false;
+            }
+    
+            // Confirm Password validation: match with password field
+            if (confirmPassword.trim() === '') {
+                document.getElementById('confirmPasswordError').innerText = 'Please confirm your password';
+                isValid = false;
+            } else if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').innerText = 'Passwords do not match';
+                isValid = false;
+            }
+    
+            if (!isValid) {
+                return false;
+            }
+    
+            console.log('Form submitted successfully!');
+            document.getElementById('registrationForm').submit(); 
+        });
+       </script>
 
 
 
-    </body>
+
+
+    <%- include('../layout/pagesFooter') %>

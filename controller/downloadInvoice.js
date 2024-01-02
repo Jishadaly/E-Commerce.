@@ -20,7 +20,7 @@ const downloadInvoice = async (req, res) => {
         // Header Section
         doc.fillColor("#333333")
         .fontSize(20)
-        .text('LapBook', 110, 57, { align: "right" });
+        .text('byteBook.', 110, 57, { align: "right" });
     
     doc.fillColor("#444444")
         .fontSize(10)

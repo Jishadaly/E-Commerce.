@@ -9,10 +9,10 @@ require('dotenv').config()
 
 //Setting the database.
 
-mongoose.connect(process.env.dbUrl);
+mongoose.connect(process.env.dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 if(db)
-{console.log('db set');}
+{console.log('MongoDb is set');}
 
 app.use(express.json());
 //creating the session.

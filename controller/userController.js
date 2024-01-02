@@ -8,7 +8,6 @@ const addAddressModel = require('../model/addressModel')
 const userModel = require('../model/userModal')
 const couponModal = require('../model/couponModal');
 const transactionModal = require('../model/transactionModal')
-
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const { assign } = require('nodemailer/lib/shared');
@@ -35,11 +34,12 @@ const securePassword = async (password) => {
 const loadRegister = async (req, res) => {
 
   try {
+    const user = req.session.userId;
     if (req.query) {
       req.session.referel = req.query.referel;
     }
 
-    res.render('registration', { message: "" })
+    res.render('registration', { message: "" ,user})
   } catch (error) {
     console.log(error.message);
   }
@@ -56,14 +56,15 @@ function generateOtp() {
 
 
 //send the otp via email
-function sendOtp(email, otp) {
+function sendOtp(email, subject, text) {
 
   const Email = email;
   const mailOptions = {
     from: process.env.emailAddress,
     to: Email,
-    subject: 'Your otp for registering at LapBook',
-    text: `your otp for verification is ${otp}`
+    subject: subject,
+    text: text
+
   };
 
   const transporter = nodemailer.createTransport({
@@ -91,18 +92,14 @@ function sendOtp(email, otp) {
 
 const insertUser = async (req, res) => {
   try {
+
+    const user = req.session.userId;
     const { name, email, mno, password } = req.body;
-    const category = await categories.find({ listed: true })
-
-    console.log(category);
-
-
-
     const checkEmail = await userModel.findOne({ email: email });
-    console.log(checkEmail);
+   
 
     if (checkEmail && checkEmail.email === email) {
-      res.render('login', { message: "This account id already exists" });
+      res.render('registration', { message: "This account id already exists" ,user});
 
     } else {
       console.log("Entered this block");
@@ -113,8 +110,6 @@ const insertUser = async (req, res) => {
         mobile: mno,
         password: password
       });
-
-      console.log(user);
 
       req.session.userData = {
         _id: user._id,
@@ -128,13 +123,16 @@ const insertUser = async (req, res) => {
       console.log("||||||||||" + otp + "|||||||||");
       req.session.otp = otp;
 
-      sendOtp(req.body.email, otp);
+      // sendOtp(req.body.email, otp);
+      const subject = `Your otp for registering at byteBook `;
+      const text = `your otp for verification is ${otp}`;
+      sendOtp(email, subject, text);
       res.redirect('/otpVerification');
+
     }
   } catch (error) {
     console.log(error.message);
-    // Handle the error appropriately, such as sending an error response
-    res.status(500).send("Internal Server Error");
+   
   }
 };
 
@@ -145,11 +143,11 @@ const resendOtp = async (req, res) => {
     const userEmail = req.session.userData.email;
 
     const otp = generateOtp();
-    console.log("||||||||||" + otp + "|||||||||");
 
     req.session.otp = otp;
-
-    sendOtp(userEmail, otp);
+    const subject = `Your otp for registering at LapBook `;
+    const text = `your otp for verification is ${otp}`;
+    sendOtp(userEmail, subject, text);
     res.redirect('/otpVerification');
   } catch (error) {
     console.error(error.message);
@@ -172,21 +170,18 @@ const verifyOtp = async (req, res) => {
   try {
     const enteredOtp = req.body.otp;
     const stroredOtp = req.session.otp;
-    console.log(stroredOtp);
-
+    
     if (enteredOtp == stroredOtp && req.session.referel) {
 
       delete req.session.otp;
       const generetedCode = generateOtp();
       const userData = req.session.userData;
       const refferdUser = await userModel.findOne({ referelCode: req.session.referel })
-      
+
       if (refferdUser) {
         refferdUser.walletAmount = 200;
         await refferdUser.save();
       }
-
-      console.log(refferdUser);
 
       const spassword = await securePassword(userData.password);
 
@@ -227,7 +222,7 @@ const verifyOtp = async (req, res) => {
       res.redirect('/login')
     } else {
       res.render('otpVerification', { message: "enterd otp is icurrect" })
-      console.log();
+     
     }
   } catch (error) {
     console.log(error.message, { errorMessage: 'Invalid OTP. Please try again.' });
@@ -242,7 +237,8 @@ const verifyOtp = async (req, res) => {
 const loadLogin = async (req, res) => {
 
   try {
-    res.render('login', { message: "" })
+    const user = req.session.userId;
+    res.render('login',{message:"" , user})
   } catch (error) {
     console.log(error.message);
 
@@ -256,30 +252,67 @@ const loadLogin = async (req, res) => {
 const verifyLogin = async (req, res) => {
 
   try {
-   
+
+    const user = req.session.userId;
     const email = req.body.email;
     const password = req.body.password;
     const userData = await userModel.findOne({ email: email });
-    console.log(userData.password);
+    
     const passwordmatch = await bcrypt.compare(password, userData.password);
-
-    if (userData.is_verified === true && userData.is_blocked === false) {
-      if (passwordmatch) {
-        req.session.userId = userData._id;
-
-        res.redirect('/')
+    if (userData) {
+      if (userData.is_verified === true && userData.is_blocked === false) {
+        if (passwordmatch) {
+          req.session.userId = userData._id;
+          res.redirect('/')
+        } else {
+          
+          res.render('login', { message: "Enterd Password is incorrect" ,user });
+          
+        }
       } else {
-        res.render('home', { message: "Password is incorrect"});
-        console.log("User data: Password is incorrect");
+        res.render('login ', { message: "Sorry, you are not allow to access with this account",user });
       }
     } else {
-      res.render('home ', { message: "Sorry, you are not allow to access with this account" });
+      res.render('login', { message: "This email not registerd please signup",user });
+      
     }
+    
 
   } catch (error) {
     console.error(error.message);
   }
 };
+
+// const verifyLogin = async (req, res) => {
+//   try {
+//     const user = req.session.userId;
+//     const email = req.body.email;
+//     const password = req.body.password;
+//     const userData = await userModel.findOne({ email: email });
+    
+//     const passwordMatch = userData ? await bcrypt.compare(password, userData.password) : false;
+
+//     if (userData) {
+//       if (userData.is_verified === true && userData.is_blocked === false) {
+//         if (passwordMatch) {
+//           req.session.userId = userData._id;
+//           // Redirect on successful login
+//           res.redirect('/');
+//         } else {
+//           // Clear input fields when rendering the login page again
+//           res.render('login', { message: "Entered Password is incorrect", email: "", password: "" });
+//         }
+//       } else {
+//         res.render('login', { message: "Sorry, you are not allowed to access this account", email: "", password: "" });
+//       }
+//     } else {
+//       res.render('login', { message: "This email is not registered. Please sign up", email: "", password: "" });
+//     }
+//   } catch (error) {
+//     console.error(error.message);
+//   }
+// };
+
 
 
 
@@ -290,9 +323,9 @@ const loadHome = async (req, res) => {
     const featuredProduct = await productModel.find({ list: true, featured: "true" });
     const cart = await cartSchema.findOne({ user: req.session.userId });
     const category = await categories.find({ listed: true });
-  
+
     const user = req.session.userId;
-    
+
     res.render('home', { Bestproduct, featuredProduct, cart, category, user, message: "" });
 
   } catch (error) {
@@ -340,7 +373,7 @@ async function loadDashboard(req, res) {
 async function addNewAddress(req, res) {
   try {
 
-    console.log(req.body);
+    
     const { name, phone, street, houseNo, city, country, pincode, landmark, email } = req.body;
 
     const addAddress = {
@@ -372,15 +405,15 @@ async function deleteAddress(req, res) {
   try {
 
     const addressId = req.query.address;
-    console.log("address id"+addressId);
+    
     const address = await addAddressModel.findByIdAndDelete(addressId);
 
     if (address) {
-      res.status(200).json({message:"address deletion is successed"})
-    }else{
-      res.status(400).json({message:"address deletion is failed"})
+      res.status(200).json({ message: "address deletion is successed" })
+    } else {
+      res.status(400).json({ message: "address deletion is failed" })
     }
-   
+
 
   } catch (error) {
     console.log(error);
@@ -396,7 +429,7 @@ async function changePassword(req, res) {
   try {
 
     const userId = req.session.userId;
-    console.log("session", userId);
+   
 
     const { email, curPassword, cPassword } = req.body;
     const spassword = await securePassword(cPassword);
@@ -430,11 +463,8 @@ async function shareReferel(req, res) {
   try {
 
     const userId = req.session.userId;
-    console.log(userId);
     const user = await userModel.findById(userId);
-    console.log(user);
     const referel = user.referelCode;
-    console.log(referel)
     res.status(200).json({ referel });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -475,6 +505,59 @@ async function contactUs(req, res) {
   }
 }
 
+async function forgotPasswordEmail(req, res) {
+  try {
+    res.render('forgotPassword', { message: "" })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+async function verify_forgotPasswordEmail(req, res) {
+  try {
+    const email = req.body.email;
+    const checkEmail = await usconsole.log(checkEmail);
+    if (checkEmail) {
+      const token = generateOtp();
+      checkEmail.token = token;
+      await checkEmail.save();
+      const subject = `Your link for forgot your password at LapBook. click the below link`;
+      const text = `http://localhost:3000/addForgotPassword?token=${token}`;
+      sendOtp(email, subject, text);
+
+      res.redirect('/forgotPassword')
+    } else {
+      res.render('forgotPassword', { message: "Entered Email is not exist " })
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+async function getAddForgotPass(req, res) {
+  try {
+    req.session.token = req.query.token;
+    res.render('addForgotPassword')
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function postAddForgotPass(req, res) {
+  try {
+    const newPassword = req.body.confirmPassword;
+    const spassword = await securePassword(newPassword);
+    const token = req.session.token;
+    const userData = await userModel.findOne({ token: token });
+    userData.password = spassword;
+    await userData.save();
+    res.redirect('/');
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 
@@ -497,7 +580,11 @@ module.exports = {
   resendOtp,
   deleteAddress,
   shareReferel,
-  aboutUs,contactUs
+  aboutUs, contactUs,
+  forgotPasswordEmail,
+  verify_forgotPasswordEmail,
+  getAddForgotPass,
+  postAddForgotPass
 
 
 

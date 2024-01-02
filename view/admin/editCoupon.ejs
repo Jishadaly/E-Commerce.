@@ -16,7 +16,7 @@
 
                                         <div class="tab-content" id="pills-tabContent">
                                             <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
-                                                <form id="couponForm" return onsubmit="validateForm()"
+                                                <form id="couponForm" 
                                                     class="theme-form theme-form-2 mega-form" method="post"
                                                     action="/admin/editCoupon?couponId=<%= coupon._id%>">
 
@@ -103,7 +103,7 @@
                                                         </div>
 
 
-                                                        <button type="submit" class="btn btn-primary w-40  h-100 "
+                                                        <button type="submit" onclick="validateForm()" class="btn btn-primary w-40  h-100 "
                                                             fdprocessedid="9x9s8g">Add
                                                             Coupon</button>
 
@@ -216,6 +216,7 @@
 
 
                 function validateForm() {
+                    alert("knk")
                     const isCouponName = validateCouponTitle();
                     const isCouponCode = validateCouponCode();
                     const isDiscountAmount = validateDiscountAmount();

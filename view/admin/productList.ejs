@@ -1,5 +1,6 @@
 <%- include('../partials/header')%>
 <%- include('../partials/sidebar')%>  
+<head><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script></head>
 
             <!-- Container-fluid starts-->
             <div class="page-body">
@@ -62,16 +63,18 @@
                                                         <% if(value.list){ %>
                                                             <td class="status-danger">
                                                                 <!-- <span><%= value.list %></span> -->
+                                                                <a href="#">
                                                            <p onclick="productList('<%=value._id%>')"> <span>Unlist</span></p>      
-                                                               
+                                                        </a>
                                                             </td>
 
                                                             <%} else {%>
 
                                                                 <td class="status-primary ">
                                                                     <!-- <span><%= value.list %></span> -->
-                                                                <p style="text-decoration: underline;"  onclick="productList('<%=value._id%>')" >list</p>   
-                                                                    
+                                                                <a href="#">
+                                                                    <p style="text-decoration: underline;"  onclick="productList('<%=value._id%>')" > <span></span>list</span></p>   
+                                                                </a>
                                                                    
                                                                 </td>
                                                             
@@ -162,6 +165,7 @@ const result = await Swal.fire({
 });
 
 if (result.isConfirmed) {
+    alert("vgvg")
     try {
        
         const response = await fetch(`/admin/productList/${id}`, {

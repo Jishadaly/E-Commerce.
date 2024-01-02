@@ -1,10 +1,9 @@
-
 <%- include('../layout/header') %>
 
 	<body>
 
 		<div class="page-wrapper">
-			<div class="background" style="background-image: url(/public/assets/images/baner/peakpx.jpg);">
+			<div class="background" style="background-image: url(/public/assets/images/baner/peakpx.jpg	);">
 
 				<header class="header">
 					<div class="header-top">
@@ -36,16 +35,17 @@
 								<li>
 									<a href="#">Links</a>
 									<ul>
-										
+
 										<li><a href="/about">About Us</a></li>
 										<li><a href="contact">Contact Us</a></li>
-										
-										<% if(user){ %>
-											<li><a href="/dashBoard" ><i class="icon-user"></i>account</a></li>
 
-									<%	} else{ %>
-										<li><a href="/login" ><i class="icon-user"></i>login / Signup</a></li>
-								<%	} %>
+										<% if(user){ %>
+											<li><a href="/dashBoard"><i class="icon-user"></i>account</a></li>
+
+											<% } else{ %>
+												<li><a href="/login"><i class="icon-user"></i>login </a></li>
+												<li><a href="/register"><i class="icon-user"></i> Signup</a></li>
+												<% } %>
 									</ul>
 								</li>
 							</ul><!-- End .top-menu -->
@@ -60,10 +60,11 @@
 							</button>
 
 							<a href="index.html" class="logo">
-								
-								<img src="/public/assetsB/images/logo/byteBook__2_-removebg-preview.png" alt="Molla Logo" width="110" height="25">
-								
-								
+
+								<img src="/public/assetsB/images/logo/byteBook__2_-removebg-preview.png" alt="Molla Logo" width="110"
+									height="25">
+
+
 							</a>
 						</div><!-- End .header-left -->
 
@@ -73,7 +74,7 @@
 									<li class="megamenu-container active">
 										<a href="/" class="sf-with-ul">Home</a>
 									</li>
-									
+
 
 									<li>
 										<a href="/products" class="sf-with-ul">Products</a>
@@ -107,23 +108,13 @@
 									</div><!-- End .header-search-wrapper -->
 								</form>
 							</div><!-- End .header-search -->
-							
 							<% if(user){ %>
-								
-	
 								<div class="dropdown cart-dropdown">
 									<a href="/cart" class="dropdown-toggle" role="button" data-display="static">
 										<i class="icon-shopping-cart"></i>
-										<span class="cart-count">2</span>
 									</a>
-	
-	
 								</div><!-- End .cart-dropdown -->
-						<%	} %>
-
-					
-							
-
+								<% } %>
 						</div><!-- End .header-right -->
 					</div><!-- End .header-middle -->
 				</header><!-- End .header -->
@@ -137,7 +128,7 @@
 						</div>
 						<div class="content">
 							<h4><i>Our New Collections 2023</i></h4>
-							<h5>Tech & Laptops  </h5>
+							<h5>Tech & Laptops </h5>
 						</div>
 						<div class="action">
 							<a href="/products">discover now</a>
@@ -146,30 +137,18 @@
 
 				</div>
 			</div>
-			
-					
-				</section><!-- End .container -->
+			</section><!-- End .container -->
+			<section class="best-sellers">
+				<div class="container">
 
-			
-
-				<section class="best-sellers">
-
-
-					
+					<div class="heading">
+						<p class="heading-cat">favourite from every category</p>
+						<h3 class="heading-title">Best Sellers</h3>
+					</div>
 
 
-
-
-					<div class="container">
-
-						<div class="heading">
-							<p class="heading-cat">favourite from every category</p>
-							<h3 class="heading-title">Best Sellers</h3>
-						</div>
-
-
-						<div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow text-center"
-							data-toggle="owl" data-owl-options='{
+					<div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow text-center" data-toggle="owl"
+						data-owl-options='{
                         "nav": true, 
                         "dots": false,
                         "margin": 30,
@@ -190,84 +169,84 @@
                         }
                     }'>
 
-							<% Bestproduct.forEach((data)=> { %>
+						<% Bestproduct.forEach((data)=> { %>
 
-								<div class="product product-10 text-center">
-									<figure class="product-media">
-										<a href="/ProductDetails?id=<%=data._id %>">
-											<img src="/public/images/<%=data.productImages[0]%>" alt="Product image" class="product-image">
-											<img src="/public/images/<%=data.productImages[1]%>" alt="Product image"
-												class="product-image-hover">
-										</a>
+							<div class="product product-10 text-center">
+								<figure class="product-media">
+									<a href="/ProductDetails?id=<%=data._id %>">
+										<img src="/public/images/<%=data.productImages[0]%>" alt="Product image" class="product-image">
+										<img src="/public/images/<%=data.productImages[1]%>" alt="Product image"
+											class="product-image-hover">
+									</a>
 
-										<div class="product-action-vertical">
-											<a href="popup/quickView.html" class="btn-product-icon btn-quickview"
-												title="Quick view"><span>Quick view</span></a>
-										</div><!-- End .product-action-vertical -->
-									</figure><!-- End .product-media -->
+									<div class="product-action-vertical">
+										<a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick
+												view</span></a>
+									</div><!-- End .product-action-vertical -->
+								</figure><!-- End .product-media -->
 
-									<div class="product-body">
+								<div class="product-body">
 
-										<% if(data.quantity <=0){ %>
+									<% if(data.quantity <=0){ %>
+										<div class="product-action">
+
+											<a><span style="color:red;">out of stock</span></a>
+										</div><!-- End .product-action -->
+
+
+										<% } else { %>
+
 											<div class="product-action">
-													
-												<a ><span style="color:red;">out of stock</span></a>
+
+												<a href="/cart?id=<%= data._id %>" class="btn-cart"><span>add to cart</span></a>
+
 											</div><!-- End .product-action -->
-											
 
-											<% } else { %>
+											<% } %>
 
-												<div class="product-action">
+												<div class="product-intro">
+													<h3 class="product-title">
+														<a href="product.html">
+															<%= data.name %>
+														</a>
+													</h3><!-- End .product-title -->
+													<div class="product-price">
+														<%= data.discountPrice %>
+													</div><!-- End .product-price -->
+													<% if (data.offer && data.offer> 0 && data.offer !== 'undefined') { %>
+														<div class="m-0">
+															<span>
+																<%= data.offer %>% off
+															</span>
+														</div>
+														<% } %>
+												</div>
+												<div class="product-detail">
+													<div class="ratings-container">
+														<div class="ratings">
+															<div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+														</div><!-- End .ratings -->
+														<span class="ratings-text">( 6 Reviews )</span>
+													</div><!-- End .rating-container -->
 
-													<a href="/cart?id=<%= data._id %>" class="btn-cart"><span>add to cart</span></a>
-													<a href="#" class="btn-product-icon btn-wishlist"><span>Add to Wishlist</span></a>
-												</div><!-- End .product-action -->
-
-												<% } %>
-
-													<div class="product-intro">
-														<h3 class="product-title">
-															<a href="product.html">
-																<%= data.name %>
-															</a>
-														</h3><!-- End .product-title -->
-														<div class="product-price">
-															<%= data.discountPrice %>
-														</div><!-- End .product-price -->
-														<% if (data.offer && data.offer> 0 && data.offer !== 'undefined') { %>
-															<div class="m-0">
-																<span>
-																	<%= data.offer %>% off
-																</span>
-															</div>
-															<% } %>
-													</div>
-													<div class="product-detail">
-														<div class="ratings-container">
-															<div class="ratings">
-																<div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-															</div><!-- End .ratings -->
-															<span class="ratings-text">( 6 Reviews )</span>
-														</div><!-- End .rating-container -->
-
-													</div>
-									</div><!-- End .product-body -->
-								</div><!-- End .product -->
+												</div>
+								</div><!-- End .product-body -->
+							</div><!-- End .product -->
 
 
 
-								<% }) %>
+							<% }) %>
 
-						</div>
 					</div>
+				</div>
 
 
-					<div class="container">
-						<hr class="mb-4">
-						<div class="heading ">
-							<p class="heading-cat" style="color: black;;">Categories</p>
-						</div>
-						<div class="owl-carousel mb-5 owl-simple mar" data-toggle="owl" data-owl-options='{
+				<div class="container">
+					<hr class="mb-4">
+					<div class="heading ">
+						<p class="heading-cat" style="color: black;;">Categories</p>
+					</div>
+					<div class="owl-carousel mb-5 owl-simple mar" data-toggle="owl" data-owl-options='{
 																"nav": true, 
 																"dots": false,
 																"margin": 30,
@@ -291,139 +270,138 @@
 																}
 														}'>
 
-							<% category.map((item)=>{ %>
+						<% category.map((item)=>{ %>
 
-								<div class="brand flex-column">
+							<div class="brand flex-column">
 
 
-									<a href="#" class="">
-										
+								<a href="#" class="">
+
 									<a href="">
 										<p>
 											<%=item.category%>
 										</p>
 									</a>
 
-								</div>
+							</div>
 
-								<% }) %>
+							<% }) %>
 
-						</div><!-- End .owl-carousel -->
+					</div><!-- End .owl-carousel -->
+				</div>
+
+			</section>
+
+
+
+
+
+			<section class="featured-products">
+				<div class="container">
+					<div class="heading">
+						<p class="heading-cat">Featured Products </p>
+						<h3 class="heading-title">Featured Products</h3>
 					</div>
+					<div class="row">
+						<div class="col-lg-7 col-md-7 products">
+							<% featuredProduct.forEach((data)=> { %>
+								<div class="col-6">
 
-				</section>
+									<div class="product product-10 text-center">
+										<figure class="product-media">
+											<a href="/ProductDetails?id=<%=data._id %>">
+												<img src="/public/images/<%=data.productImages[0]%>" alt="Product image" class="product-image">
+												<img src="/public/images/<%=data.productImages[1]%>" alt="Product image"
+													class="product-image-hover">
+											</a>
 
-				
+											<div class="product-action-vertical">
+												<a href="popup/quickView.html" class="btn-product-icon btn-quickview"
+													title="Quick view"><span>Quick view</span></a>
+											</div><!-- End .product-action-vertical -->
+										</figure><!-- End .product-media -->
 
+										<div class="product-body">
 
+											<div class="product-action">
+												<a href="/cart?id=<%= data._id %>" class="btn-cart"><span>add to cart</span></a>
+												<a href="#" class="btn-product-icon btn-wishlist"><span>Add to Wishlist</span></a>
+											</div><!-- End .product-action -->
+											<div class="product-intro">
+												<h3 class="product-title">
+													<a href="/productDetails">
+														<%=data.name%>
+													</a>
+												</h3><!-- End .product-title -->
+												<div class="product-price">
+													<%=data.discountPrice%>
+												</div><!-- End .product-price -->
 
-				<section class="featured-products">
-					<div class="container">
-						<div class="heading">
-							<p class="heading-cat">Featured Products </p>
-							<h3 class="heading-title">Featured Products</h3>
-						</div>
-						<div class="row">
-							<div class="col-lg-7 col-md-7 products">
-								<% featuredProduct.forEach((data)=> { %>
-									<div class="col-6">
-
-										<div class="product product-10 text-center">
-											<figure class="product-media">
-												<a href="/ProductDetails?id=<%=data._id %>">
-													<img src="/public/images/<%=data.productImages[0]%>" alt="Product image"
-														class="product-image">
-													<img src="/public/images/<%=data.productImages[1]%>" alt="Product image"
-														class="product-image-hover">
-												</a>
-
-												<div class="product-action-vertical">
-													<a href="popup/quickView.html" class="btn-product-icon btn-quickview"
-														title="Quick view"><span>Quick view</span></a>
-												</div><!-- End .product-action-vertical -->
-											</figure><!-- End .product-media -->
-
-											<div class="product-body">
-
-												<div class="product-action">
-													<a href="/cart?id=<%= data._id %>" class="btn-cart"><span>add to cart</span></a>
-													<a href="#" class="btn-product-icon btn-wishlist"><span>Add to Wishlist</span></a>
-												</div><!-- End .product-action -->
-												<div class="product-intro">
-													<h3 class="product-title">
-														<a href="/productDetails">
-															<%=data.name%>
-														</a>
-													</h3><!-- End .product-title -->
-													<div class="product-price">
-														<%=data.discountPrice%>
-													</div><!-- End .product-price -->
-
-													<% if (data.offer && data.offer> 0 && data.offer !== 'undefined') { %>
-														<div class="m-0">
-															<span>
-																<%= data.offer %>% off
-															</span>
-														</div>
-														<% } %>
+												<% if (data.offer && data.offer> 0 && data.offer !== 'undefined') { %>
+													<div class="m-0">
+														<span>
+															<%= data.offer %>% off
+														</span>
+													</div>
+													<% } %>
 
 
 
 
-												</div>
-												<div class="product-detail">
-													<div class="ratings-container">
-														<div class="ratings">
-															<div class="ratings-val" style="width: 60%;"></div><!-- End .ratings-val -->
-														</div><!-- End .ratings -->
-														<span class="ratings-text">( 3 Reviews )</span>
-													</div><!-- End .rating-container -->
-													<!-- <div class="product-nav product-nav-dots">
+											</div>
+											<div class="product-detail">
+												<div class="ratings-container">
+													<div class="ratings">
+														<div class="ratings-val" style="width: 60%;"></div><!-- End .ratings-val -->
+													</div><!-- End .ratings -->
+													<span class="ratings-text">( 3 Reviews )</span>
+												</div><!-- End .rating-container -->
+												<!-- <div class="product-nav product-nav-dots">
 		                                        <a href="#" class="active" style="background: #34529d;"><span class="sr-only">Color name</span></a>
 		                                        <a href="#" style="background: #333333;"><span class="sr-only">Color name</span></a>
 		                                    </div>End .product-nav -->
-												</div>
-											</div><!-- End .product-body -->
-										</div><!-- End .product -->
-									</div>
+											</div>
+										</div><!-- End .product-body -->
+									</div><!-- End .product -->
+								</div>
 
-									<% }) %>
-							</div>
-							
+								<% }) %>
 						</div>
+
 					</div>
-				</section>
+				</div>
+			</section>
 
 
 
-			
-			
-			
-				
 
 
 
-<script>
-
-window.addEventListener('scroll', function() {
-    const videoBanner = document.getElementById('videoBanner');
-    const rect = videoBanner.getBoundingClientRect();
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-
-    if (rect.top >= 0 && rect.bottom <= windowHeight) {
-        const videoElement = document.getElementById('playVideo');
-        const videoLink = videoElement.getAttribute('href');
-        videoElement.setAttribute('href', videoLink + '?autoplay=1');
-        window.removeEventListener('scroll', this);
-    }
-});
-
-
-</script>
-
-
-		</main>
 
 
 
-		<%- include('../layout/footer') %>
+
+			<script>
+
+				window.addEventListener('scroll', function () {
+					const videoBanner = document.getElementById('videoBanner');
+					const rect = videoBanner.getBoundingClientRect();
+					const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+					if (rect.top >= 0 && rect.bottom <= windowHeight) {
+						const videoElement = document.getElementById('playVideo');
+						const videoLink = videoElement.getAttribute('href');
+						videoElement.setAttribute('href', videoLink + '?autoplay=1');
+						window.removeEventListener('scroll', this);
+					}
+				});
+
+
+			</script>
+
+
+			</main>
+
+
+
+			<%- include('../layout/footer') %>

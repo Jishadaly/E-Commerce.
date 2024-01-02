@@ -97,9 +97,10 @@ async function loadProductList(req, res) {
 
 
 
-
 async function listUnlist(req, res) {
   try {
+
+    console.log("//////jbhhb");
     const id = req.params.id;
     console.log(id);
     if (id) {

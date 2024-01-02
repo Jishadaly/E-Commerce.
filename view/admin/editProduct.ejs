@@ -23,7 +23,7 @@
                                                 <label class="form-label-title col-sm-3 mb-0">Product Name</label>
                                                 <div class="col-sm-9">
                                                     <input class="form-control" type="text" placeholder="Product Name"
-                                                        name="ProductName" value="<%= data.name%>"
+                                                        name="ProductName" value="<%= data.name%>" id="productName"
                                                         oninput="clearErrorMessage('productNameError')">
                                                     <span id="productNameError" class="text-danger"></span>
                                                     <!-- Error message element -->
@@ -191,18 +191,23 @@
 
 
                                                     <div class="mb-4 row align-items-center">
-                                                        <label class="col-sm-3 form-label-title">price</label>
+                                                        <label class="col-sm-3 form-label-title">Price</label>
                                                         <div class="col-sm-9">
                                                             <input class="form-control" type="number" placeholder="0"
-                                                                name="price" value="<%=data.price%>">
+                                                                name="price" id="price" value="<%=data.price%>">
+                                                            <span id="priceError" class="text-danger"></span>
+                                                            <!-- Error message element -->
                                                         </div>
                                                     </div>
-                                                    
+
+
                                                     <div class="mb-4 row align-items-center">
                                                         <label class="col-sm-3 form-label-title">Discount offer</label>
                                                         <div class="col-sm-9">
                                                             <input class="form-control" type="number" placeholder="0"
-                                                                name="discountPercentage" value="<%=data.offer%>" >
+                                                                name="discountPercentage" id="discountPercentage"
+                                                                value="<%=data.offer%>">
+                                                            <span id="DiscountError" class="text-danger"></span>
                                                         </div>
                                                     </div>
 
@@ -211,8 +216,7 @@
                                             </div>
 
                                             <div class="col-4 col-3 ">
-                                                <button onclick=" validateForm()" type="submit"
-                                                    class="btn btn-primary w-70  h-100 ">Edit
+                                                <button type="submit" class="btn btn-primary w-70  h-100 ">Edit
                                                     Product</button>
                                             </div>
 
@@ -229,8 +233,287 @@
                     </div>
             </form>
         </div>
-
         <script>
+            // Get the form element
+            const form = document.getElementById('editProductForm');
+        
+            // Add event listener for form submission
+            form.addEventListener('submit', function(event) {
+                // Prevent the default form submission
+                event.preventDefault();
+        
+                // Clear all existing error messages
+                clearErrorMessages();
+        
+                const quantityValue = document.getElementById('quantityInput').value.trim();
+                const quantityError = document.getElementById('quantityError');
+                const productName = document.getElementById('productName').value.trim();
+                const productNameError = document.getElementById('productNameError');
+                const brandNameValue = document.getElementById('brandNameInput').value.trim();
+                const brandNameError = document.getElementById('brandNameError');
+                const discountValue = document.getElementById('discountPercentage').value.trim();
+                const discountError = document.getElementById('discountError');
+        
+                let hasErrors = false; // Flag to track if any errors are found
+        
+                // Get the price input value
+                const priceInput = document.getElementById('price');
+                const price = parseFloat(priceInput.value); // Parse the input value to a floating-point number
+        
+                // Check if the price is negative
+                if (price < 0) {
+                    const priceError = document.getElementById('priceError');
+                    priceError.textContent = 'Price cannot be negative';
+                    hasErrors = true;
+                }
+        
+                if (productName === '') {
+                    productNameError.textContent = 'Product Name is required';
+                    hasErrors = true;
+                }
+        
+                if (quantityValue === '' || isNaN(quantityValue) || parseInt(quantityValue) <= 0) {
+                    quantityError.textContent = 'Quantity must be a number greater than zero';
+                    hasErrors = true;
+                }
+        
+                if (brandNameValue === '' || !stringRegex.test(brandNameValue)) {
+                    brandNameError.textContent = 'Brand Name is required and should only contain letters';
+                    hasErrors = true;
+                }
+
+
+                
+
+                if (discountValue !== '' && (isNaN(discountValue) || discountValue < 0 || discountValue > 100)) {
+                    discountError.textContent = 'Discount must be a number between 0 and 100';
+                    hasErrors = true;
+                }
+                // If errors are found, prevent form submission
+                if (hasErrors) {
+                    return false;
+                }
+               
+//                 const stringRegex = /^[a-zA-Z\s]+$/;
+
+        
+                // If no errors, submit the form
+                form.submit();
+            });
+        
+            // Function to clear all error messages
+            function clearErrorMessages() {
+                const errorElements = document.querySelectorAll('.text-danger');
+                errorElements.forEach(element => {
+                    element.textContent = '';
+                });
+            }
+        </script>
+        
+        
+        <script>
+
+// document.getElementById('editProductForm').addEventListener('submit', function (event) {
+//     event.preventDefault(); // Prevent form submission if validation fails
+//     const isFormValid = validateForm(); // Validate the form
+    
+//     if (isFormValid) {
+//         alert("success");
+//         // Form is valid, no need to remove event listener, just allow default form submission
+//         event.target.submit(); // Submit the form
+//     }
+// });
+
+
+
+//             function validateForm() {
+//                 const isProductNameValid = validateProductName();
+//                 const isQuantityValid = validateQuantity();
+//                 const isBrandNameValid = validateBrandName();
+//                 const isDiscountValid = validateDiscountOffer();
+//                 const isPriceValid = validatePrice();
+
+//                 return isProductNameValid && isQuantityValid && isBrandNameValid && isDiscountValid && isPriceValid;
+//             }
+
+//             function validateProductName() {
+//                 alert("name")
+//                 const productName = document.getElementById('productName').value.trim();
+//                 const productNameError = document.getElementById('productNameError');
+
+//                 if (productName === '') {
+//                     productNameError.textContent = 'Product Name is required';
+//                     return false;
+//                 } else {
+//                     productNameError.textContent = '';
+//                     return true;
+//                 }
+//             }
+
+//             function validateQuantity() {
+//                 alert("qry")
+//                 const quantityValue = document.getElementById('quantityInput').value.trim();
+//                 const quantityError = document.getElementById('quantityError');
+
+//                 if (quantityValue === '' || isNaN(quantityValue) || parseInt(quantityValue) <= 0) {
+//                     quantityError.textContent = 'Quantity must be a number greater than zero';
+//                     return false;
+//                 } else {
+//                     quantityError.textContent = '';
+//                     return true;
+//                 }
+//             }
+
+//             function validateBrandName() {
+//                 alert("brand")
+//                 const brandNameValue = document.getElementById('brandNameInput').value.trim();
+//                 const brandNameError = document.getElementById('brandNameError');
+//                 const stringRegex = /^[a-zA-Z\s]+$/;
+
+//                 if (brandNameValue === '' || !stringRegex.test(brandNameValue)) {
+//                     brandNameError.textContent = 'Brand Name is required and should only contain letters';
+//                     return false;
+//                 } else {
+//                     brandNameError.textContent = '';
+//                     return true;
+//                 }
+//             }
+
+//             // function validatePrice() {
+//             //     alert("price")
+//             //     const priceInput = document.getElementById('price');
+//             //     const price = parseFloat(priceInput.value);
+
+//             //     const priceError = document.getElementById('priceError');
+
+//             //     if (isNaN(price) || price <= 0) {
+//             //         priceError.textContent = 'Price must be a valid number greater than zero';
+//             //         priceInput.classList.add('is-invalid');
+//             //         return false;
+//             //     } else {
+//             //         priceError.textContent = '';
+//             //         priceInput.classList.remove('is-invalid');
+//             //         return true;
+//             //     }
+//             // }
+
+//             function validateDiscountOffer() {
+//                 alert("offer")
+//                 const discountValue = document.getElementById('discountPercentage').value.trim();
+//                 const discountError = document.getElementById('discountError');
+
+//                 if (discountValue !== '' && (isNaN(discountValue) || discountValue < 0 || discountValue > 100)) {
+//                     discountError.textContent = 'Discount must be a number between 0 and 100';
+//                     return false;
+//                 } else {
+//                     discountError.textContent = '';
+//                     return true;
+//                 }
+//             }
+
+        </script>
+
+        <!-- <script>
+
+            function clearErrorMessage(inputId) {
+                const errorElement = document.getElementById(inputId);
+                errorElement.textContent = '';
+            }
+
+            function validateForm() {
+
+                const isProductNameValid = validateProductName();
+                const isQuantityValid = validateQuantity();
+                const isBrandNameValid = validateBrandName();
+                const isDiscountValid = validateDiscountOffer();
+                const isValidatePrice = validatePrice();
+
+                if (isProductNameValid && isQuantityValid && isBrandNameValid && isDiscountValid && isValidatePrice) {
+                    return true;
+                } else {
+                    preventDefault();
+                    // return false;
+                }
+            }
+
+            function validateProductName() {
+                alert("name")
+                const productName = document.getElementById('productName').value.trim();
+                alert(productName)
+                const productNameError = document.getElementById('productNameError');
+
+                if (productName === '') {
+                    productNameError.textContent = 'Product Name is required';
+                    return false;
+                } else {
+                    productNameError.textContent = '';
+                    return true;
+                }
+            }
+
+            function validateQuantity() {
+                alert("quantity")
+                const quantityValue = document.getElementById('quantityInput').value.trim();
+                const quantityError = document.getElementById('quantityError');
+
+                if (quantityValue === '' || isNaN(quantityValue) || parseInt(quantityValue) <= 0) {
+                    quantityError.textContent = 'Quantity must be a number greater than zero';
+                    return false;
+                } else {
+                    quantityError.textContent = '';
+                    return true;
+                }
+            }
+
+            function validateBrandName() {
+                alert("brand")
+                const brandNameValue = document.getElementById('brandNameInput').value.trim();
+                const brandNameError = document.getElementById('brandNameError');
+                const stringRegex = /^[a-zA-Z\s]+$/;
+
+                if (brandNameValue === '' || !stringRegex.test(brandNameValue)) {
+                    brandNameError.textContent = 'Brand Name is required and should only contain letters';
+                    return false;
+                } else {
+                    brandNameError.textContent = '';
+                    return true;
+                }
+            }
+
+            function validatePrice() {
+             console.log("price");
+                const priceInput = document.getElementById('price');
+                const price = parseFloat(priceInput.value);
+
+                const priceError = document.getElementById('priceError');
+
+                if (isNaN(price) || price <= 0) {
+                    priceError.textContent = 'Price must be a valid number greater than zero';
+                    priceInput.classList.add('is-invalid');
+                    return false;
+                } else {
+                    priceError.textContent = '';
+                    priceInput.classList.remove('is-invalid');
+                    return true;
+                }
+            }
+
+            function validateDiscountOffer() {
+                alert("offer")
+                const discountValue = document.getElementById('discountPercentage').value.trim();
+                const discountError = document.getElementById('discountError');
+
+                if (discountValue !== '' && (isNaN(discountValue) || discountValue < 0 || discountValue > 100)) {
+                    discountError.textContent = 'Discount must be a number between 0 and 100';
+                    return false;
+                } else {
+                    discountError.textContent = '';
+                    return true;
+                }
+            }
+        </script> -->
+
+        <!-- <script>
 
             function clearErrorMessage(inputId) {
                 const errorElement = document.getElementById(inputId);
@@ -301,6 +584,32 @@
                 }
             }
 
+            function validateDiscountOffer() {
+                const discountInput = document.querySelector('input[name="discountPercentage"]');
+                const discountValue = discountInput.value.trim();
+                const discountError = document.getElementById('discountError');
+
+                // Check if the value is not empty and doesn't contain non-numeric characters
+                if (discountValue !== '' && isNaN(discountValue)) {
+                    discountError.textContent = 'Discount must be a number';
+                    return false;
+                }
+
+                // Convert the value to a number for further checks
+                const discountNumber = parseFloat(discountValue);
+
+                // Check if the value is within the specified range
+                if (discountValue !== '' && (discountNumber < 0 || discountNumber > 100)) {
+                    discountError.textContent = 'Discount must be between 0 and 100';
+                    return false;
+                }
+
+                // Clear the error message if the input is valid
+                discountError.textContent = '';
+                return true;
+            }
+
+
 
 
 
@@ -309,22 +618,24 @@
 
             function validateForm() {
                 // Run individual field validations
+               
+                const isQuantityValid = validateQuantity();
+                const isDiscountValid = validateDiscountOffer();
                 const isProductNameValid = validateProductName();
                 const isCategoryValid = validateCategory();
                 const isBrandNameValid = validateBrandName();
-                const isQuantityValid = validateQuantity();
                 // const isDiscountPriceValid = validatePositiveNumber('discountPercentage', 'discountError', 'Discount Price is required and should be a valid number greater than zero');
                 // Add validations for other fields
 
                 // Check overall form validity
-                if (isProductNameValid && isCategoryValid && isBrandNameValid && isQuantityValid /* Add other field validations here if needed */) {
-                    return true; // Proceed with form submission
+                if (isProductNameValid && isCategoryValid && isBrandNameValid && isQuantityValid && isDiscountValid/* Add other field validations here if needed */) {
+                    return true;
                 } else {
                     event.preventDefault()
                 }
             }
 
-        </script>
+        </script> -->
 
         <script>
 

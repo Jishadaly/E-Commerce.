@@ -348,7 +348,6 @@
                 const isBrandNameValid = validateInput('brandName', brandNameRegex, 'Brand Name is required and should only contain letters');
                 // Validate Quantity
                 const isQuantityValid = validateQuantity();
-
                 const isPriceValid = validatePositiveNumber('price', 'priceError', 'Price is required and should be a valid number greater than zero');
                 // Validate Discount Price
                 const isDiscountPriceValid = validatePositiveNumber('discountPercentage', 'discountError', 'Discount Price is required and should be a valid number greater than zero');

@@ -40,7 +40,9 @@ walletAmount :{
 },
 referelCode:{
     type:Number
-}
+},
+token:String,
+tokenExpairy:Date
 });
 
 

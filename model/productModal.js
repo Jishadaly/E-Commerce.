@@ -82,7 +82,6 @@
     },
     offer:{
       type: Number,
-      
     }
     
   });  

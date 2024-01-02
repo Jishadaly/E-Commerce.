@@ -87,7 +87,7 @@ const loadReportPage = async (req, res) => {
 
       const totalRevenue = orders.reduce((acc, order) => acc + orders.grandTotal, 0);
       const totalSales = orders.length;
-      // const totalProductSold = orders.reduce((acc, order) => acc + order.items.length, 0);
+      
   
       
     res.render("report", {
@@ -180,33 +180,33 @@ const getDeliveredOrdersData = async () => {
   try {
     const deliveredMonthly = await Order.aggregate([
       {
-        $match: { status: 'Delivered' } // Filter by delivered orders
+        $match: { status: 'Delivered' } 
       },
       {
         $group: {
-          _id: { $month: '$createdAt' }, // Group by month
-          count: { $sum: 1 } // Count the number of orders in each month
+          _id: { $month: '$createdAt' }, 
+          count: { $sum: 1 } 
         }
       }
     ]);
 
     const deliveredYearly = await Order.aggregate([
       {
-        $match: { status: 'Delivered' } // Filter by delivered orders
+        $match: { status: 'Delivered' } 
       },
       {
         $group: {
-          _id: { $year: '$createdAt' }, // Group by year
-          count: { $sum: 1 } // Count the number of orders in each year
+          _id: { $year: '$createdAt' }, 
+          count: { $sum: 1 } 
         }
       }
     ]);
 
-    // You'll need to adjust this to fit your schema and logic for weekly data
+   
     const deliveredWeekly = await Order.aggregate([
       {
-        $match: { status: 'Delivered' } // Filter by delivered orders
-        // Add your logic to group by week and count orders
+        $match: { status: 'Delivered' } 
+        
       }
     ]);
 

@@ -121,44 +121,38 @@
                     errorElement.style.display = 'none'; // Hide error message when input is provided
                 }
 
-                function displayErrorMessage(inputId, errorMessage) {
-                    const errorElement = document.getElementById(inputId);
-                    errorElement.textContent = errorMessage;
-                    errorElement.style.display = 'block'; // Show error message
-                }
 
-                
                 function validateExpireDate() {
-    const expireDateInput = document.getElementById('expireDate');
-    alert('Input value: ' + expireDateInput.value); // Check the input value
+                    const expireDateInput = document.getElementById('expireDate');
+                    
 
-    // Parse the date from MM/DD/YYYY format
-    const [month, day, year] = expireDateInput.value.split('/').map(Number);
+                    // Parse the date from MM/DD/YYYY format
+                    const [month, day, year] = expireDateInput.value.split('/').map(Number);
 
-    alert('Parsed date parts: ' + month + ', ' + day + ', ' + year); // Check parsed date parts
+                 
 
-    // Create a new Date object (months are 0-indexed in JavaScript Date)
-    const expireDate = new Date(year, month - 1, day);
-    alert('Parsed date: ' + expireDate); // Check the parsed date
+                    // Create a new Date object (months are 0-indexed in JavaScript Date)
+                    const expireDate = new Date(year, month - 1, day);
+                    
 
-    const expireDateError = document.getElementById('expireDateError');
+                    const expireDateError = document.getElementById('expireDateError');
 
-    // Get the current date
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for comparison
-    console.log('Current date:', currentDate); // Check the current date
+                    // Get the current date
+                    const currentDate = new Date();
+                    currentDate.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for comparison
+                    console.log('Current date:', currentDate); // Check the current date
 
-    if (isNaN(expireDateInput.getTime())) {
-        expireDateError.textContent = 'Invalid Expiry Date';
-        return false;
-    } else if (expireDate.getTime() <= currentDate.getTime()) {
-        expireDateError.textContent = 'Expiry Date must be greater than today';
-        return false;
-    } else {
-        expireDateError.textContent = '';
-        return true;
-    }
-}
+                    if (isNaN(expireDateInput.getTime())) {
+                        expireDateError.textContent = 'Invalid Expiry Date';
+                        return false;
+                    } else if (expireDate.getTime() <= currentDate.getTime()) {
+                        expireDateError.textContent = 'Expiry Date must be greater than today';
+                        return false;
+                    } else {
+                        expireDateError.textContent = '';
+                        return true;
+                    }
+                }
 
 
 

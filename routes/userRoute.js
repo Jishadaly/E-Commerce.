@@ -33,6 +33,10 @@ user_route.post('/login',userController.verifyLogin);
 user_route.get('/',userController.loadHome);
 user_route.get('/about',userController.aboutUs);
 user_route.get('/contact',userController.contactUs);
+user_route.get('/forgotPassword',userController.forgotPasswordEmail);
+user_route.post('/forgotPassword',userController.verify_forgotPasswordEmail);
+user_route.get('/addForgotPassword',userController.getAddForgotPass);
+user_route.post('/addForgotPassword',userController.postAddForgotPass);
 
 //products
 user_route.get('/ProductDetails',product.loadProductDetails);
