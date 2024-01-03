@@ -283,36 +283,6 @@ const verifyLogin = async (req, res) => {
   }
 };
 
-// const verifyLogin = async (req, res) => {
-//   try {
-//     const user = req.session.userId;
-//     const email = req.body.email;
-//     const password = req.body.password;
-//     const userData = await userModel.findOne({ email: email });
-    
-//     const passwordMatch = userData ? await bcrypt.compare(password, userData.password) : false;
-
-//     if (userData) {
-//       if (userData.is_verified === true && userData.is_blocked === false) {
-//         if (passwordMatch) {
-//           req.session.userId = userData._id;
-//           // Redirect on successful login
-//           res.redirect('/');
-//         } else {
-//           // Clear input fields when rendering the login page again
-//           res.render('login', { message: "Entered Password is incorrect", email: "", password: "" });
-//         }
-//       } else {
-//         res.render('login', { message: "Sorry, you are not allowed to access this account", email: "", password: "" });
-//       }
-//     } else {
-//       res.render('login', { message: "This email is not registered. Please sign up", email: "", password: "" });
-//     }
-//   } catch (error) {
-//     console.error(error.message);
-//   }
-// };
-
 
 
 
@@ -523,7 +493,7 @@ async function forgotPasswordEmail(req, res) {
         checkEmail.token = token;
         await checkEmail.save();
         const subject = `Your link for forgot your password at LapBook. click the below link`;
-        const text = `HEY THIS IS THE TEST `;
+        const text = `https://bytebook.shop/addForgotPassword?token=${token}`;
       
         sendOtp(email, subject, text );
 
