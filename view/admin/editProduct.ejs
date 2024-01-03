@@ -216,8 +216,8 @@
                                             </div>
 
                                             <div class="col-4 col-3 ">
-                                                <button type="submit" class="btn btn-primary w-70  h-100 ">Edit
-                                                    Product</button>
+                                                <button type="submit" class="btn btn-primary w-70  h-100 ">Save
+                                                    Changes</button>
                                             </div>
 
                                             <br>
@@ -255,6 +255,8 @@
                 const discountError = document.getElementById('discountError');
         
                 let hasErrors = false; // Flag to track if any errors are found
+                const stringRegex = /^[a-zA-Z\s]+$/; // Regular expression for strings
+
         
                 // Get the price input value
                 const priceInput = document.getElementById('price');
@@ -294,7 +296,7 @@
                     return false;
                 }
                
-//                 const stringRegex = /^[a-zA-Z\s]+$/;
+//                 
 
         
                 // If no errors, submit the form

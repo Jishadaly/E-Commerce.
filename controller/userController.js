@@ -517,14 +517,16 @@ async function forgotPasswordEmail(req, res) {
 async function verify_forgotPasswordEmail(req, res) {
   try {
     const email = req.body.email;
-    const checkEmail = await usconsole.log(checkEmail);
+    const checkEmail = await userModel.findOne({email:email});
     if (checkEmail) {
       const token = generateOtp();
       checkEmail.token = token;
       await checkEmail.save();
       const subject = `Your link for forgot your password at LapBook. click the below link`;
-      const text = `http://localhost:3000/addForgotPassword?token=${token}`;
-      sendOtp(email, subject, text);
+      // const text = `http://localhost:3000/addForgotPassword?token=${token}`;
+    
+      const text =`http://bytebook.shop/addForgotPassword?token=${token}`; 
+      sendOtp(email, subject, text );
 
       res.redirect('/forgotPassword')
     } else {
