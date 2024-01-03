@@ -314,8 +314,7 @@ async function loadProducts(req, res) {
 async function deleteImage(req, res) {
   try {
 
-    console.log('////////////////////////');
-    console.log(req.body);
+    
     const { image, index, productId } = req.body;
     const product = await productModel.findById(productId);
     if (product) {

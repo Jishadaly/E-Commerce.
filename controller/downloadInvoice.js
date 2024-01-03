@@ -29,14 +29,7 @@ const downloadInvoice = async (req, res) => {
     
     
 
-        // Separator line
-        // doc.strokeColor('#333333')
-        //     .lineWidth()
-        //     .moveTo(50, 100)
-        //     .lineTo(550, 100)
-        //     .stroke();
-
-        // Invoice Information Section
+       
         doc.fillColor("#444444")
             .fontSize(20)
             .text("Invoice", 50, 160);
