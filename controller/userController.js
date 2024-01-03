@@ -247,8 +247,6 @@ const loadLogin = async (req, res) => {
 
 
 
-
-
 const verifyLogin = async (req, res) => {
 
   try {

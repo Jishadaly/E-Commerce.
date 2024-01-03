@@ -21,6 +21,7 @@ const addToCart = async (req, res) => {
     }
 
     const existingProduct = userCart.products.find((item) => {
+      console.log(item.product._id.toString());
       return item.product._id.toString() === productId;
     });
 
