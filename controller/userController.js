@@ -494,7 +494,7 @@ async function forgotPasswordEmail(req, res) {
         await checkEmail.save();
         const subject = `Your link for forgot your password at LapBook. click the below link`;
         
-        const text = `https://bytebook.shop/addForgotPassword?token=${token}`;
+        const text = `https://bytebook.shop/AddForgotPassword?token=${token}`;
 
         sendOtp(email, subject, text );
 
