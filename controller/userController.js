@@ -495,6 +495,7 @@ async function forgotPasswordEmail(req, res) {
         const subject = `Your link for forgot your password at LapBook. click the below link`;
         
         const text = `https://bytebook.shop/addForgotPassword?token=${token}`;
+
         sendOtp(email, subject, text );
 
         res.redirect('/forgotPassword')
@@ -510,11 +511,13 @@ async function forgotPasswordEmail(req, res) {
 async function getAddForgotPass(req, res) {
   try {
     req.session.token = req.query.token;
-    res.render('addForgotPassword')
+    res.render('AddForgotPassword')
   } catch (error) {
     console.log(error);
   }
 }
+
+
 
 async function postAddForgotPass(req, res) {
   try {
