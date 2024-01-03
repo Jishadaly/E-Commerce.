@@ -514,27 +514,27 @@ async function forgotPasswordEmail(req, res) {
 }
 
 
-async function verify_forgotPasswordEmail(req, res) {
-  try {
-    const email = req.body.email;
-    const checkEmail = await userModel.findOne({email:email});
-    if (checkEmail) {
-      const token = generateOtp();
-      checkEmail.token = token;
-      await checkEmail.save();
-      const subject = `Your link for forgot your password at LapBook. click the below link`;
-      const text = `https://bytebook.shop/addForgotPassword?token=${token}`;
-    
-      sendOtp(email, subject, text );
+  async function verify_forgotPasswordEmail(req, res) {
+    try {
+      const email = req.body.email;
+      const checkEmail = await userModel.findOne({email:email});
+      if (checkEmail) {
+        const token = generateOtp();
+        checkEmail.token = token;
+        await checkEmail.save();
+        const subject = `Your link for forgot your password at LapBook. click the below link`;
+        const text = `https://bytebook.shop/addForgotPassword?token=${token}`;
+      
+        sendOtp(email, subject, text );
 
-      res.redirect('/forgotPassword')
-    } else {
-      res.render('forgotPassword', { message: "Entered Email is not exist " })
+        res.redirect('/forgotPassword')
+      } else {
+        return res.render('forgotPassword', { message: "Entered Email is not exist " })
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
   }
-}
 
 
 async function getAddForgotPass(req, res) {
