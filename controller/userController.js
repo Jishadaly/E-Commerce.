@@ -441,8 +441,6 @@ async function shareReferel(req, res) {
 }
 
 
-
-
 async function successPage(req, res) {
   try {
 
@@ -492,7 +490,7 @@ async function forgotPasswordEmail(req, res) {
         await checkEmail.save();
         const subject = `Your link for forgot your password at LapBook. click the below link`;
         
-        const text = `https://bytebook.shop/AddForgotPassword?token=${token}`;
+        const text = `${process.env.BASE_URL}/AddForgotPassword?token=${token}`;
 
         sendOtp(email, subject, text );
 
