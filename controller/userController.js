@@ -39,7 +39,7 @@ const loadRegister = async (req, res) => {
       req.session.referel = req.query.referel;
     }
 
-    res.render('registration', { message: "" ,user})
+    res.render('registration', { message: "", user })
   } catch (error) {
     console.log(error.message);
   }
@@ -96,10 +96,10 @@ const insertUser = async (req, res) => {
     const user = req.session.userId;
     const { name, email, mno, password } = req.body;
     const checkEmail = await userModel.findOne({ email: email });
-   
+
 
     if (checkEmail && checkEmail.email === email) {
-      res.render('registration', { message: "This account id already exists" ,user});
+      res.render('registration', { message: "This account id already exists", user });
 
     } else {
       console.log("Entered this block");
@@ -132,7 +132,7 @@ const insertUser = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
-   
+
   }
 };
 
@@ -170,7 +170,7 @@ const verifyOtp = async (req, res) => {
   try {
     const enteredOtp = req.body.otp;
     const stroredOtp = req.session.otp;
-    
+
     if (enteredOtp == stroredOtp && req.session.referel) {
 
       delete req.session.otp;
@@ -222,7 +222,7 @@ const verifyOtp = async (req, res) => {
       res.redirect('/login')
     } else {
       res.render('otpVerification', { message: "enterd otp is icurrect" })
-     
+
     }
   } catch (error) {
     console.log(error.message, { errorMessage: 'Invalid OTP. Please try again.' });
@@ -238,7 +238,7 @@ const loadLogin = async (req, res) => {
 
   try {
     const user = req.session.userId;
-    res.render('login',{message:"" , user})
+    res.render('login', { message: "", user })
   } catch (error) {
     console.log(error.message);
 
@@ -255,7 +255,7 @@ const verifyLogin = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     const userData = await userModel.findOne({ email: email });
-    
+
     const passwordmatch = await bcrypt.compare(password, userData.password);
     if (userData) {
       if (userData.is_verified === true && userData.is_blocked === false) {
@@ -263,18 +263,18 @@ const verifyLogin = async (req, res) => {
           req.session.userId = userData._id;
           res.redirect('/')
         } else {
-          
-          res.render('login', { message: "Enterd Password is incorrect" ,user });
-          
+
+          res.render('login', { message: "Enterd Password is incorrect", user });
+
         }
       } else {
-        res.render('login ', { message: "Sorry, you are not allow to access with this account",user });
+        res.render('login ', { message: "Sorry, you are not allow to access with this account", user });
       }
     } else {
-      res.render('login', { message: "This email not registerd please signup",user });
-      
+      res.render('login', { message: "This email not registerd please signup", user });
+
     }
-    
+
 
   } catch (error) {
     console.error(error.message);
@@ -341,7 +341,7 @@ async function loadDashboard(req, res) {
 async function addNewAddress(req, res) {
   try {
 
-    
+
     const { name, phone, street, houseNo, city, country, pincode, landmark, email } = req.body;
 
     const addAddress = {
@@ -373,7 +373,7 @@ async function deleteAddress(req, res) {
   try {
 
     const addressId = req.query.address;
-    
+
     const address = await addAddressModel.findByIdAndDelete(addressId);
 
     if (address) {
@@ -397,7 +397,7 @@ async function changePassword(req, res) {
   try {
 
     const userId = req.session.userId;
-   
+
 
     const { email, curPassword, cPassword } = req.body;
     const spassword = await securePassword(cPassword);
@@ -480,28 +480,29 @@ async function forgotPasswordEmail(req, res) {
 }
 
 
-  async function verify_forgotPasswordEmail(req, res) {
-    try {
-      const email = req.body.email;
-      const checkEmail = await userModel.findOne({email:email});
-      if (checkEmail) {
-        const token = generateOtp();
-        checkEmail.token = token;
-        await checkEmail.save();
-        const subject = `Your link for forgot your password at LapBook. click the below link`;
-        
-        const text = `${process.env.BASE_URL}/AddForgotPassword?token=${token}`;
+async function verify_forgotPasswordEmail(req, res) {
+  try {
+    const email = req.body.email;
+    const checkEmail = await userModel.findOne({ email: email });
+    if (checkEmail) {
+      const token = generateOtp();
+      checkEmail.token = token;
+      await checkEmail.save();
+      const subject = `Your link for forgot your password at LapBook. click the below link`;
 
-        sendOtp(email, subject, text );
+      const BASE_URL = process.env.BASE_URL; // Make sure it doesn't end with "/"
+      const text = `${BASE_URL}/AddForgotPassword?token=${token}`;
 
-        res.redirect('/forgotPassword')
-      } else {
-        return res.render('forgotPassword', { message: "Entered Email is not exist " })
-      }
-    } catch (error) {
-      console.log(error);
+      sendOtp(email, subject, text);
+
+      res.redirect('/forgotPassword')
+    } else {
+      return res.render('forgotPassword', { message: "Entered Email is not exist " })
     }
+  } catch (error) {
+    console.log(error);
   }
+}
 
 
 async function getAddForgotPass(req, res) {
