@@ -268,7 +268,6 @@ async function updatedPayment(req, res) {
     }
 
     const insertedData = await orderModel.insertMany(order);
-    console.log("///////////////{insrted}////////////////" + insertedData);
 
     const transfer = {
       user: userId,
@@ -279,7 +278,6 @@ async function updatedPayment(req, res) {
 
     }
 
-    console.log(transfer.amount);
 
     await transactionModal.insertMany(transfer);
 
@@ -311,12 +309,9 @@ async function cancelOrder(req, res) {
 
     if (updatedOrder.paymentMethod === 'razorPay') {
 
-      console.log("000000" + userData);
       const walletUpdating = updatedOrder.grandTotal + userData.walletAmount;
-      console.log("11111" + walletUpdating);
       userData.walletAmount = walletUpdating;
       await userData.save();
-      console.log("222222" + userData);
 
       const transfer = {
         user: userId,
@@ -329,12 +324,10 @@ async function cancelOrder(req, res) {
       await transactionModal.insertMany(transfer)
 
     } else {
-      console.log("444444" + userData);
+     
       const walletUpdating = updatedOrder.grandTotal + userData.walletAmount;
-      console.log("555555" + walletUpdating);
       userData.walletAmount = walletUpdating;
       await userData.save();
-      console.log("6666" + userData);
 
       const transfer = {
         user: userData._id,
@@ -347,7 +340,6 @@ async function cancelOrder(req, res) {
       await transactionModal.insertMany(transfer)
 
     }
-    console.log("99999 " + userData);
 
     for (const item of updatedOrder.products) {
       const product = item.product;
@@ -374,10 +366,10 @@ async function cancelOrder(req, res) {
 async function returnRequest(req, res) {
   try {
     const { orderId, reason } = req.body;
-    const order = await orderModel.findByIdAndUpdate(orderId, { $set: { returnRequest: 'requested', reason: reason } });
+    await orderModel.findByIdAndUpdate(orderId, { $set: { returnRequest: 'requested', reason: reason } });
 
     res.status(200).json({ success: true, message: 'Return request submitted successfully.' });
-    console.log(order);
+  
 
   } catch (error) {
     console.log(error);
@@ -388,7 +380,6 @@ async function returnRequest(req, res) {
 async function loadReturnOrderList(req, res) {
   try {
     const returnedOrders = await orderModel.find({ returnRequest: 'requested' })
-    console.log(returnedOrders);
     res.render('returnOrdersList', { returnedOrders });
   } catch (error) {
     console.log(error);
@@ -418,10 +409,10 @@ async function returnResponse(req, res) {
     if (status === "accepted") {
 
       const walletUpdating = updatedStatus.grandTotal + userData.walletAmount;
-      console.log("11111" + walletUpdating);
+     
       userData.walletAmount = walletUpdating;
       await userData.save();
-      console.log("222222" + userData);
+    
 
       const transaction = {
         user: updatedStatus.user,
@@ -448,40 +439,6 @@ async function returnResponse(req, res) {
 
 
 
-// async function applyCoupon(req, res) {
-//   try {
-//     const enteredCode = req.body.couponCode;
-//     const coupon = await couponModal.findOne({ Couponcode: enteredCode });
-//     const user = req.session.userId;
-//     const userCart = await cartSchema.findOne({ user: user });
-
-//     if (coupon) {
-//       if (isUsed) {
-//         res.render('checkout', { message: " you already applied this coupon ",user })
-//       } else {
-//         const newTotal = userCart.Total - coupon.discount;
-//         userCart.Total = newTotal;
-//         userCart.appliedCoupon = coupon.Couponcode;
-
-//         await userCart.save();
-
-//         await couponModal.findByIdAndUpdate(
-//           coupon._id,
-//           { $push: { usedBy: user } },
-//           { new: true }
-//         );
-//       }
-
-//     } else {
-//       return res.render('checkout', { message: "Coupon not found or user cart not available" ,user});
-//     }
-//     return res.redirect('/checkout');
-//   } catch (error) {
-//     console.log(error);
-//     return res.render('checkout', { message: "An error occurred" ,user});
-//   }
-// }
-
 async function applyCoupon(req, res) {
   try {
     const enteredCode = req.body.couponCode;
@@ -490,7 +447,7 @@ async function applyCoupon(req, res) {
     const userCart = await cartSchema.findOne({ user: user });
 
     if (coupon) {
-      // Check if the current user has used this coupon
+     
       const isCouponUsedByUser = await couponModal.aggregate([
         {
           $match: { _id: coupon._id }
@@ -513,7 +470,7 @@ async function applyCoupon(req, res) {
 
         await userCart.save();
 
-        // Mark the coupon as used by this user
+      
         await couponModal.findByIdAndUpdate(
           coupon._id,
           { $push: { usedBy: userCart._id } },
@@ -545,7 +502,7 @@ async function removeCoupon(req, res) {
 
     if (coupon) {
       const newTotal = userCart.Total + coupon.discount;
-      // await cartSchema.findOneAndUpdate({user:user},{$set:{Total:newTotal,appliedCoupon:''}});
+  
       userCart.Total = newTotal;
       userCart.appliedCoupon = '';
 
@@ -562,7 +519,7 @@ async function removeCoupon(req, res) {
     } else {
       res.render('checkout', { message: "noooo" })
     }
-    console.log(coupon);
+   
 
     res.redirect('/checkout')
 

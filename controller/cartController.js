@@ -80,8 +80,7 @@ async function updateSubTotal(req, res) {
     const cart = await cartSchema.findOne({ user: userId }).populate('products.product');
     const filterdProduct = cart.products.find((value) => { return productId == value.product._id.toString() })
     const stock = filterdProduct.product.quantity;
-    console.log(stock);
-    console.log("////"+filterdProduct);
+    
     if (filterdProduct) {
       if (quantity > filterdProduct.quantity) {
         if (quantity > stock) {
@@ -127,9 +126,9 @@ async function removeProduct(req, res) {
       );
 
       const removedProduct = cart.products[productIndex];
-      console.log(removeProduct);
+      
       const removedSubTotal = removedProduct.subTotal;
-      console.log(removedSubTotal);
+     
       cart.products.splice(productIndex, 1);
 
       cart.Total = cart.Total - removedSubTotal;
